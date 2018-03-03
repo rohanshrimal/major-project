@@ -1,0 +1,58 @@
+package controller.pollcontroller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import dao.polldao.PollSettingDao;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContext;
+
+/**
+ * Servlet implementation class DelPollController
+ */
+public class DelPollController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public DelPollController() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+              ServletContext context=getServletContext();
+            int pid=Integer.parseInt(request.getParameter("pid"));
+            
+            System.out.println("pid===="+pid);
+            
+            PollSettingDao pd=new PollSettingDao();
+            try {
+                pd.delpoll(pid, context);
+            } catch (SQLException ex) {
+                Logger.getLogger(DelPollController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

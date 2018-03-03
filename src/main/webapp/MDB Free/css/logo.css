@@ -1,0 +1,29 @@
+
+.logo-container .logo{
+    overflow: hidden;
+    width: 100px;
+    float: left;
+}
+
+.logo-container .brand{
+    font-size: 18px;
+    color: #FFFFFF;
+    line-height: 20px;
+    float: left;
+    margin-left: 10px;
+    margin-top: 5px;
+    width: 50px;
+    height: 50px;
+}
+.logo-container{
+    margin-top: 10px;
+}
+.logo-container .logo img{
+    width: 100%;
+}
+.logo-container .logo, .logo-container .brand{
+     -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}

@@ -1,0 +1,68 @@
+@font-face {
+    font-family: 'myfont'; /*a name to be used later*/
+    src: url('font.ttf'); /*URL to font*/
+}
+
+html,
+body,
+.view {
+    height:660px;
+    background-color: #e3f2fd;
+}
+
+.view {
+    background: url('../img/testd.jpg')no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+p {
+  height: 60px;
+  margin-right: 0.3em;
+}
+b {
+  float: left;
+  overflow: hidden;
+  position: relative;
+  height: 60px;
+}
+span1 {
+ display: inline-block;
+color: #fff;
+position: relative;
+white-space: nowrap;
+top: 0;
+left: 0;
+-webkit-animation: move 10s;
+-webkit-animation-iteration-count: infinite;
+-webkit-animation-delay: 1s;
+}
+span2 {
+  padding: 12em 1em;
+  font: normal 40px/50px Arial, sans-serif;
+  color: #fff;
+
+ display: inline-block;
+position: relative;
+white-space: nowrap;
+top: 0;
+left: 0;
+-webkit-animation: move 10s;
+-webkit-animation-iteration-count: infinite;
+-webkit-animation-delay: 1s;
+
+}
+
+
+@keyframes move {
+0%  { top: 0px; }
+10%  { top: -60px; }
+20% { top: -120px; }
+30%  { top: -180px; }
+40% { top: -240px; }
+50%  { top: -300px; }
+60% { top: -360px; }
+70%  { top: -420px; }
+}

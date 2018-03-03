@@ -1,0 +1,68 @@
+html,
+    body,
+    header,
+    .view {
+        height: 250px;
+    }
+    /* Navigation*/
+    
+    .navbar {
+        background-color: transparent;
+    }
+    
+    .top-nav-collapse {
+        background-color: #4b515d;
+    }
+    @media only screen and (max-width: 768px) {
+        .navbar {
+            background-color: #4285F4;
+        }
+    }
+    /*Intro*/
+    .view {
+        background: url('../img/1.jpg') no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+    .glide{
+    text-align: center;
+  font: normal 40px/50px Arial, sans-serif;
+  color: #ffffff;
+    }
+    p {
+    	
+  height: 50px;
+  float: left;
+  padding-left: 50px;
+  padding-right: 8px;
+  margin-right: 1em;
+}
+b {
+
+  float: left;
+  overflow: hidden;
+  position: relative;
+  height: 50px;
+}
+span1 {
+ display: inline-block;
+color: #e74c3c;
+position: relative;
+white-space: nowrap;
+top: 0;
+left: 0;
+-webkit-animation: move 5s;
+-webkit-animation-iteration-count: infinite;
+-webkit-animation-delay: 1s;
+}
+
+@keyframes move {
+0%  { top: 0px; }
+20% { top: -50px; }
+40% { top: -100px; }
+60% { top: -150px; }
+80% { top: -200px; }
+}
+    /* YOUR CUSTOM STYLES */

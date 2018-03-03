@@ -1,0 +1,115 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+svg {
+    display: block;
+    font: 10.5em 'Montserrat';
+    width: 960px;
+    height: 300px;
+    margin: 0 auto;
+}
+
+@keyframes move {
+0%  { top: 0px; }
+20% { top: -50px; }
+40% { top: -100px; }
+60% { top: -150px; }
+80% { top: -200px; }
+}
+
+.text-copy {
+    fill: none;
+    stroke: white;
+    stroke-dasharray: 6% 29%;
+    stroke-width: 5px;
+    stroke-dashoffset: 0%;
+    animation: stroke-offset 5.5s infinite linear;
+}
+.text-copy:nth-child(0){
+  stroke: #FFFFFF;
+  animation-delay: -0s;
+}
+
+.text-copy:nth-child(1){
+    stroke: #00e5ff;
+  animation-delay: -1s;
+}
+
+.text-copy:nth-child(2){
+  stroke: #84ffff;
+  animation-delay: -2s;
+}
+
+.text-copy:nth-child(3){
+  stroke: #18ffff;
+  animation-delay: -3s;
+}
+
+.text-copy:nth-child(4){
+  stroke: #0d47a1;
+  animation-delay: -4s;
+}
+
+.text-copy:nth-child(5){
+  stroke: #FFFFFF;
+  animation-delay: -5s;
+}
+
+
+@keyframes stroke-offset{
+  100% {stroke-dashoffset: -35%;}
+}
+@-webkit-keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0); }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none; } }
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0); }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none; } }
+    .animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both; }
+
+
+.fadeInLeft {
+  -webkit-animation-name: fadeInLeft;
+  animation-delay: "0.5s";
+  
+  animation-name: fadeInLeft; }
+@-webkit-keyframes fadeInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0); }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none; } }
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0); }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none; } }
+
+.fadeInRight {
+  -webkit-animation-name: fadeInRight;
+  animation-delay: "0.5s";
+  animation-name: fadeInRight; }
