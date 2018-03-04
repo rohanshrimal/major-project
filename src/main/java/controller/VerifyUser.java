@@ -1,10 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import dao.FacultyDao;
 import dao.StudentDao;
 import dao.UserDao;
@@ -21,23 +21,25 @@ import model.FacultyModel;
 import model.StudentModel;
 
 /**
- *
- * @author rohan
+ * Servlet implementation class VerifyUser
  */
 public class VerifyUser extends HttpServlet {
-
+	private static final long serialVersionUID = 1L;
+       
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @see HttpServlet#HttpServlet()
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+    public VerifyUser() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             ServletContext context=getServletContext();
             HttpSession session=request.getSession(true);
@@ -47,13 +49,13 @@ public class VerifyUser extends HttpServlet {
             String rememberme=request.getParameter("rememberme");
             UserDao ud=new UserDao();
             
-            if(uid.equals("admin") && pwd.equals("admin"))
+             if(uid.equals("admin") && pwd.equals("admin"))
             {
             	response.sendRedirect("major/admin/home");
             }
-            else
-            {
             
+            else{
+                
             if(uid.toUpperCase().startsWith("S"))
             {
             StudentModel S=new StudentModel();
@@ -78,7 +80,8 @@ public class VerifyUser extends HttpServlet {
             //out.println("Hello "+((StudentModel)(session.getAttribute("sm"))).getName());
             session.setAttribute("utype","student");
             session.setAttribute("userModel",S);
-            
+            session.setAttribute("updown",false);
+            session.setAttribute("isWebHandler",false);
             
                 if(status.equals("4"))
                 response.sendRedirect("MyFeed");
@@ -121,7 +124,8 @@ public class VerifyUser extends HttpServlet {
             //out.println("Hello "+((FacultyModel)(session.getAttribute("fm"))).getName());
                 session.setAttribute("utype","faculty");
                 session.setAttribute("userModel",F);
-                
+                session.setAttribute("updown",false);
+                session.setAttribute("isWebHandler",false);
                 
                 if(status.equals("4"))
                 response.sendRedirect("MyFeed");
@@ -146,46 +150,15 @@ public class VerifyUser extends HttpServlet {
                 response.sendRedirect("LogInContent?cat=invalid");
             }
     }
-    }
-    }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+	}
     }
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 }
-
