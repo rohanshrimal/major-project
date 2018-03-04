@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import model.UserModel;
 import model.pollmodel.CreateNewPollModel;
 
 /**
@@ -43,12 +45,12 @@ public class SetDataPoll extends HttpServlet {
                      String check=request.getParameter("var");
                      String option[]=request.getParameterValues("option");
                       session=request.getSession();
--                     Object um = session.getAttribute("userModel");
+                     Object um = session.getAttribute("userModel");
                      CreateNewPollModel cpm=new CreateNewPollModel();
                      cpm.setQue(que);
                      cpm.setOption(option);
                      cpm.setCreatorId(new UserModel().getUserId(um));
--                     cpm.setCreatorName(new UserModel().getUserName(um));
+                     cpm.setCreatorName(new UserModel().getUserName(um));
                      System.out.println(cpm.getQue());
                      
                      String arr[]=cpm.getOption();
@@ -67,7 +69,7 @@ public class SetDataPoll extends HttpServlet {
                      {
                     	 System.out.println("var------>"+check);
                          
-                    	 if(check.equalsIgnoreCase("class"))
+                    	 if(check!=null)
                     	 	{
                     		 int pollqid= cpm.getPollqueid();
                     		 response.sendRedirect("/korero-maven/major/class/addPoll?pollid="+pollqid);
