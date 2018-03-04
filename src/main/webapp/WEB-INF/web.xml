@@ -384,12 +384,7 @@
 		<description></description>
 		<servlet-class>controller.CountAsView</servlet-class>
 	</servlet>
-	<servlet>
-		<servlet-name>SaveWebHandler</servlet-name>
-		<display-name>SaveWebHandler</display-name>
-		<description></description>
-		<servlet-class>notifier.SaveWebHandler</servlet-class>
-	</servlet>
+	
 	<servlet>
 		<servlet-name>FollowQuestion</servlet-name>
 		<display-name>FollowQuestion</display-name>
@@ -654,10 +649,7 @@
 		<servlet-name>CountAsView</servlet-name>
 		<url-pattern>/CountAsView</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>SaveWebHandler</servlet-name>
-		<url-pattern>/SaveWebHandler</url-pattern>
-	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>FollowQuestion</servlet-name>
 		<url-pattern>/FollowQuestion</url-pattern>
