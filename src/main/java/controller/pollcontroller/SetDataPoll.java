@@ -50,7 +50,8 @@ public class SetDataPoll extends HttpServlet {
                      cpm.setQue(que);
                      cpm.setOption(option);
                      cpm.setCreatorId(new UserModel().getUserId(um));
-                    cpm.setCreatorName(new UserModel().getUserName(um));
+                     cpm.setCreatorName(new UserModel().getUserName(um));
+
                      System.out.println(cpm.getQue());
                      
                      String arr[]=cpm.getOption();
@@ -69,7 +70,7 @@ public class SetDataPoll extends HttpServlet {
                      {
                     	 System.out.println("var------>"+check);
                          
-                    	 if(check.equalsIgnoreCase("class"))
+                    	 if(check!=null)
                     	 	{
                     		 int pollqid= cpm.getPollqueid();
                     		 response.sendRedirect("/korero-maven/major/class/addPoll?pollid="+pollqid);

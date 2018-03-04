@@ -154,14 +154,15 @@ public class StudentModel {
     {
     	StudentModel sm=null;
     	if(o instanceof StudentModel)
-    	{	sm=(StudentModel)o;
+        	{
+    		sm=(StudentModel)o;
     	
     	if(this.getSid().equals(sm.getSid()))
 		return true;
-    	}
+    	}   	
     	return false;
-    	
-    }
+   	
+   }
 
 	
     

@@ -514,11 +514,11 @@ $(document).ready(function(){
 <script type="text/javascript">
 var check='<%=request.getParameter("var")%>';
 
-	if(check==null)
+	if(check=='null')
 		{
 			console.log("check");
 		}
-	else
+	else if(check=="classpoll")
 		{
 		console.log("class poll");
 		document.getElementById("form").setAttribute("action","../SetDataPoll?var=class");
