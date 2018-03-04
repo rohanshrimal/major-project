@@ -5,12 +5,43 @@
  */
 package model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author rohan
  */
+@Entity
+@Table(name="faculty")
 public class FacultyModel {
-    private String name,fid,email,department,password,securityque,securityans,aboutme;
+    
+	@Column(name="Name")
+	private String name;
+    
+	@Id
+	@Column(name="FacultyId")
+	private String fid;
+    
+	@Column(name="Email")
+	private String email;
+    
+	@Column(name="Department")
+	private String department;
+    
+	@Column(name="Password")
+	private String password;
+    
+	@Column(name="SecurityQuestion")
+	private String securityque;
+    
+	@Column(name="SecurityAnswer")
+	private String securityans;
+    
+	@Column(name="aboutme")
+	private String aboutme;
 
     public String getName() {
         return name;
@@ -75,5 +106,14 @@ public class FacultyModel {
     public void setSecurityans(String securityans) {
         this.securityans = securityans;
     }
+
+	@Override
+	public String toString() {
+		return "FacultyModel [name=" + name + ", fid=" + fid + ", email=" + email + ", department=" + department
+				+ ", password=" + password + ", securityque=" + securityque + ", securityans=" + securityans
+				+ ", aboutme=" + aboutme + "]";
+	}
+    
+    
    
 }
