@@ -148,6 +148,20 @@ public class StudentModel {
 				+ semester + ", section=" + section + ", password=" + password + ", securityque=" + securityque
 				+ ", securityans=" + securityans + ", aboutme=" + aboutme + ", batch=" + batch + "]";
 	}
+	
+	@Override
+-    public boolean equals(Object o)
+-    {
+-    	StudentModel sm=null;
+-    	if(o instanceof StudentModel)
+-    		sm=(StudentModel)o;
+-    	
+-    	if(this.getSid().equals(sm.getSid()))
+-		return true;
+-    	
+-    	return false;
+-    	
+-    }
 
 	
     
