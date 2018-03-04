@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -14,6 +15,7 @@ import javax.json.JsonWriter;
 import javax.servlet.http.HttpSession;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -63,6 +65,15 @@ public class ServerEndPoint {
 		users.remove(sid);
 	}
 	
+	@OnError
+    public void error(Session session, Throwable t) {
+        /* Remove this connection from the queue */
+		SessionId sid=new SessionId();
+		sid.setSession(session);
+		sid.setUserId(new UserModel().getUserId(session.getUserProperties().get("userModel")));
+		users.remove(sid);
+		System.out.println("removed due to error");
+    }
 	@OnMessage
 	public void handleMessage(String message, Session userSession)
 	{   

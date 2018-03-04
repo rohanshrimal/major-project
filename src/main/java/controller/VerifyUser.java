@@ -49,6 +49,13 @@ public class VerifyUser extends HttpServlet {
             String rememberme=request.getParameter("rememberme");
             UserDao ud=new UserDao();
             
+             if(uid.equals("admin") && pwd.equals("admin"))
+            {
+            	response.sendRedirect("major/admin/home");
+            }
+            
+            else{
+                
             if(uid.toUpperCase().startsWith("S"))
             {
             StudentModel S=new StudentModel();
@@ -145,7 +152,7 @@ public class VerifyUser extends HttpServlet {
     }
 
 	}
-
+    }
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

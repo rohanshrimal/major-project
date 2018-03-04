@@ -78,7 +78,7 @@ public class StudentDao {
         boolean flag=false;
        try {
            con=(Connection) context.getAttribute("datacon");
-           String qr="select Name from student where EnrollmentNo=? and Password=?";
+           String qr="select * from student where EnrollmentNo=? and Password=?";
            ps=con.prepareStatement(qr);
            ps.setString(1,s.getSid());
           ps.setString(2,s.getPassword());
@@ -87,6 +87,16 @@ public class StudentDao {
           {
               flag=true;
               s.setName(rs.getString(1));
+              s.setSid(rs.getString(2));
+              s.setEmail(rs.getString(3));
+              s.setBranch(rs.getString(4));
+              s.setSemester(rs.getString(5));
+              s.setSection(rs.getString(6));
+              s.setSecurityque(rs.getString(7));
+              s.setSecurityans(rs.getString(8));
+              s.setPassword(rs.getString(9));
+              s.setAboutme(rs.getString(10));
+              s.setBatch(rs.getInt(11));
               session.setAttribute("sm",s);
           }
           

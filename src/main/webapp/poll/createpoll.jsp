@@ -424,7 +424,7 @@ body {
 
 
 <div id="p1" style="display: none">
-                  <form action="../SetDataPoll" method="post">
+                  <form action="../SetDataPoll" method="post" id="form">
              QUESTION<input  name="que" id="que1" required><br/>
              OPTION-1<input type="text" name="option" id="fop1" required><br/>
              OPTION-2<input type="text" name="option" id="fop2" required><br/>
@@ -509,5 +509,25 @@ $(document).ready(function(){
      });
   });
 </script>
+
+	
+<script type="text/javascript">
+var check='<%=request.getParameter("var")%>';
+
+	if(check==null)
+		{
+			console.log("check");
+		}
+	else
+		{
+		console.log("class poll");
+		document.getElementById("form").setAttribute("action","../SetDataPoll?var=class");
+		}
+
+</script>
+
+
+
+
     </body>
 </html>

@@ -5,28 +5,64 @@
  */
 package model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author rohan
  */
-public class StudentModel {
-    private String name,sid,email,branch,semester,section,password,securityque,securityans,aboutme;
 
-    @Override
-    public boolean equals(Object o)
-    {
-    	StudentModel sm=null;
-    	if(o instanceof StudentModel)
-    		sm=(StudentModel)o;
-    	
-    	if(this.getSid().equals(sm.getSid()))
-		return true;
-    	
-    	return false;
-    	
-    }
+@Entity
+@Table(name="student")
+public class StudentModel {
+	
+	@Column(name="Name")
+    private String name;
+	
+	@Id
+	
+	@Column(name="EnrollmentNo")
+    private String sid;
     
-    public String getAboutme() {
+	@Column(name="Email")
+    private String email;
+    
+	@Column(name="Branch")
+    private String branch;
+    
+	@Column(name="Sem")
+    private String semester;
+    
+	@Column(name="Section")
+    private String section;
+   
+	@Column(name="Password")
+    private String password;
+    
+	@Column(name="SecurityQuestion")
+    private String securityque;
+    
+	@Column(name="SecurityAnswer")
+    private String securityans;
+    
+	@Column(name="aboutme")
+    private String aboutme;
+	
+	@Column(name="batch")
+    private int batch;
+
+    public int getBatch() {
+		return batch;
+	}
+
+	public void setBatch(int batch) {
+		this.batch = batch;
+	}
+
+	public String getAboutme() {
         return aboutme;
     }
 
@@ -105,5 +141,28 @@ public class StudentModel {
     public void setSecurityans(String securityans) {
         this.securityans = securityans;
     }
+
+	@Override
+	public String toString() {
+		return "StudentModel [name=" + name + ", sid=" + sid + ", email=" + email + ", branch=" + branch + ", semester="
+				+ semester + ", section=" + section + ", password=" + password + ", securityque=" + securityque
+				+ ", securityans=" + securityans + ", aboutme=" + aboutme + ", batch=" + batch + "]";
+	}
+	
+	@Override
+    public boolean equals(Object o)
+    {
+    	StudentModel sm=null;
+    	if(o instanceof StudentModel)
+    	{	sm=(StudentModel)o;
+    	
+    	if(this.getSid().equals(sm.getSid()))
+		return true;
+    	}
+    	return false;
+    	
+    }
+
+	
     
 }

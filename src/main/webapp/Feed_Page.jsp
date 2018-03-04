@@ -271,6 +271,14 @@ font-size: 90%;
 	                        <p>Book Advisory</p>
 	                    </a>
 	                </li>
+	                
+	                <li>
+	                    <a href="major/class/CDFhome">
+	                        <i class="material-icons text-gray">book</i>
+	                        <p>Class Discussion</p>
+	                    </a>
+	                </li>
+	                
 	            </ul>
 	    	</div>
 	    </div>
