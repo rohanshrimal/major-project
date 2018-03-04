@@ -115,6 +115,14 @@ public class PostAnswer extends HttpServlet {
                 ad.updateAnswer(am,context);
                 answers.add(am);
               }
+              
+              nm.setUid(qm.getUid());
+              nm.setMessage(am.getUname()+" updated answer of: "+qm.getQue());
+              alnm=nd.notifyWhenAnswered(nm,qm.getQid(), context);
+              
+              Gson gsonObj = new Gson();
+              returnJSON=gsonObj.toJson(alnm);
+              
                   
           }
           aam.setAllans(answers);

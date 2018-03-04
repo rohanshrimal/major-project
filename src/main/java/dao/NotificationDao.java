@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
 
-import com.mysql.jdbc.Connection;
-
+import java.sql.Connection;
 import model.AnswerModel;
 import model.NotificationModel;
 import model.pollmodel.CreateNewPollModel;
