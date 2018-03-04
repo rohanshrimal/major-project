@@ -42,11 +42,13 @@ public class SetDataPoll extends HttpServlet {
                      String que=request.getParameter("que");
                      String check=request.getParameter("var");
                      String option[]=request.getParameterValues("option");
-                     
+                      session=request.getSession();
+-                     Object um = session.getAttribute("userModel");
                      CreateNewPollModel cpm=new CreateNewPollModel();
                      cpm.setQue(que);
                      cpm.setOption(option);
-                     
+                     cpm.setCreatorId(new UserModel().getUserId(um));
+-                     cpm.setCreatorName(new UserModel().getUserName(um));
                      System.out.println(cpm.getQue());
                      
                      String arr[]=cpm.getOption();
