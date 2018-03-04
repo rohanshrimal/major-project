@@ -194,6 +194,10 @@ font-size: 90%;
     border: 0px solid #ccc;
 }
 
+.ql-snow .ql-editor img {
+    max-width: 50%;
+}
+
     </style>
 </head>
 

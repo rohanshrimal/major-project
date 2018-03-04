@@ -112,6 +112,9 @@ pre{
 font-size: 90%;
 }
 
+.ql-snow .ql-editor img {
+    max-width: 50%;
+}
     </style>
  
 </head>
@@ -546,6 +549,7 @@ function queFollowed()
         success : function(data) {
         	
         	websocket.send(JSON.stringify(data));
+        	console.log("hello "+data);
             alert("Answer Posted Successfully...!!!");
             window.location="Question_Page.jsp?flag=true";
             

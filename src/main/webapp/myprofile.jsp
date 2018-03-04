@@ -82,8 +82,8 @@ else if(utype.equals("faculty"))
     }
     
     img.resize {
-  max-width:25%;
-  max-height:25%;
+  max-width:15%;
+  max-height:15%;
   float: right;
 }
 
@@ -132,6 +132,8 @@ font-size: 90%;
          	
          	var quillAnswers=[];
          
+         	var isFullShow=[];
+         	
             var toolbarOptions =[
                 ['bold','italic','underline','strike'], 
                 ['blockquote','code-block'],
@@ -251,6 +253,24 @@ font-size: 90%;
             quillque=new Quill('#editorque',configque);
             console.log("quillque"+quillque);            
         
+            var configForShow = {
+                    "theme": "snow",
+                    "modules": {
+                    "toolbar": false
+        				}
+                    
+        		};
+                var quillShowAns;
+                function instantiateEditor(i)
+                {
+                	ans=quillAnswers[i];
+                    quillShowAns=new Quill('#ans'+i,configForShow);
+                    quillShowAns.setContents(ans);
+                    quillShowAns.enable(false);  
+                    document.getElementsByClassName("ansImg")[i].innerHTML="";
+                    document.getElementsByClassName("read")[i].innerHTML="";
+                }
+            
         </script>
         
         
@@ -456,11 +476,24 @@ font-size: 90%;
                                                                                             
                                                                                             var c=document.getElementsByClassName("ans");
                                                                                             
-                                                                                            if(content.length>250)
-    	                                                                                        c[<%=i%>].innerText=content.substr(0,250)+"...";
-    		                                                                                    
-    		                                                                                    else
-    		                                                                                    c[<%=i%>].innerText=content;
+                                                                                            if(content.length>100)
+                                                                                            {
+                                                                                            	c[<%=i%>].innerText=content.substr(0,100)+"...";
+                                                                                            	isFullShow.push(false);
+                                                                                            }
+                                                                                            else if(!isNoOne)
+                                                                                       		{
+                                                                                       			console.log("i am else");
+                                                                                       			console.log(content);
+                                                                                       			console.log("\n"+content.length);
+                                                                                       			c[<%=i%>].innerText=content;
+                                                                                       			isFullShow.push(true);
+                                                                                       		}    
+    		                                                                                else
+    		                                                                                {
+    		                                                                                	isNoOne=false;
+    		                                                                                	c[<%=i%>].innerText=content;
+    		                                                                                }
                                         
                                                                                         </script>	
                                                                                 </div>
@@ -485,26 +518,15 @@ font-size: 90%;
             readElements[i].id = 'read' + i;
             ansElements[i].id = 'ans' + i;
         
-         }
-        
-        var configForShow = {
-                "theme": "snow",
-                "modules": {
-                "toolbar": false
-    				}
-                
-    		};
-            var quillShowAns;
-            function instantiateEditor(i)
+            
+            if(isFullShow[i])
             {
-            	ans=quillAnswers[i];
-                quillShowAns=new Quill('#ans'+i,configForShow);
-                quillShowAns.setContents(ans);
-                quillShowAns.enable(false);  
-                document.getElementsByClassName("ansImg")[i].innerHTML="";
-                document.getElementsByClassName("read")[i].innerHTML="";
+            	instantiateEditor(i);
             }
         
+         }
+        
+       
         
         
         </script><%}%>
