@@ -150,18 +150,19 @@ public class StudentModel {
 	}
 	
 	@Override
--    public boolean equals(Object o)
--    {
--    	StudentModel sm=null;
--    	if(o instanceof StudentModel)
--    		sm=(StudentModel)o;
--    	
--    	if(this.getSid().equals(sm.getSid()))
--		return true;
--    	
--    	return false;
--    	
--    }
+    public boolean equals(Object o)
+    {
+    	StudentModel sm=null;
+    	if(o instanceof StudentModel)
+    	{
+    		sm=(StudentModel)o;
+    	
+    	if(this.getSid().equals(sm.getSid()))
+		return true;
+    	}   	
+    	return false;
+   	
+   }
 
 	
     
