@@ -51,6 +51,7 @@ public class SetDataPoll extends HttpServlet {
                      cpm.setOption(option);
                      cpm.setCreatorId(new UserModel().getUserId(um));
                      cpm.setCreatorName(new UserModel().getUserName(um));
+
                      System.out.println(cpm.getQue());
                      
                      String arr[]=cpm.getOption();
