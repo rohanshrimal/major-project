@@ -114,6 +114,7 @@ font-size: 90%;
 
 .ql-snow .ql-editor img {
     max-width: 50%;
+    max-height: 50%;
 }
     </style>
  
