@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import model.FacultyModel;
 import model.QuestionModel;
 import model.StudentModel;
+import model.UserModel;
 
 /**
  * Servlet implementation class PostQuestion
@@ -72,6 +73,7 @@ public class PostQuestion extends HttpServlet {
             System.out.println(request.getParameter("domain"));
             System.out.println(request.getParameter("askedquestion"));
             System.out.println(request.getParameter("tags"));
+           int i;
            
            qm.setDomain(Integer.parseInt(request.getParameter("domain")));
            qm.setQue((String)request.getParameter("askedquestion"));
@@ -79,8 +81,13 @@ public class PostQuestion extends HttpServlet {
            
            QuestionDao qd=new QuestionDao();
            qd.insertQuestion(qm, context, session);
+           ArrayList<UserModel> alum=qd.askToAnswer(qm,context);
+           session.setAttribute("A2A", alum);
+           for(UserModel um: alum)
+           {
+        	   System.out.println("--"+um.getUname()+"--");
+           }
            response.sendRedirect("MyFeed");
-           
            
         }
 
