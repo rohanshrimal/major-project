@@ -164,8 +164,8 @@ else if(utype.equals("faculty"))
 }
 
 img.resize {
-  max-width:25%;
-  max-height:25%;
+  max-width:15%;
+  max-height:15%;
   float: right;
 }
 
@@ -196,7 +196,9 @@ font-size: 90%;
 
 .ql-snow .ql-editor img {
     max-width: 50%;
+    max-height: 50%;
 }
+
 
     </style>
 </head>
@@ -361,12 +363,7 @@ font-size: 90%;
                                                                                         <script>
                                                                        
                                                                                             
-                                                                                        quillque.setContents(<%= qm.getMostUpvotedAnswer() %>); 
-                                                                                        var htmlcontent=quillque.root.innerHTML;
-                                                                                        var c=document.getElementsByClassName("ans");
-                                                                                        c[<%=i%>].innerHTML=htmlcontent;
-//                                                                                        console.log(htmlcontent);
-                                        									
+                                                            
                                         									if(!isNoOne)
                                         									{
                                         										quillAnswers.push(<%= qm.getMostUpvotedAnswer() %>);
@@ -394,15 +391,24 @@ font-size: 90%;
                                         								
                                         									if(typeof del.insert!=='object' && count1==1)
                                         									{
+                                        										console.log(del.insert);
+                                        										console.log("-->"+i);
+                                        										content=content+del.insert.substr(1,del.insert.length);
                                         										count1=0;
                                         										continue;
                                         									}
                                         									
                                         									if(typeof del.insert!=='object')
+                                        									{
+                                        										console.log(del.insert);
+                                        										console.log("////////"+i);
                                         										content=content+del.insert;
+                                        									}
                                         									
                                         									else if(count==0)
                                         									{
+                                        										console.log(del.insert);
+                                        										console.log("@@@@@"+i);
                                         										count++;
                                         										imgObj=del.insert;
                                         										count1=1;

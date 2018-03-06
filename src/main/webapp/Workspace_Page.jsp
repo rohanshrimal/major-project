@@ -154,7 +154,8 @@ font-size: 90%;
 }
 
 .ql-snow .ql-editor img {
-    max-width: 50%;
+    max-width: 35%;
+    max-height: 35%;
 }
 
     </style>
@@ -449,7 +450,7 @@ font-size: 90%;
 									{
 										quillAnswers.push({"ops":[{"insert":""}]});
 										document.getElementsByClassName("read")[<%=i%>].innerHTML="";
-										isNoOne=false;
+										isFullShow.push(false);
 									}
 									
                                 quillque.setContents(<%= qm.getMostUpvotedAnswer() %>); 
@@ -466,6 +467,7 @@ font-size: 90%;
 									if(typeof del.insert!=='object' && count1==1)
 									{
 										count1=0;
+										content=content+del.insert.substr(1,del.insert.length);
 										continue;
 									}
 									
