@@ -14,6 +14,7 @@ public class UserModel {
     private StudentModel sm;
     private FacultyModel fm;
     private boolean isFollowed;
+    private int sumOfViews,sumOfUpvotes,totalAnswers;
     
     public String getUserId(Object o)
     {
@@ -44,7 +45,49 @@ public class UserModel {
     	}
     	return null;
     }
-    public String getUtype() {
+    
+    
+    public StudentModel getSm() {
+		return sm;
+	}
+
+	public void setSm(StudentModel sm) {
+		this.sm = sm;
+	}
+
+	public FacultyModel getFm() {
+		return fm;
+	}
+
+	public void setFm(FacultyModel fm) {
+		this.fm = fm;
+	}
+
+	public int getSumOfViews() {
+		return sumOfViews;
+	}
+
+	public void setSumOfViews(int sumOfViews) {
+		this.sumOfViews = sumOfViews;
+	}
+
+	public int getSumOfUpvotes() {
+		return sumOfUpvotes;
+	}
+
+	public void setSumOfUpvotes(int sumOfUpvotes) {
+		this.sumOfUpvotes = sumOfUpvotes;
+	}
+
+	public int getTotalAnswers() {
+		return totalAnswers;
+	}
+
+	public void setTotalAnswers(int totalAnswers) {
+		this.totalAnswers = totalAnswers;
+	}
+
+	public String getUtype() {
         return utype;
     }
 

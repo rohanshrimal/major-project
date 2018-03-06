@@ -86,6 +86,7 @@ public class QuestionModel {
 
     public void setTags(ArrayList<String> tags) {
         this.tags = tags;
+        
     }
 
     public int getQid() {
