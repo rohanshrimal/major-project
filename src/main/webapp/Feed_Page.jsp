@@ -273,7 +273,7 @@ font-size: 90%;
 	                </li>
 	                
 	                <li>
-	                    <a href="major/class/CDFhome">
+	                    <a id="CDF" href="major/class/CDFhome<%=utype%>">
 	                        <i class="material-icons text-gray">book</i>
 	                        <p>Class Discussion</p>
 	                    </a>
@@ -468,9 +468,9 @@ font-size: 90%;
 			</footer>
 	
 	</div>
-                                                
-              
-                                           
+	
+	
+	                               
                                                 
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="js/material.min.js" type="text/javascript"></script>
@@ -502,6 +502,10 @@ font-size: 90%;
 
 	
 	</script>
+	
+	
+	
+	
 
 </body>
 

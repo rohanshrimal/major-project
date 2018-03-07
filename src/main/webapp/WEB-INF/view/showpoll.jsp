@@ -7,9 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h2>admin </h2>
-<a href="/korero-maven/major/admin/addformCoordinators">add class coordinator</a> <br>
-<a href="/korero-maven/major/admin/showCoordinators">show class coordinator</a> <br>
 
 </body>
 </html>

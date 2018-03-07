@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import model.springmodel.ClassRepresentative;
+import model.springmodel.ClassSubjectFaculty;
 import model.springmodel.Coordinator;
 import service.springservice.CoordinatorService;
 
@@ -87,6 +88,22 @@ public class AdminController {
 		
 		return "showCR";
 	}
+	
+	@GetMapping("/addformFaculty")
+	public String addformFaculty(Model theModel)
+	{	
+		ClassSubjectFaculty thefaculty= new ClassSubjectFaculty();
+		theModel.addAttribute("faculty",thefaculty);
+		return "addsubjectfaculty";
+	}
+	
+	/*@PostMapping("/addFaulty")
+	public String addCR(@ModelAttribute ("CR") ClassRepresentative theCR)
+	{	
+		theCR.setClassid();
+		coordinatorService.addCR(theCR);
+		return "adminhome";
+	}*/
 	
 	
 
