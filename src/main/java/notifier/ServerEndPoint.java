@@ -23,6 +23,7 @@ import javax.websocket.server.ServerEndpoint;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mchange.v2.c3p0.impl.NewPooledConnection;
 
 import model.NotificationModel;
 import model.UserModel;
@@ -48,7 +49,7 @@ public class ServerEndPoint {
 			
 			users.add(sid);
 			System.out.println(sid.getSession());
-			System.out.println("added..");
+			System.out.println("added.."+sid.getUserId());
 		}
 		System.out.println(users.size());
 	}
@@ -62,18 +63,21 @@ public class ServerEndPoint {
 		
 		System.out.println(sid.getSession());
 		System.out.println("Removed...");
-		users.remove(sid);
+		int index=-1,removeIndex=-1;
+		for(SessionId s:users)
+		{
+			index++;
+			if(s.getSession().equals(userSession))
+			{
+				removeIndex=index;
+				break;
+			}
+		}
+		users.remove(removeIndex);
+		System.out.println(users.size());
 	}
 	
-	@OnError
-    public void error(Session session, Throwable t) {
-        /* Remove this connection from the queue */
-		SessionId sid=new SessionId();
-		sid.setSession(session);
-		sid.setUserId(new UserModel().getUserId(session.getUserProperties().get("userModel")));
-		users.remove(sid);
-		System.out.println("removed due to error");
-    }
+	
 	@OnMessage
 	public void handleMessage(String message, Session userSession)
 	{   
@@ -117,7 +121,7 @@ public class ServerEndPoint {
 		return sw.toString();
 	}
 	
-
+	
 }
 
 class SessionId
@@ -155,7 +159,7 @@ class SessionId
 		if(obj instanceof SessionId)
 		{
 			SessionId sessionId=(SessionId)obj;
-			if(sessionId.getUserId().equals(this.getUserId()))
+			if(sessionId.getUserId().equalsIgnoreCase(this.getUserId()))
 				return true;
 			else
 				return false;
@@ -163,5 +167,8 @@ class SessionId
 		else
 			return false;
 	}
+
+	
+	
 	
 }

@@ -99,7 +99,7 @@
                         </li>
                         <div class="md-form mt-1">
                             <i class="fa fa-search prefix"></i>
-                            <input type="text" id="form2" class="form-control" onchange="textDispatcher()" name="askedquestion">
+                            <input type="text" id="form2" class="form-control" oninput="textDispatcher()" name="askedquestion">
                             <label for="form2" id='quetext'>Start typing your question here..</label>
                         </div>
                         <h4><i class="fa fa-hashtag mr-3"></i>
@@ -228,7 +228,7 @@ var domain,domaincount=false;
             
             for(i=0;i<c.length;i++)
             {
-                txt+=c[i].innerHTML.trim()+",";
+                txt+=c[i].innerHTML.trim().toLowerCase()+",";
             }
             
             console.log(txt);

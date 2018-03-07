@@ -108,6 +108,12 @@ font-size: 90%;
 .ql-container.ql-snow {
     border: 0px solid #ccc;
 }
+
+.ql-snow .ql-editor img {
+    max-width: 50%;
+    max-height: 50%;
+}
+
     </style>
 </head>
 
@@ -365,6 +371,7 @@ font-size: 90%;
 																								if(typeof del.insert!=='object' && count1==1)
 																								{
 																									count1=0;
+																									content=content+del.insert.substr(1,del.insert.length);
 																									continue;
 																								}
 																								

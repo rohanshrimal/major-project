@@ -118,6 +118,12 @@ font-size: 90%;
     border: 0px solid #ccc;
 }
 
+.ql-snow .ql-editor img {
+    max-width: 50%;
+    max-height: 50%;
+}
+
+
     </style>
     
      
@@ -132,6 +138,7 @@ font-size: 90%;
          
          var isNoOne=false;
          var quillAnswers=[];
+         var isFullShow=[];
          
             var toolbarOptions =[
                 ['bold','italic','underline','strike'], 
@@ -229,6 +236,24 @@ font-size: 90%;
             quillque=new Quill('#editorque',configque);
             console.log("quillque"+quillque);            
         
+            var configForShow = {
+                    "theme": "snow",
+                    "modules": {
+                    "toolbar": false
+        				}
+                    
+        		};
+                var quillShowAns;
+                function instantiateEditor(i)
+                {
+                	ans=quillAnswers[i];
+                    quillShowAns=new Quill('#ans'+i,configForShow);
+                    quillShowAns.setContents(ans);
+                    quillShowAns.enable(false);  
+                    document.getElementsByClassName("ansImg")[i].innerHTML="";
+                    document.getElementsByClassName("read")[i].innerHTML="";
+                }
+            
         </script>
         
         
@@ -366,7 +391,7 @@ font-size: 90%;
 						            				<img src="ImageLoader?uid=<%= qm.getTopAnswerer() %>" alt="Circle Image" class="img-circle img-responsive" style="margin-left: 10px;">
 						            			</div>
 						            			<div class="col-md-11 col-sm-11" style="padding-left: 1px;">
-                                                                                   <%if(qm.getAnswererName().equals("No one")){%><a style="color: #0099cc;"> <%= qm.getAnswererName() %></a><script>isNoOne=true;</script><%}else{%><a href="UserProfile?uid=<%= qm.getTopAnswerer() %>" style="color: #0099cc;"> <%= qm.getAnswererName() %></a><%}%> answered
+                                                                                   <%if(qm.getAnswererName().equals("No one")){%><a style="color: #0099cc;"> <%= qm.getAnswererName() %></a><script>isNoOne=true; console.log("in isno one");</script><%}else{%><a href="UserProfile?uid=<%= qm.getTopAnswerer() %>" style="color: #0099cc;"> <%= qm.getAnswererName() %></a><%}%> answered
                                                                                    <br><span class="ansImg" ></span><div class="lead ans" style="margin-bottom: 1px;"></div>
 													<a class="read" href="#no" style="color: #0099cc;" onclick="instantiateEditor('<%=i%>')">Read more</a><br>
 													<!--  <a class="read" href="#no" style="color: #0099cc;" onclick="show('ans<%=i%>','read<%=i%>')">Read more</a> -->
@@ -381,7 +406,7 @@ font-size: 90%;
 																							{
 																								quillAnswers.push({"ops":[{"insert":""}]});
 																								document.getElementsByClassName("read")[<%=i%>].innerHTML="";
-																								isNoOne=false;
+																								isFullShow.push(false);
 																							}
                                                                                             quillque.setContents(<%= qm.getMostUpvotedAnswer() %>); 
                                                                                             window.delta=quillque.getContents();
@@ -396,6 +421,7 @@ font-size: 90%;
 																							
 																								if(typeof del.insert!=='object' && count1==1)
 																								{
+																									content=content+del.insert.substr(1,del.insert.length);
 																									count1=0;
 																									continue;
 																								}
@@ -427,11 +453,25 @@ font-size: 90%;
                                                                                             
                                                                                             var c=document.getElementsByClassName("ans");
                                                                                             
-                                                                                            if(content.length>250)
-    	                                                                                        c[<%=i%>].innerText=content.substr(0,250)+"...";
+                                                                                            if(content.length>100)
+                                                                                            {
+                                                                                            	c[<%=i%>].innerText=content.substr(0,100)+"...";
+                                                                                            	isFullShow.push(false);
+                                                                                            }
+                                                                                            else if(!isNoOne)
+                                                                                       		{
+                                                                                       			console.log("i am else");
+                                                                                       			console.log(content);
+                                                                                       			console.log("\n"+content.length);
+                                                                                       			c[<%=i%>].innerText=content;
+                                                                                       			isFullShow.push(true);
+                                                                                       		}
     		                                                                                    
     		                                                                                    else
-    		                                                                                    c[<%=i%>].innerText=content;
+    		                                                                                    {
+    		                                                                                    	isNoOne=false;
+    		                                                                                    	c[<%=i%>].innerText=content;
+    		                                                                                    }
                                                                                         </script>	
                                                                                 </div>
 						            		</div>
@@ -456,27 +496,15 @@ font-size: 90%;
             readElements[i].id = 'read' + i;
             ansElements[i].id = 'ans' + i;
         
+            if(isFullShow[i])
+            {
+            	instantiateEditor(i);
+            }
+        
          }
         
         
-        var configForShow = {
-            "theme": "snow",
-            "modules": {
-            "toolbar": false
-				}
-            
-		};
-        var quillShowAns;
-        function instantiateEditor(i)
-        {
-        	ans=quillAnswers[i];
-            quillShowAns=new Quill('#ans'+i,configForShow);
-            quillShowAns.setContents(ans);
-            quillShowAns.enable(false);  
-            document.getElementsByClassName("ansImg")[i].innerHTML="";
-            document.getElementsByClassName("read")[i].innerHTML="";
-        }
-    
+       
         </script><%}%>
 				                        </div>
 				                        <div class="tab-pane" id="work">
@@ -887,13 +915,16 @@ font-size: 90%;
             	if(request.readyState===4 && request.status===200)
             	{
             	       var data=request.responseText;
+            	       console.log(typeof data);
             	       console.log(data);
-            	       if(data.trim()=="follow")
+            	       if(data.search("true")!=-1)
             	       {
+            	    	   var returnJSON=data.substr(data.indexOf("[")).trim();
             	    	   isfollowed=true;
             	    	   document.getElementById("followbtn").innerHTML="FOLLOWED";
+            	    	   websocket.send(returnJSON);
             	       }
-            	       else if(data.trim()=="unfollow")
+            	       else if(data.search("false")!=-1)
             	       {
             	    	   isfollowed=false;
             	    	   document.getElementById("followbtn").innerHTML="FOLLOW";
@@ -904,6 +935,6 @@ font-size: 90%;
 
         </script>   
         
-        
+        <script src="js/Notifications.js"></script> 
 </body>
 </html>

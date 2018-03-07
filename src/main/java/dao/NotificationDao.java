@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 import java.sql.Connection;
 import model.AnswerModel;
 import model.NotificationModel;
+import model.QuestionModel;
 import model.pollmodel.CreateNewPollModel;
 
 public class NotificationDao {
@@ -19,7 +20,7 @@ public class NotificationDao {
     String qr,qr1,qr2;
     ResultSet rs,rs1;
     
-	public ArrayList<NotificationModel> notifyWhenAnswered(NotificationModel nm,int qid,ServletContext context)
+	public ArrayList<NotificationModel> notifyWhenAnswered(NotificationModel nm,QuestionModel qm,ServletContext context)
 	{
 		 con=(Connection)context.getAttribute("datacon");
 		 qr="insert into notifications(message,uid,isViewed) values( ? , ? , ? )";
@@ -36,17 +37,19 @@ public class NotificationDao {
 			{
 				nid=rs.getInt(1);
 			}
-			 
-			ps=con.prepareStatement(qr);
-			ps.setString(1,nm.getMessage());
-			ps.setString(2,nm.getUid());
-			ps.setBoolean(3,false);
-			ps.executeUpdate();
-			nm.setNid(++nid);
-			alnm.add(nm);
 			
+			if(!qm.isFollowed())
+			{
+				ps=con.prepareStatement(qr);
+				ps.setString(1,nm.getMessage());
+				ps.setString(2,nm.getUid());
+				ps.setBoolean(3,false);
+				ps.executeUpdate();
+				nm.setNid(++nid);
+				alnm.add(nm);
+			}
 			ps=con.prepareStatement(qr1);
-			ps.setInt(1,qid);
+			ps.setInt(1,qm.getQid());
 			rs=ps.executeQuery();
 			
 			while(rs.next())
@@ -105,6 +108,29 @@ public class NotificationDao {
 			 
 			 
 		 
+	}
+	
+	public ArrayList<NotificationModel> notifyWhenFollowed(NotificationModel nm,ServletContext context)
+	{
+		 con=(Connection)context.getAttribute("datacon");
+		 qr="insert into notifications(message,uid) values(?,?)";
+		 ArrayList<NotificationModel> alnm=new ArrayList<>();
+		 try {
+			ps=con.prepareStatement(qr);
+			ps.setString(1,nm.getMessage());
+			ps.setString(2,nm.getUid());
+			
+			if(ps.executeUpdate()>0)
+			{
+				alnm.add(nm);
+				return alnm;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 return null;
+		
 	}
 
 }

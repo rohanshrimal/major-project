@@ -100,7 +100,7 @@ public class AdminController {
 	/*@PostMapping("/addFaulty")
 	public String addCR(@ModelAttribute ("CR") ClassRepresentative theCR)
 	{	
-		theCR.setClassid();
+		theCRd.setClassid();
 		coordinatorService.addCR(theCR);
 		return "adminhome";
 	}*/
