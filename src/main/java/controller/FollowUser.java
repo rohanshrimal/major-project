@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,7 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
+import dao.NotificationDao;
 import dao.UserDao;
+import model.NotificationModel;
 import model.UserModel;
 
 /**
@@ -43,17 +48,32 @@ public class FollowUser extends HttpServlet {
 		String isFollowed=request.getParameter("isfollowed");
 		String myId=um.getUserId(session.getAttribute("userModel"));
 		
+		NotificationModel nm=new NotificationModel();
+		NotificationDao nd=new NotificationDao();
+		ArrayList<NotificationModel> alnm=null;
+		String returnJSON=null;
+		
+		nm.setUid(otherUserId);
+		nm.setMessage(um.getUserName(session.getAttribute("userModel"))+" starts following you.");
+		
 		System.out.println(otherUserId+"--"+isFollowed+"--"+myId);
 		if(isFollowed.trim().equals("false"))
 		{
 			ud.followUser(myId,otherUserId,context);
-			out.println("follow");
+			alnm=nd.notifyWhenFollowed(nm, context);
+			
+			Gson gsonObj = new Gson();
+            returnJSON=gsonObj.toJson(alnm);
+            
+            System.out.println("-----"+returnJSON+"-----");
+			out.println("true");
+			out.println(returnJSON);
 		}
 		
 		else
 		{
 			ud.unFollowUser(myId,otherUserId,context);
-			out.println("unfollow");
+			out.println("false");
 		}
 	}
 

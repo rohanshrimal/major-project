@@ -915,13 +915,16 @@ font-size: 90%;
             	if(request.readyState===4 && request.status===200)
             	{
             	       var data=request.responseText;
+            	       console.log(typeof data);
             	       console.log(data);
-            	       if(data.trim()=="follow")
+            	       if(data.search("true")!=-1)
             	       {
+            	    	   var returnJSON=data.substr(data.indexOf("[")).trim();
             	    	   isfollowed=true;
             	    	   document.getElementById("followbtn").innerHTML="FOLLOWED";
+            	    	   websocket.send(returnJSON);
             	       }
-            	       else if(data.trim()=="unfollow")
+            	       else if(data.search("false")!=-1)
             	       {
             	    	   isfollowed=false;
             	    	   document.getElementById("followbtn").innerHTML="FOLLOW";
@@ -932,6 +935,6 @@ font-size: 90%;
 
         </script>   
         
-        
+        <script src="js/Notifications.js"></script> 
 </body>
 </html>

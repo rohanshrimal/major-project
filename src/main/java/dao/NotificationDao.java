@@ -109,5 +109,28 @@ public class NotificationDao {
 			 
 		 
 	}
+	
+	public ArrayList<NotificationModel> notifyWhenFollowed(NotificationModel nm,ServletContext context)
+	{
+		 con=(Connection)context.getAttribute("datacon");
+		 qr="insert into notifications(message,uid) values(?,?)";
+		 ArrayList<NotificationModel> alnm=new ArrayList<>();
+		 try {
+			ps=con.prepareStatement(qr);
+			ps.setString(1,nm.getMessage());
+			ps.setString(2,nm.getUid());
+			
+			if(ps.executeUpdate()>0)
+			{
+				alnm.add(nm);
+				return alnm;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 return null;
+		
+	}
 
 }
