@@ -330,7 +330,9 @@ font-size: 90%;
                                                                 <%if(mymodel.getUtype().equals("Student")){%>
                                                                 | Semester <%= mymodel.getSem() %></h6>
                                                                 <%}%>
+                                                                <%if(!mymodel.getUid().equalsIgnoreCase(uid)){ %>
                             <button class="btn btn-info btn-sm" id="followbtn" style="font-size: 16px" onclick="followUser('<%=mymodel.getUid()%>')"></button>
+	                        <%}%>
 	                        </div>
 	                    </div>
 	                </div>
