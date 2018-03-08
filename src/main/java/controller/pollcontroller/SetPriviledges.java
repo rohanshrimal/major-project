@@ -10,10 +10,13 @@ import dao.NotificationDao;
 import dao.polldao.SetPriviledgesDao;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
 
 import model.NotificationModel;
 import model.UserModel;
@@ -59,6 +62,7 @@ public class SetPriviledges extends HttpServlet {
             
             CreateNewPollModel cpm=new CreateNewPollModel();
             NotificationDao nd=new NotificationDao();
+            ArrayList<NotificationModel> alnm=null;
             
             cpm.setBranch(branch);
             cpm.setSec(sec);
@@ -74,7 +78,10 @@ public class SetPriviledges extends HttpServlet {
                 flag=spd.insertpollpriviledge(cpm, context);
                 if(flag)
                     {
-                	nd.notifyPollsForYou(cpm, context);
+                	alnm=nd.notifyPollsForYou(cpm, context);
+                	Gson gsonObj = new Gson();
+                    String returnJSON=gsonObj.toJson(alnm);
+                    session.setAttribute("NotifyVotersJson",returnJSON);
                 	response.sendRedirect("poll/pollhome.jsp");
                     }
             } catch (SQLException ex) {

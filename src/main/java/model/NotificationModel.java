@@ -6,7 +6,14 @@ public class NotificationModel {
 	private String message;
 	private String uid;
 	private boolean isViewed;
+	private long timestamp;
 	
+	public long getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
 	public int getNid() {
 		return nid;
 	}

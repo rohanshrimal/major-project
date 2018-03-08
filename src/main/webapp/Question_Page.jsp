@@ -550,7 +550,6 @@ function queFollowed()
         success : function(data) {
         	
         	websocket.send(JSON.stringify(data));
-        	console.log("hello "+data);
             alert("Answer Posted Successfully...!!!");
             window.location="Question_Page.jsp?flag=true";
             

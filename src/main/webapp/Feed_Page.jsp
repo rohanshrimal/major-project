@@ -198,7 +198,7 @@ font-size: 90%;
 						<ul class="nav navbar-nav navbar-right">
 							
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">notifications_active</i></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick="showNotifications()"><i class="material-icons">notifications_active</i></a>
 			        			<ul class="dropdown-menu" id="notifications">
 								 
 								 
@@ -496,18 +496,85 @@ font-size: 90%;
 	<script src="js/Notifications.js"></script> 
 	
 	<script>
+	var notifications=[];
 	websocket.onmessage=function processMessage(message){
 		var jsonData=JSON.parse(message.data);
 		console.log(jsonData);
 		if(jsonData.message!=null)
 			{
-				document.getElementById("notifications").innerHTML=document.getElementById("notifications").innerHTML+'<li><a href="#" >'+jsonData.message+'</a></li><li class="divider"></li>';	
-				  
+				notifications.push(jsonData);  
 			}
 		
 	}
 
 	
+	</script>
+	<script type="text/javascript">
+	
+	function time_ago(time) {
+
+		  switch (typeof time) {
+		    case 'number':
+		      break;
+		    case 'string':
+		      time = +new Date(time);
+		      break;
+		    case 'object':
+		      if (time.constructor === Date) time = time.getTime();
+		      break;
+		    default:
+		      time = +new Date();
+		  }
+		  var time_formats = [
+		    [60, 'seconds', 1], // 60
+		    [120, '1 minute ago', '1 minute from now'], // 60*2
+		    [3600, 'minutes', 60], // 60*60, 60
+		    [7200, '1 hour ago', '1 hour from now'], // 60*60*2
+		    [86400, 'hours', 3600], // 60*60*24, 60*60
+		    [172800, 'Yesterday', 'Tomorrow'], // 60*60*24*2
+		    [604800, 'days', 86400], // 60*60*24*7, 60*60*24
+		  ];
+		  var seconds = (+new Date() - time) / 1000,
+		    token = 'ago',
+		    list_choice = 1;
+
+		  if (seconds == 0) {
+		    return 'Just now'
+		  }
+		  if (seconds < 0) {
+		    seconds = Math.abs(seconds);
+		    token = 'from now';
+		    list_choice = 2;
+		  }
+		  var i = 0,
+		    format;
+		  while (format = time_formats[i++])
+		    if (seconds < format[0]) {
+		      if (typeof format[2] == 'string')
+		        return format[list_choice];
+		      else
+		        return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
+		    }
+		  return new Date(time).toDateString();
+		}
+
+		var aDay = 24 * 60 * 60 * 1000;
+		console.log(time_ago(new Date(Date.now() - aDay)));
+		console.log(time_ago(new Date(Date.now() - aDay * 15)));
+		var d=new Date();
+		console.log(time_ago(new Date("6 Mar, 2018")));
+
+	
+		function showNotifications()
+		{
+			document.getElementById("notifications").innerHTML="";
+			console.log("notifiying..");
+			for(var i=0;i<notifications.length;i++)
+			{
+				document.getElementById("notifications").innerHTML=document.getElementById("notifications").innerHTML+'<li><a href="#" >'+notifications[i].message+" "+time_ago(new Date(notifications[i].timestamp))+'</a></li><li class="divider"></li>';	
+			}
+
+		}
 	</script>
 
 </body>
