@@ -3,7 +3,7 @@
     Created on : Apr 14, 2017, 1:44:00 PM
     Author     : Lenovo
 --%>
-
+<%String notifyVotersJson=(String) session.getAttribute("NotifyVotersJson"); %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -307,5 +307,19 @@ body {
 			                </button>
 			            </a>
 			        </div>
+			        
+			        <script type="text/javascript">
+			        var websocket=new WebSocket("ws://localhost:8080/korero-maven/ServerEndPoint");
+			        console.log(websocket);
+			        
+			        <%if(notifyVotersJson!=null){%>
+			        	var json= <%=notifyVotersJson %>;
+			        	console.log(json);
+			        	console.log(typeof json);
+			        	websocket.onmessage = function(e){ console.log(e.data); };
+			        	websocket.onopen = () => websocket.send(JSON.stringify(json));
+			        	
+			        <%}%>
+			        </script>
     </body>
 </html>

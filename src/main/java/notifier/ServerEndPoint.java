@@ -99,7 +99,7 @@ public class ServerEndPoint {
 	    			try {
 	    				SessionId sid=users.get(index);
 	    				Session u=sid.getSession();
-	    				u.getBasicRemote().sendText(buildJsonData(nm.getMessage()));
+	    				u.getBasicRemote().sendText(buildJsonData(nm));
 	    			} catch (IOException e) {
 					
 					e.printStackTrace();
@@ -109,18 +109,12 @@ public class ServerEndPoint {
 	    }
 	}
 	
-	private String buildJsonData(String message)
+	private String buildJsonData(NotificationModel nm)
 	{
-		JsonObject jsonobject=Json.createObjectBuilder().add("message",message).build();
-		StringWriter sw=new StringWriter();
-		
-		try(JsonWriter jswriter=Json.createWriter(sw))
-		{
-			jswriter.write(jsonobject);
-		}
-		return sw.toString();
+		Gson gsonObj = new Gson();
+        String returnJSON=gsonObj.toJson(nm);
+        return returnJSON;
 	}
-	
 	
 }
 
