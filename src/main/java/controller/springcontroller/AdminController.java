@@ -97,14 +97,4 @@ public class AdminController {
 		return "addsubjectfaculty";
 	}
 	
-	/*@PostMapping("/addFaulty")
-	public String addCR(@ModelAttribute ("CR") ClassRepresentative theCR)
-	{	
-		theCRd.setClassid();
-		coordinatorService.addCR(theCR);
-		return "adminhome";
-	}*/
-	
-	
-
 }

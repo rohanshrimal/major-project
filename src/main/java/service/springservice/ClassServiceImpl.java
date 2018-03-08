@@ -13,6 +13,7 @@ import model.FacultyModel;
 import model.StudentModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
+import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassPosts;
 
 @Service
@@ -44,13 +45,6 @@ public class ClassServiceImpl implements ClassService {
 
 	@Override
 	@Transactional
-	public void addPoll(ClassPosts theclassposts) {
-		
-		classdao.addPoll(theclassposts);
-	}
-
-	@Override
-	@Transactional
 	public List<CreateNewPollModel> showPoll(String classid) {
 		
 		return classdao.showPoll(classid);
@@ -59,17 +53,30 @@ public class ClassServiceImpl implements ClassService {
 
 	@Override
 	@Transactional
-	public void addEvent(ClassPosts theclasspost) {
-		
-		classdao.addEvent(theclasspost);
-	}
-
-	@Override
-	@Transactional
 	public Boolean checkCoordinator(String fid) {
 		return classdao.checkCoordinator(fid);
 	}
 
+	@Override
+	@Transactional
+	public int addDiscussion(ClassDiscussion cd) {
+		return classdao.addDiscussion(cd);
+		
+	}
+
+	@Override
+	@Transactional
+	public void addClassPost(ClassPosts cp) {
+		classdao.addClassPost(cp);
+		
+	}
+
+	@Override
+	@Transactional
+	public List<ClassDiscussion> showDiscussions(String classId) {
+		return classdao.showDiscussions(classId);
+	}
+	
 	
 	
 	}

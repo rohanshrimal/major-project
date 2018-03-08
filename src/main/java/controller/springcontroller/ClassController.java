@@ -1,5 +1,6 @@
 package controller.springcontroller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import model.StudentModel;
 import model.UserModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
+import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassPosts;
 import model.springmodel.ClassRepresentative;
 import model.springmodel.Coordinator;
@@ -57,15 +59,12 @@ public class ClassController
 			theModel.addAttribute("CR", theCR);
 			
 			List<FacultyModel> theClassCoordinator= classservice.showClassCoordinator(sm);
-			theModel.addAttribute("classCoordinator", theClassCoordinator);
+			theModel.addAttribute("classCoordinator", theClassCoordinator);	
 			
-			
+			return "CDFhomestudent";
 		}
-
-			
+		return null;
 	
-		
-		return "CDFhomestudent";
 	}
 	
 	@GetMapping("/CDFhomefaculty")
@@ -82,12 +81,9 @@ public class ClassController
 			
 			Boolean coordinatorflag= classservice.checkCoordinator(fid);
 			
-			System.out.println("classcoordinator==============>"+coordinatorflag);
-			
 			if(coordinatorflag)
 			{	String utype="coordinator";
 				theModel.addAttribute("type",utype);
-				
 			}
 			else
 			{	String utype="faculty";
@@ -102,14 +98,13 @@ public class ClassController
 	@GetMapping("/addPoll")
 	public String addPoll(@RequestParam("pollid") int pollid, HttpSession session)
 	{	
-		System.out.println("-------------------classid"+session.getAttribute("classid"));
 		ClassPosts theclassposts=new ClassPosts();
 		theclassposts.setClassid(""+session.getAttribute("classid"));
 		theclassposts.setPost_type("poll");
 		theclassposts.setPostid(pollid);
 		
-		classservice.addPoll(theclassposts);
-		return "poll";
+		classservice.addClassPost(theclassposts);
+		return "redirect:/major/class/CDFhomestudent";
 	}
 	
 	@GetMapping("/showPoll")
@@ -128,41 +123,71 @@ public class ClassController
 	public String addEventForm(Model theModel )
 	{	
 		Events theEvents = new Events();
-		
 		theModel.addAttribute("Events",theEvents);
 		return "addevent";
 	}
-	
-	
 	
 	@PostMapping("/addEvent")
 	public String addClassEvent(@ModelAttribute ("Events") Events theEvents,HttpServletRequest request)
 	{	
 		HttpSession session=request.getSession();
-		Object obj=session.getAttribute("userModel");
-		UserModel um=new UserModel();
 		
-		String creatorid=um.getUserId(obj);
-		System.out.println(creatorid);
+		String creatorid=new UserModel().getUserId(session.getAttribute("userModel"));
+		
 		theEvents.setCreatorid(creatorid);
 		theEvents.setPending(false);
-		System.out.println("=======================");
-		System.out.println(theEvents);
 		int id= eventservice.addEvent(theEvents);
 		
-		//adding into classpost
 		ClassPosts theclasspost = new ClassPosts();
-		String classid=(String) session.getAttribute("classid");
-		theclasspost.setClassid(classid);
+		theclasspost.setClassid((String)session.getAttribute("classid"));
 		theclasspost.setPost_type("event");
 		theclasspost.setPostid(id);
-		System.out.println("======"+theclasspost);
 		
-		classservice.addEvent(theclasspost);
-		
-	
-		  return "redirect:CDFhome";
+		classservice.addClassPost(theclasspost);
+	    return "redirect:/major/class/CDFhomestudent";
  
+	}
+	
+	@GetMapping("/startDiscussion")
+	public String addPost(Model theModel)
+	{
+		ClassDiscussion cd=new ClassDiscussion();
+		theModel.addAttribute("ClassDiscussionModel",cd);
+		return "classDiscussions";
+	}
+	
+	@PostMapping("/saveDiscussion")
+	public String savePost(@ModelAttribute ("ClassDiscussionModel") ClassDiscussion cd,HttpServletRequest request)
+	{
+		HttpSession session=request.getSession();
+		
+		cd.setCreatorId(new UserModel().getUserId(session.getAttribute("userModel")));
+		cd.setTimeStamp(new Date().getTime());
+		int id=classservice.addDiscussion(cd);
+		
+		ClassPosts cp=new ClassPosts();
+		cp.setClassid((String)session.getAttribute("classid"));
+		cp.setPost_type("discussion");
+		cp.setPostid(id);
+		
+		classservice.addClassPost(cp);
+		return "redirect:/major/class/CDFhomestudent";
+		
+	}
+	
+	@GetMapping("/showDiscussions")
+	public String showDiscussions(HttpServletRequest request,Model model)
+	{
+		ClassDiscussion cd=new ClassDiscussion();
+		model.addAttribute("ClassDiscussionModel",cd);
+		
+		HttpSession session=request.getSession();
+		String classId=(String)session.getAttribute("classid");
+		
+		List<ClassDiscussion> discussionsList=classservice.showDiscussions(classId);
+		model.addAttribute("discussionsList",discussionsList);
+		
+		return "classDiscussions";
 	}
 }
 	
