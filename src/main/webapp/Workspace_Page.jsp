@@ -158,7 +158,7 @@ font-size: 90%;
     max-height: 35%;
 }
 
-    </style>
+    </style> 	
 
 </head>
 

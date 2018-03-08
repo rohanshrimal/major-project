@@ -82,13 +82,15 @@ public class Coordinator {
 	public void setBatch(int batch) {
 		this.batch = batch;
 	}
-	
-	
 
 	@Override
 	public String toString() {
-		return "Coordinator [id=" + id + ", branch=" + branch + ", sem=" + sem + ", sec=" + sec + "]";
+		return "Coordinator [id=" + id + ", branch=" + branch + ", sem=" + sem + ", sec=" + sec + ", batch=" + batch
+				+ ", classid=" + classid + "]";
 	}
+	
+	
+
 	
 
 }

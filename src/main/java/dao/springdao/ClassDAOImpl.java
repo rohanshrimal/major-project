@@ -1,5 +1,6 @@
 package dao.springdao;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -7,11 +8,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.ui.Model;
 
 import model.FacultyModel;
 import model.StudentModel;
+import model.pollmodel.CreateNewPollModel;
 import model.springmodel.ClassPosts;
+import model.springmodel.Coordinator;
+import model.springmodel.PollQueDetails;
 
 @Repository
 public class ClassDAOImpl implements ClassDAO {
@@ -84,6 +87,67 @@ public class ClassDAOImpl implements ClassDAO {
 		System.out.println(theclassposts.toString());
 		currentSession.save(theclassposts);
 		
+		
+	}
+
+	@Override
+	public List<CreateNewPollModel> showPoll(String classid) {
+		
+		Session currentSession= sessionFactory.getCurrentSession();
+		
+		Query qr= currentSession.createQuery("select postid from ClassPosts where classid =:id AND post_type='poll'");
+		
+		qr.setParameter("id", classid);
+		
+		List<Integer> queid= qr.list();
+		
+	    Iterator it = queid.iterator();
+	    
+	    while(it.hasNext())
+	    {
+	    	int pollqueid=(int) it.next();
+	    	
+	    	PollQueDetails pqd= currentSession.get(PollQueDetails.class,pollqueid);
+	    	System.out.println("-----------------------------------");
+	    	System.out.println(pqd.toString());
+	    	System.out.println("====================================");
+	    	System.out.println(pqd.getOptions().toString());
+	    	System.out.println("-----------------------------------");
+	    }
+
+		return null;
+		
+		
+				
+	}
+
+	@Override
+	public void addEvent(ClassPosts theclasspost)
+	{
+		Session currentSession=sessionFactory.getCurrentSession();
+		System.out.println(theclasspost.toString());
+		currentSession.save(theclasspost);
+		
+		
+		
+	}
+
+	@Override
+	public Boolean checkCoordinator(String fid) {
+		Session currentSession=sessionFactory.getCurrentSession();
+		Query<Coordinator> qr= currentSession.createQuery("from Coordinator where id=:id",Coordinator.class);
+		qr.setParameter("id", fid);
+		
+		List<Coordinator> coordinator=qr.getResultList();
+		
+				System.out.println(coordinator);
+		if(coordinator.isEmpty()) 
+			{
+			System.out.println("empty");
+			return false;
+			}
+		else
+		{return true;}
 		
 	}
 		 

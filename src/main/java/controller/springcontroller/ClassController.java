@@ -6,21 +6,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import model.FacultyModel;
 import model.StudentModel;
+import model.UserModel;
+import model.pollmodel.CreateNewPollModel;
+import model.springmodel.Events;
 import model.springmodel.ClassPosts;
 import model.springmodel.ClassRepresentative;
 import model.springmodel.Coordinator;
 import service.springservice.ClassService;
 import service.springservice.CoordinatorService;
+import service.springservice.EventService;
 
 @Controller
 @RequestMapping("/class")
@@ -28,14 +34,15 @@ public class ClassController
 {	
 	@Autowired
 	private ClassService classservice;
+	@Autowired
+	private EventService eventservice;
 	
-	@GetMapping("/CDFhome")
+	@GetMapping("/CDFhomestudent")
 	public String CDFhome(HttpServletRequest request,Model theModel)
 	{	
 		HttpSession session=request.getSession();
 		Object object=session.getAttribute("userModel");
 		StudentModel sm=null;
-		FacultyModel fm=null;
 		
 		if(object instanceof StudentModel)
 		{
@@ -54,22 +61,42 @@ public class ClassController
 			
 			
 		}
-		else if(object instanceof FacultyModel)
+
+			
+	
+		
+		return "CDFhomestudent";
+	}
+	
+	@GetMapping("/CDFhomefaculty")
+	public String showCDF(@ModelAttribute("type")String type,HttpServletRequest request,Model theModel)
+	{	
+		HttpSession session=request.getSession();
+		Object object=session.getAttribute("userModel");
+		FacultyModel fm=null;
+		
+		if(object instanceof FacultyModel)
 		{
 			fm=(FacultyModel)object;
-		}
-		
-		if(fm==null)
-		{
-			System.out.println(sm.getName());
-		}
-		else if(sm==null)
-		{
-			System.out.println(fm.getName());
-		}
+			String fid=fm.getFid();
 			
-		
-		return "CDFhome";
+			Boolean coordinatorflag= classservice.checkCoordinator(fid);
+			
+			System.out.println("classcoordinator==============>"+coordinatorflag);
+			
+			if(coordinatorflag)
+			{	String utype="coordinator";
+				theModel.addAttribute("type",utype);
+				
+			}
+			else
+			{	String utype="faculty";
+				theModel.addAttribute("type",utype);	
+			}
+			
+			
+	}
+		return "CDFhomefaculty";		
 	}
 	
 	@GetMapping("/addPoll")
@@ -84,5 +111,61 @@ public class ClassController
 		classservice.addPoll(theclassposts);
 		return "poll";
 	}
-
+	
+	@GetMapping("/showPoll")
+	public String showPoll(HttpServletRequest request, Model theModel)
+	{	
+		HttpSession session=request.getSession();
+		
+		String classid= (String) session.getAttribute("classid");
+		List<CreateNewPollModel> theCreateNewPollModel =classservice.showPoll(classid);
+		
+		theModel.addAttribute("showpoll", theCreateNewPollModel);
+		return "showpoll";
+	}
+	
+	@GetMapping("/addEventForm")
+	public String addEventForm(Model theModel )
+	{	
+		Events theEvents = new Events();
+		
+		theModel.addAttribute("Events",theEvents);
+		return "addevent";
+	}
+	
+	
+	
+	@PostMapping("/addEvent")
+	public String addClassEvent(@ModelAttribute ("Events") Events theEvents,HttpServletRequest request)
+	{	
+		HttpSession session=request.getSession();
+		Object obj=session.getAttribute("userModel");
+		UserModel um=new UserModel();
+		
+		String creatorid=um.getUserId(obj);
+		System.out.println(creatorid);
+		theEvents.setCreatorid(creatorid);
+		theEvents.setPending(false);
+		System.out.println("=======================");
+		System.out.println(theEvents);
+		int id= eventservice.addEvent(theEvents);
+		
+		//adding into classpost
+		ClassPosts theclasspost = new ClassPosts();
+		String classid=(String) session.getAttribute("classid");
+		theclasspost.setClassid(classid);
+		theclasspost.setPost_type("event");
+		theclasspost.setPostid(id);
+		System.out.println("======"+theclasspost);
+		
+		classservice.addEvent(theclasspost);
+		
+	
+		  return "redirect:CDFhome";
+ 
+	}
 }
+	
+	
+
+
