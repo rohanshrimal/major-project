@@ -279,7 +279,7 @@ font-size: 90%;
 	                </li>
 	                
 	                <li>
-	                    <a href="major/class/CDFhome">
+	                    <a id="CDF" href="major/class/CDFhome<%=utype%>">
 	                        <i class="material-icons text-gray">book</i>
 	                        <p>Class Discussion</p>
 	                    </a>
@@ -302,7 +302,7 @@ font-size: 90%;
 									<i class="material-icons">mood</i>
 								</div>
 								<div class="card-content">
-									<p class="category">Total Voil‡'s!</p>
+									<p class="category">Total Voil√†'s!</p>
 									<h3 class="title"><%=uvc%></h3>
 								</div>
 								<div class="card-footer">
@@ -475,9 +475,9 @@ font-size: 90%;
 			</footer>
 	
 	</div>
-                                                
-              
-                                           
+	
+	
+	                               
                                                 
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="js/material.min.js" type="text/javascript"></script>
@@ -576,7 +576,6 @@ font-size: 90%;
 
 		}
 	</script>
-
 </body>
 
 	<!--   Core JS Files   -->

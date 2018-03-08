@@ -49,12 +49,12 @@
 
 <a href="/korero-maven/poll/createpoll.jsp?var=classpoll"><button>Create Poll</button></a>
 <button>Ask question</button>
-<button>Create Event</button>
+<a href=addEventForm><button>Create Event</button></a>
 <button>Create Post</button>
 <br><br><br>
 	<select name="SHOW" onchange="location = this.value;">
     	<option selected disabled>Show</option>
-	 	<option value="">Polls</option>
+	 	<option value="showPoll">Polls</option>
 	 	<option value="">Questions</option>
 	 	<option value="">Answers</option>
 	 	<option value="">Events</option>

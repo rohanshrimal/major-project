@@ -2,17 +2,18 @@ package service.springservice;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import dao.springdao.ClassDAO;
 import model.FacultyModel;
 import model.StudentModel;
+import model.pollmodel.CreateNewPollModel;
+import model.springmodel.Events;
 import model.springmodel.ClassPosts;
-import model.springmodel.ClassRepresentative;
 
 @Service
 public class ClassServiceImpl implements ClassService {
@@ -48,6 +49,28 @@ public class ClassServiceImpl implements ClassService {
 		classdao.addPoll(theclassposts);
 	}
 
+	@Override
+	@Transactional
+	public List<CreateNewPollModel> showPoll(String classid) {
+		
+		return classdao.showPoll(classid);
+		
+	}
+
+	@Override
+	@Transactional
+	public void addEvent(ClassPosts theclasspost) {
+		
+		classdao.addEvent(theclasspost);
+	}
+
+	@Override
+	@Transactional
+	public Boolean checkCoordinator(String fid) {
+		return classdao.checkCoordinator(fid);
+	}
+
+	
 	
 	}
 
