@@ -9,56 +9,38 @@
 <title>Discussion Forum</title>
 </head>
 <body>
-<h2>students</h2>
-
-<table>
-	<th>
-	Class Members
-	</th>
-		
-		
-		<c:forEach var="temp1" items="${classmembers}" > 
-			<tr>
-				<td> ${temp1.name} </td>
-				
-			</tr>
-		
-		</c:forEach>
-	
-	<th>
-	Class Representative
-	</th>
-	<c:forEach var="temp2" items="${CR}"> 
-			<tr>
-				<td> ${temp2.name} </td>
-				
-			</tr>
-		
-		</c:forEach>
-	<th>
-	Class Coordinator
-	</th>
-	<c:forEach var="temp3" items="${classCoordinator}" > 
-			<tr>
-				<td> ${temp3.name} </td>
-				
-			</tr>
-		
-		</c:forEach>
-</table>
-
+<h1>CLASS DISCUSSION FORUM</h1>
+<hr>
+<h3>CHOOSE YOUR POST TYPE...</h3>
 <a href="/korero-maven/poll/createpoll.jsp?var=classpoll"><button>Create Poll</button></a>
 <button>Ask question</button>
-<a href=addEventForm><button>Create Event</button></a>
-<button>Create Post</button>
-<br><br><br>
+<a href="addEventForm"><button>Create Event</button></a>
+<a href="startDiscussion"><button>Start Discussion</button></a>
+
 	<select name="SHOW" onchange="location = this.value;">
     	<option selected disabled>Show</option>
 	 	<option value="showPoll">Polls</option>
 	 	<option value="">Questions</option>
-	 	<option value="">Answers</option>
+	 	<option value="showDiscussions">Discussions</option>
 	 	<option value="">Events</option>
 	</select>
+	<hr>
+	<h3>Class Members</h3>
+		<c:forEach var="temp1" items="${classmembers}" > 
+			${temp1.name} &nbsp;
+		</c:forEach>
+	<hr>
+	<h3>Class Representative</h3>
+		<c:forEach var="temp2" items="${CR}"> 
+			 ${temp2.name} &nbsp;
+		</c:forEach>
+	<hr>
+	<h3>Class Coordinator</h3>
+		<c:forEach var="temp3" items="${classCoordinator}" > 
+			${temp3.name} &nbsp;		
+		</c:forEach>
+	<hr>
+    
 
 </body>
 </html>

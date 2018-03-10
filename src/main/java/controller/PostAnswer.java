@@ -95,6 +95,7 @@ public class PostAnswer extends HttpServlet {
            
               nm.setUid(qm.getUid());
               nm.setMessage(am.getUname()+" answered: "+qm.getQue());
+              nm.setTimestamp(new Date().getTime());
               alnm=nd.notifyWhenAnswered(nm,qm, context);
               
               Gson gsonObj = new Gson();
@@ -118,6 +119,7 @@ public class PostAnswer extends HttpServlet {
               
               nm.setUid(qm.getUid());
               nm.setMessage(am.getUname()+" updated answer of: "+qm.getQue());
+              nm.setTimestamp(new Date().getTime());
               alnm=nd.notifyWhenAnswered(nm,qm, context);
               
               Gson gsonObj = new Gson();

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import model.FacultyModel;
 import model.StudentModel;
 import model.pollmodel.CreateNewPollModel;
+import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassPosts;
 import model.springmodel.Coordinator;
 import model.springmodel.PollQueDetails;
@@ -25,23 +26,17 @@ public class ClassDAOImpl implements ClassDAO {
 	@Override
 	public List<StudentModel> showClassMembers(StudentModel sm) 
 	{
-		System.out.println(sm.toString());
 		Session currentSession= sessionFactory.getCurrentSession();
-		/*Query<StudentModel> qr= currentSession.createQuery("from StudentModel  where branch='"+sm.getBranch()+
-				"' AND semester='"+sm.getSemester()+
-				"' AND section='"+sm.getSection()+
-				"'",StudentModel.class);*/
+		
 		Query<StudentModel> qr= currentSession.createQuery("from StudentModel where branch =:branch AND  semester =:semester"
-				+ " AND section =:section",StudentModel.class);
+														 + " AND section =:section",StudentModel.class);
 		
 		qr.setParameter("branch", sm.getBranch());
 		qr.setParameter("semester", sm.getSemester());
 		qr.setParameter("section", sm.getSection());
 		
-		 List<StudentModel> classmembers =qr.getResultList();
-		 
-		 System.out.println("class members->"+classmembers.toString());
-			
+		List<StudentModel> classmembers =qr.getResultList();
+
 		return classmembers;
 	}
 
@@ -55,10 +50,9 @@ public class ClassDAOImpl implements ClassDAO {
 		"select id from ClassRepresentative where classid =:classid"+")",StudentModel.class);
 		
 		qr2.setParameter("classid", id);
-		 List<StudentModel> classCR =qr2.getResultList();
+		List<StudentModel> classCR =qr2.getResultList();
 		 
-		 System.out.println("CR->"+classCR.toString());
-		 return classCR;
+		return classCR;
 	}
 
 	@Override
@@ -67,27 +61,12 @@ public class ClassDAOImpl implements ClassDAO {
 		Session currentSession= sessionFactory.getCurrentSession();
 		String id=sm.getBranch()+"-"+sm.getSemester()+"-"+sm.getSection()+"-"+sm.getBatch();
 		Query<FacultyModel> qr2= currentSession.createQuery("from FacultyModel  where id IN("+
-				"select id from Coordinator where classid =:classid"+")",FacultyModel.class);
+		"select id from Coordinator where classid =:classid"+")",FacultyModel.class);
+		
 		qr2.setParameter("classid", id);
-		
-		 List<FacultyModel> classCoordinator =qr2.getResultList();
-		 
-		 System.out.println("class coordinator=>"+classCoordinator.toString());
-		 return classCoordinator;
-		
-		
-		
-	}
-
-	@Override
-	public void addPoll(ClassPosts theclassposts) 
-	{
-		
-		Session currentSession=sessionFactory.getCurrentSession();
-		System.out.println(theclassposts.toString());
-		currentSession.save(theclassposts);
-		
-		
+	    List<FacultyModel> classCoordinator =qr2.getResultList();
+	    
+		return classCoordinator;
 	}
 
 	@Override
@@ -96,7 +75,6 @@ public class ClassDAOImpl implements ClassDAO {
 		Session currentSession= sessionFactory.getCurrentSession();
 		
 		Query qr= currentSession.createQuery("select postid from ClassPosts where classid =:id AND post_type='poll'");
-		
 		qr.setParameter("id", classid);
 		
 		List<Integer> queid= qr.list();
@@ -122,17 +100,6 @@ public class ClassDAOImpl implements ClassDAO {
 	}
 
 	@Override
-	public void addEvent(ClassPosts theclasspost)
-	{
-		Session currentSession=sessionFactory.getCurrentSession();
-		System.out.println(theclasspost.toString());
-		currentSession.save(theclasspost);
-		
-		
-		
-	}
-
-	@Override
 	public Boolean checkCoordinator(String fid) {
 		Session currentSession=sessionFactory.getCurrentSession();
 		Query<Coordinator> qr= currentSession.createQuery("from Coordinator where id=:id",Coordinator.class);
@@ -140,22 +107,42 @@ public class ClassDAOImpl implements ClassDAO {
 		
 		List<Coordinator> coordinator=qr.getResultList();
 		
-				System.out.println(coordinator);
 		if(coordinator.isEmpty()) 
-			{
-			System.out.println("empty");
+		{
 			return false;
-			}
+		}
 		else
-		{return true;}
+		{
+			return true;
+		}
 		
 	}
-		 
-				 
-		 
-				 
-		
 
+	@Override
+	public int addDiscussion(ClassDiscussion cd) 
+	{
+		Session currentSession=sessionFactory.getCurrentSession();
+		int id=(Integer)currentSession.save(cd);
+		return id;
+	}
+
+	@Override
+	public void addClassPost(ClassPosts cp) 
+	{
+		Session currentSession=sessionFactory.getCurrentSession();
+		currentSession.save(cp);
+	}
+
+	@Override
+	public List<ClassDiscussion> showDiscussions(String classId) {
+		Session currentSession=sessionFactory.getCurrentSession();
+		Query<ClassDiscussion> qr=currentSession.createQuery("from ClassDiscussion where id in (select id from ClassPosts where classid =:classid and post_type='discussion')");
+		qr.setParameter("classid", classId);
+		return qr.getResultList();
+	}
+	
+	
+				 
 	}
 
 

@@ -123,8 +123,8 @@ String id=request.getParameter("id");
 
 
 img.resize {
-  max-width:25%;
-  max-height:25%;
+  max-width:15%;
+  max-height:15%;
   float: right;
 }
 
@@ -153,7 +153,12 @@ font-size: 90%;
     border: 0px solid #ccc;
 }
 
-    </style>
+.ql-snow .ql-editor img {
+    max-width: 35%;
+    max-height: 35%;
+}
+
+    </style> 	
 
 </head>
 
@@ -167,7 +172,7 @@ font-size: 90%;
          var isNoOne=false;
          
          var quillAnswers=[];
-           
+         var isFullShow=[]; 
          
             var configque = {
                 "theme": "snow",
@@ -178,10 +183,28 @@ font-size: 90%;
 };
            
            
-        var quillque;
+        	var quillque;
             quillque=new Quill('#editorque',configque);
             console.log("quillque"+quillque);            
         
+            
+            var configForShow = {
+                    "theme": "snow",
+                    "modules": {
+                    "toolbar": false
+        				}
+                    
+        		};
+                var quillShowAns;
+                function instantiateEditor(i)
+                {
+                	ans=quillAnswers[i];
+                    quillShowAns=new Quill('#ans'+i,configForShow);
+                    quillShowAns.setContents(ans);
+                    quillShowAns.enable(false);  
+                    document.getElementsByClassName("ansImg")[i].innerHTML="";
+                    document.getElementsByClassName("read")[i].innerHTML="";
+                }
         </script>
     <!--Navbar-->
     <nav class="navbar navbar-toggleable-md navbar-dark fixed-top scrolling-navbar">
@@ -416,12 +439,8 @@ font-size: 90%;
 	            			<!--  	<a class="read" onclick="show('ans<%=i%>','read<%=i%>')" href="#no">Read more</a>  -->
                                  <a class="read" href="#no" style="color: #0099cc;" onclick="instantiateEditor('<%=i%>')">Read more</a><br>               
                                                 <script>
-                                                quillque.setContents(<%= qm.getMostUpvotedAnswer() %>); 
-                                                var htmlcontent=quillque.root.innerHTML;
-                                                var c=document.getElementsByClassName("ans");
-                                                c[<%=i%>].innerHTML=htmlcontent;
-//                                                console.log(htmlcontent);
-									
+                                    
+                                              
 									if(!isNoOne)
 									{
 										quillAnswers.push(<%= qm.getMostUpvotedAnswer() %>);
@@ -431,7 +450,7 @@ font-size: 90%;
 									{
 										quillAnswers.push({"ops":[{"insert":""}]});
 										document.getElementsByClassName("read")[<%=i%>].innerHTML="";
-										isNoOne=false;
+										isFullShow.push(false);
 									}
 									
                                 quillque.setContents(<%= qm.getMostUpvotedAnswer() %>); 
@@ -448,6 +467,7 @@ font-size: 90%;
 									if(typeof del.insert!=='object' && count1==1)
 									{
 										count1=0;
+										content=content+del.insert.substr(1,del.insert.length);
 										continue;
 									}
 									
@@ -478,11 +498,25 @@ font-size: 90%;
                                                                              
                                  	var c=document.getElementsByClassName("ans");
                                  
-                                 	if(content.length>250)
-                                  	c[<%=i%>].innerText=content.substr(0,250)+"...";
+                                 	if(content.length>100)
+                                  	{
+                                 		c[<%=i%>].innerText=content.substr(0,100)+"...";
+                                 		isFullShow.push(false);
+                                  	}
                                
+                                 	else if(!isNoOne)
+                               		{
+                               			console.log("i am else");
+                               			console.log(content);
+                               			console.log("\n"+content.length);
+                               			c[<%=i%>].innerText=content;
+                               			isFullShow.push(true);
+                               		}
                                		else
-                               		c[<%=i%>].innerText=content;
+                               		{
+                               			isNoOne=false;
+                               			c[<%=i%>].innerText=content;
+                               		}
 
 									
 									                                 </script>
@@ -504,26 +538,15 @@ font-size: 90%;
         {
             readElements[i].id = 'read' + i;
             ansElements[i].id = 'ans' + i;
+            
+            if(isFullShow[i])
+            {
+            	instantiateEditor(i);
+            }
         
          }
         
-        var configForShow = {
-                "theme": "snow",
-                "modules": {
-                "toolbar": false
-    				}
-                
-    		};
-            var quillShowAns;
-            function instantiateEditor(i)
-            {
-            	ans=quillAnswers[i];
-                quillShowAns=new Quill('#ans'+i,configForShow);
-                quillShowAns.setContents(ans);
-                quillShowAns.enable(false);  
-                document.getElementsByClassName("ansImg")[i].innerHTML="";
-                document.getElementsByClassName("read")[i].innerHTML="";
-            }
+        	
         
         </script><%}%>
        		    		<!--card-1-->		
@@ -600,12 +623,16 @@ function follow(x)
     request.send(data);
 }
 
+
+var isFollowed=<%= dcm.isIsFollowed() %>;
+
 function setFollowButton()
 {
     if(request.readyState===4 && request.status===200){
         document.getElementById("followbtn").value=request.responseText;
         if(request.responseText.search("FOLLOWED")!==-1)
         {
+        isFollowed=true;
         <% dcm.setFollowersCount(dcm.getFollowersCount()+1); %>
         var count=document.getElementById("followers").innerHTML;
         console.log(count);
@@ -613,6 +640,7 @@ function setFollowButton()
         }
         else if((request.responseText).search("FOLLOW")!==-1)
         {
+        isFollowed=false;
         <% dcm.setFollowersCount(dcm.getFollowersCount()-1); %>;           
         var count=document.getElementById("followers").innerHTML;
         console.log(count);
@@ -627,7 +655,7 @@ function setFollowButton()
         <script>
              
              
-            var isFollowed=<%= dcm.isIsFollowed() %>;
+           
             if(isFollowed===true)
                 document.getElementById("followbtn").value="FOLLOWED";
             else if(isFollowed===false)

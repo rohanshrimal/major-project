@@ -10,6 +10,7 @@ import model.FacultyModel;
 import model.StudentModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
+import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassPosts;
 
 public interface ClassDAO {
@@ -20,13 +21,15 @@ public interface ClassDAO {
 
 	List<FacultyModel> showClassCoordinator(StudentModel sm);
 
-	void addPoll(ClassPosts theClassPosts);
-
 	List<CreateNewPollModel> showPoll(String classid);
 
-	void addEvent(ClassPosts theclasspost);
-
 	Boolean checkCoordinator(String fid);
+
+	int addDiscussion(ClassDiscussion cd);
+
+	void addClassPost(ClassPosts cp);
+
+	List<ClassDiscussion> showDiscussions(String classId);
 
 	
 }

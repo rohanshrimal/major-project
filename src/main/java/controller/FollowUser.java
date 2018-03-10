@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -53,12 +54,14 @@ public class FollowUser extends HttpServlet {
 		ArrayList<NotificationModel> alnm=null;
 		String returnJSON=null;
 		
-		nm.setUid(otherUserId);
-		nm.setMessage(um.getUserName(session.getAttribute("userModel"))+" starts following you.");
 		
 		System.out.println(otherUserId+"--"+isFollowed+"--"+myId);
 		if(isFollowed.trim().equals("false"))
 		{
+			nm.setUid(otherUserId);
+			nm.setMessage(um.getUserName(session.getAttribute("userModel"))+" started following you.");
+			nm.setTimestamp(new Date().getTime());
+			
 			ud.followUser(myId,otherUserId,context);
 			alnm=nd.notifyWhenFollowed(nm, context);
 			
