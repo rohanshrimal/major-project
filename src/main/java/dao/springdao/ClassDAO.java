@@ -11,6 +11,7 @@ import model.StudentModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
 import model.springmodel.ClassDiscussion;
+import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
 
 public interface ClassDAO {
@@ -30,6 +31,8 @@ public interface ClassDAO {
 	void addClassPost(ClassPosts cp);
 
 	List<ClassDiscussion> showDiscussions(String classId);
+
+	void postComment(ClassDiscussionComment cdc);
 
 	
 }

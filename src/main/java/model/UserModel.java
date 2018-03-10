@@ -5,18 +5,49 @@
  */
 package model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 /**
  *
  * @author rohan
  */
+@Entity
+@Table(name="allusers")
 public class UserModel {
-    private String uid,uname,utype,email,dept,aboutme,sem;
-    private StudentModel sm;
-    private FacultyModel fm;
-    private boolean isFollowed;
-    private int sumOfViews,sumOfUpvotes,totalAnswers;
+	
+	@Id
+	@Column(name="uid")
+    private String uid;
+	
+	@Column(name="uname")
+	String uname;
+	
+	@Transient
+	String utype,email,dept,aboutme,sem;
     
-    public String getUserId(Object o)
+	@Transient
+	private StudentModel sm;
+    
+	@Transient
+	private FacultyModel fm;
+    
+	@Transient
+	private boolean isFollowed;
+    
+	@Transient
+	private int sumOfViews,sumOfUpvotes,totalAnswers;
+    
+	
+    @Override
+	public String toString() {
+		return "UserModel [uid=" + uid + ", uname=" + uname + "]";
+	}
+
+	public String getUserId(Object o)
     {
     	if(o instanceof StudentModel)
     	{

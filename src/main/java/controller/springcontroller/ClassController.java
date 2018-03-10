@@ -23,6 +23,7 @@ import model.UserModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
 import model.springmodel.ClassDiscussion;
+import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
 import model.springmodel.ClassRepresentative;
 import model.springmodel.Coordinator;
@@ -148,20 +149,18 @@ public class ClassController
  
 	}
 	
-	@GetMapping("/startDiscussion")
-	public String addPost(Model theModel)
-	{
-		ClassDiscussion cd=new ClassDiscussion();
-		theModel.addAttribute("ClassDiscussionModel",cd);
-		return "classDiscussions";
-	}
+	
 	
 	@PostMapping("/saveDiscussion")
 	public String savePost(@ModelAttribute ("ClassDiscussionModel") ClassDiscussion cd,HttpServletRequest request)
 	{
 		HttpSession session=request.getSession();
 		
-		cd.setCreatorId(new UserModel().getUserId(session.getAttribute("userModel")));
+		UserModel um=new UserModel();
+		String uid=um.getUserId(session.getAttribute("userModel"));
+		um.setUid(uid);
+		
+		cd.setUserModel(um);
 		cd.setTimeStamp(new Date().getTime());
 		int id=classservice.addDiscussion(cd);
 		
@@ -181,6 +180,9 @@ public class ClassController
 		ClassDiscussion cd=new ClassDiscussion();
 		model.addAttribute("ClassDiscussionModel",cd);
 		
+		ClassDiscussionComment cdc=new ClassDiscussionComment();
+		model.addAttribute("ClassCommentModel",cdc);
+		
 		HttpSession session=request.getSession();
 		String classId=(String)session.getAttribute("classid");
 		
@@ -188,6 +190,26 @@ public class ClassController
 		model.addAttribute("discussionsList",discussionsList);
 		
 		return "classDiscussions";
+	}
+	
+	@PostMapping("/postComment")
+	public String postComment(@RequestParam("disId") int disId,@ModelAttribute("ClassCommentModel") ClassDiscussionComment cdc,HttpServletRequest request)
+	{
+		HttpSession session=request.getSession();
+		
+		UserModel um=new UserModel();
+		um.setUid(um.getUserId(session.getAttribute("userModel")));
+		
+		ClassDiscussion cd=new ClassDiscussion();
+		cd.setId(disId);
+		
+		cdc.setClassDiscussion(cd);
+		cdc.setUserModel(um);
+		cdc.setTimestamp(new Date().getTime());
+		
+		classservice.postComment(cdc);
+		
+		return "redirect:/major/class/CDFhomestudent";
 	}
 }
 	

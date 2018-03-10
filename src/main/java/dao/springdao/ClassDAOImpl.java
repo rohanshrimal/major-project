@@ -13,6 +13,7 @@ import model.FacultyModel;
 import model.StudentModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.ClassDiscussion;
+import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
 import model.springmodel.Coordinator;
 import model.springmodel.PollQueDetails;
@@ -41,8 +42,8 @@ public class ClassDAOImpl implements ClassDAO {
 	}
 
 	@Override
-	public List<StudentModel> showClassCR(StudentModel sm) {
-		
+	public List<StudentModel> showClassCR(StudentModel sm) 
+	{	
 		Session currentSession= sessionFactory.getCurrentSession();
 		String id=sm.getBranch()+"-"+sm.getSemester()+"-"+sm.getSection()+"-"+sm.getBatch();
 		
@@ -56,8 +57,8 @@ public class ClassDAOImpl implements ClassDAO {
 	}
 
 	@Override
-	public List<FacultyModel> showClassCoordinator(StudentModel sm) {
-		
+	public List<FacultyModel> showClassCoordinator(StudentModel sm) 
+	{	
 		Session currentSession= sessionFactory.getCurrentSession();
 		String id=sm.getBranch()+"-"+sm.getSemester()+"-"+sm.getSection()+"-"+sm.getBatch();
 		Query<FacultyModel> qr2= currentSession.createQuery("from FacultyModel  where id IN("+
@@ -100,7 +101,8 @@ public class ClassDAOImpl implements ClassDAO {
 	}
 
 	@Override
-	public Boolean checkCoordinator(String fid) {
+	public Boolean checkCoordinator(String fid)
+	{	
 		Session currentSession=sessionFactory.getCurrentSession();
 		Query<Coordinator> qr= currentSession.createQuery("from Coordinator where id=:id",Coordinator.class);
 		qr.setParameter("id", fid);
@@ -134,11 +136,21 @@ public class ClassDAOImpl implements ClassDAO {
 	}
 
 	@Override
-	public List<ClassDiscussion> showDiscussions(String classId) {
+	public List<ClassDiscussion> showDiscussions(String classId) 
+	{
 		Session currentSession=sessionFactory.getCurrentSession();
-		Query<ClassDiscussion> qr=currentSession.createQuery("from ClassDiscussion where id in (select id from ClassPosts where classid =:classid and post_type='discussion')");
+		Query<ClassDiscussion> qr=currentSession.createQuery("from ClassDiscussion cd where cd.id in (select id from ClassPosts where classid =:classid and post_type='discussion')");
 		qr.setParameter("classid", classId);
-		return qr.getResultList();
+		List<ClassDiscussion> discussionList=qr.getResultList();
+	
+		return discussionList;
+	}
+
+	@Override
+	public void postComment(ClassDiscussionComment cdc) 
+	{
+		Session currentSession=sessionFactory.getCurrentSession();
+		int commentId=(Integer)currentSession.save(cdc);
 	}
 	
 	

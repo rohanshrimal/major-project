@@ -1,11 +1,21 @@
 package model.springmodel;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import model.UserModel;
 
 @Entity
 @Table(name="class_discussion")
@@ -15,9 +25,6 @@ public class ClassDiscussion {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id" ,updatable = false, nullable = false)
 	private int id;
-	
-	@Column(name="creatorid")
-	private String creatorId;
 	
 	@Column(name="isreviewed")
 	private boolean isReviewed;
@@ -40,18 +47,40 @@ public class ClassDiscussion {
 	@Column(name="content")
 	private String content;
 	
+	@OneToOne
+	@JoinColumn(name="creatorid")
+	private UserModel userModel;
+	
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="classDiscussion",cascade=CascadeType.ALL)
+	private List<ClassDiscussionComment> classCommentList;
+	
+	
+	
+	@Override
+	public String toString() {
+		return "ClassDiscussion [id=" + id + ", isReviewed=" + isReviewed + ", title=" + title + ", timeStamp="
+				+ timeStamp + ", isPinned=" + isPinned + ", flagCount=" + flagCount + ", isClosed=" + isClosed
+				+ ", content=" + "i am content"+ ", userModel=" + userModel + ", classCommentList=" + classCommentList + "]";
+	}
+
+
+	public UserModel getUserModel() {
+		return userModel;
+	}
+
+
+	public void setUserModel(UserModel userModel) {
+		this.userModel = userModel;
+	}
+
+
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getCreatorId() {
-		return creatorId;
-	}
-	public void setCreatorId(String creatorId) {
-		this.creatorId = creatorId;
-	}
+	
 	public boolean isReviewed() {
 		return isReviewed;
 	}
@@ -94,7 +123,22 @@ public class ClassDiscussion {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public List<ClassDiscussionComment> getClassCommentList() {
+		return classCommentList;
+	}
+	public void setClassCommentList(List<ClassDiscussionComment> classCommentList) {
+		this.classCommentList = classCommentList;
+	}
 	
-	
+	public void add(ClassDiscussionComment classComment)
+	{
+		if(classCommentList==null)
+		{
+			classCommentList=new ArrayList<>();
+		}
+		
+		classCommentList.add(classComment);
+		classComment.setClassDiscussion(this);
+	}
 
 }
