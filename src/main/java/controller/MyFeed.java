@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dao.KeyWordDao;
+import dao.NotificationDao;
 import dao.QuestionDao;
 import dao.UserDao;
 import java.io.IOException;
@@ -17,7 +18,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+
 import model.FacultyModel;
+import model.NotificationModel;
 import model.QuestionModel;
 import model.RelatedQuestionModel;
 import model.StudentModel;
@@ -78,8 +83,14 @@ public class MyFeed extends HttpServlet {
           KeyWordDao kwd=new KeyWordDao();
           long tc=kwd.getMyTagsCount(id,context);
           
+          NotificationDao nd=new NotificationDao();
+          ArrayList<NotificationModel> alnm = nd.showAllNotifications(id, context); 
+          Gson gsonObj = new Gson();
+          String returnJSON=gsonObj.toJson(alnm);
+          
           session.setAttribute("relques",rlqm);
           session.setAttribute("relques1",rlqm1);
+          session.setAttribute("usernotifications",returnJSON);
           
           response.sendRedirect("Feed_Page.jsp?uvc="+uvc+"&tc="+tc);
         }

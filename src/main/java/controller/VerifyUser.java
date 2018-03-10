@@ -81,7 +81,7 @@ public class VerifyUser extends HttpServlet {
             session.setAttribute("utype","student");
             session.setAttribute("userModel",S);
             session.setAttribute("updown",false);
-            session.setAttribute("isWebHandler",false);
+            session.setAttribute("viewing",false);
             
                 if(status.equals("4"))
                 response.sendRedirect("MyFeed");
@@ -125,7 +125,7 @@ public class VerifyUser extends HttpServlet {
                 session.setAttribute("utype","faculty");
                 session.setAttribute("userModel",F);
                 session.setAttribute("updown",false);
-                session.setAttribute("isWebHandler",false);
+                session.setAttribute("viewing",false);
                 
                 if(status.equals("4"))
                 response.sendRedirect("MyFeed");

@@ -14,6 +14,7 @@ import model.StudentModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
 import model.springmodel.ClassDiscussion;
+import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
 
 @Service
@@ -75,6 +76,12 @@ public class ClassServiceImpl implements ClassService {
 	@Transactional
 	public List<ClassDiscussion> showDiscussions(String classId) {
 		return classdao.showDiscussions(classId);
+	}
+
+	@Override
+	@Transactional
+	public void postComment(ClassDiscussionComment cdc) {
+		classdao.postComment(cdc);		
 	}
 	
 	

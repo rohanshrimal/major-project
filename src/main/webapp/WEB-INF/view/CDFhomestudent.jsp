@@ -15,7 +15,7 @@
 <a href="/korero-maven/poll/createpoll.jsp?var=classpoll"><button>Create Poll</button></a>
 <button>Ask question</button>
 <a href="addEventForm"><button>Create Event</button></a>
-<a href="startDiscussion"><button>Start Discussion</button></a>
+<a href="showDiscussions"><button>Start Discussion</button></a>
 
 	<select name="SHOW" onchange="location = this.value;">
     	<option selected disabled>Show</option>

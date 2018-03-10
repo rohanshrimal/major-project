@@ -25,7 +25,7 @@ else if(utype.equals("faculty"))
 
 String uvc=request.getParameter("uvc");
 String tc=request.getParameter("tc");
-
+String notificationsJson=(String)session.getAttribute("usernotifications");
 %>
 <!doctype html>
 <html lang="en">
@@ -64,7 +64,7 @@ String tc=request.getParameter("tc");
 	
 
     <!--     Fonts and icons     -->
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
     <style type="text/css">
     	
         .limittext {
@@ -198,7 +198,9 @@ font-size: 90%;
 						<ul class="nav navbar-nav navbar-right">
 							
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick="showNotifications()"><i class="material-icons">notifications_active</i></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick="showNotifications()"><i class="material-icons">notifications</i>
+									<span class="notification" id="notificationCount"></span>
+								</a>
 			        			<ul class="dropdown-menu" id="notifications">
 								 
 								 
@@ -280,7 +282,7 @@ font-size: 90%;
 	                
 	                <li>
 	                    <a id="CDF" href="major/class/CDFhome<%=utype%>">
-	                        <i class="material-icons text-gray">book</i>
+	                        <i class="material-icons text-gray">school</i>
 	                        <p>Class Discussion</p>
 	                    </a>
 	                </li>
@@ -497,12 +499,23 @@ font-size: 90%;
 	
 	<script>
 	var notifications=[];
+	
+	if('<%=notificationsJson%>'!='null')
+	{
+		notifications=<%=notificationsJson%>;
+	}
+	document.getElementById("notificationCount").innerHTML=notifications.length;
+	console.log("----Showing notification---")
+	console.log(notifications);
+	
 	websocket.onmessage=function processMessage(message){
 		var jsonData=JSON.parse(message.data);
 		console.log(jsonData);
 		if(jsonData.message!=null)
 			{
-				notifications.push(jsonData);  
+				notifications.push(jsonData);
+				document.getElementById("notificationCount").innerHTML=notifications.length;
+				showNotifications();
 			}
 		
 	}
@@ -510,6 +523,22 @@ font-size: 90%;
 	
 	</script>
 	<script type="text/javascript">
+	function getXmlHttpRequestObject()
+	{
+	var xmlHttpReq;
+
+	if(window.XMLHttpRequest){
+	    request=new window.XMLHttpRequest();
+	}
+	else if(window.ActiveXObject){
+	    request=new window.ActiveXObject();
+	}
+	else{
+	    request=null;
+	}
+	return request;
+	}
+
 	
 	function time_ago(time) {
 
@@ -558,23 +587,37 @@ font-size: 90%;
 		  return new Date(time).toDateString();
 		}
 
-		var aDay = 24 * 60 * 60 * 1000;
-		console.log(time_ago(new Date(Date.now() - aDay)));
-		console.log(time_ago(new Date(Date.now() - aDay * 15)));
-		var d=new Date();
-		console.log(time_ago(new Date("6 Mar, 2018")));
-
 	
 		function showNotifications()
 		{
+			document.getElementById("notificationCount").innerHTML=notifications.length;
 			document.getElementById("notifications").innerHTML="";
 			console.log("notifiying..");
-			for(var i=0;i<notifications.length;i++)
+			for(var i=notifications.length-1;i>=0;i--)
 			{
-				document.getElementById("notifications").innerHTML=document.getElementById("notifications").innerHTML+'<li><a href="#" >'+notifications[i].message+" "+time_ago(new Date(notifications[i].timestamp))+'</a></li><li class="divider"></li>';	
+				document.getElementById("notifications").innerHTML=document.getElementById("notifications").innerHTML+'<li><a onClick=viewNotification('+i+')>'+notifications[i].message+"\t"+time_ago(new Date(notifications[i].timestamp))+'</a></li><li class="divider"></li>';	
 			}
 
 		}
+		
+		function viewNotification(i)
+		{   
+		    request=getXmlHttpRequestObject();
+		    request.onreadystatechange=notificationViewed;
+		    request.open("post","ViewNotification",true);
+		    request.setRequestHeader ("Content-Type", "application/x-www-form-urlencoded");
+		    var data="nid="+notifications[i].nid+"&uid="+notifications[i].uid;
+		    request.send(data);
+		}
+
+		function notificationViewed()
+		{
+		    if(request.readyState===4 && request.status===200)
+		    {
+		    	console.log("notificationViewed");
+		    }
+		}
+
 	</script>
 </body>
 

@@ -73,36 +73,64 @@
         </script>
 </head>
 <body>
+
 <h1>Class Discussions</h1>
+
 <hr>
+
 <h2>Start New Discussion here...</h2>
-<form:form action="saveDiscussion" modelAttribute="ClassDiscussionModel" method="POST" onsubmit="collectdata()">
+		<form:form action="saveDiscussion" modelAttribute="ClassDiscussionModel" method="POST" onsubmit="collectdata()">
 
-<label>Title</label><br>
-<form:input path="title"/><br><br>
+			<label>Title</label><br>
+			<form:input path="title"/><br><br>
+	
+			<label>Content</label>
+			<form:hidden path="content" id="contentid"/><br><br>
+	
+			<div id="toolbar"></div>
+			<div id="editor"></div><br>
+			
+			<input type="submit" value="POST"/>
+		</form:form>
 
-<label>Content</label>
-<form:hidden path="content" id="contentid"/><br><br>
-<div id="toolbar"></div>
-<div id="editor"></div><br>
-
-<input type="submit" value="POST"/>
-
-</form:form>
 <hr>
-<c:forEach var="discussion" items="${discussionsList}" begin="0" varStatus="loop">
 
-<h2>${discussion.title} by ${discussion.creatorId }</h2> <span id="timestamp${loop.index}"></span>
-<div id="disEditor${loop.index}"></div><br>
+		<c:forEach var="discussion" items="${discussionsList}" begin="0" varStatus="loop">
 
-<script>
-var quillShow=new Quill('#disEditor${loop.index}',configForShow);
-quillShow.setContents( ${discussion.content} );
-quillShow.enable(false);
-document.getElementById('timestamp${loop.index}').innerHTML=time_ago(new Date(${discussion.timeStamp}));
+			<h2 style="display: inline;">${discussion.title}</h2><br><br>
+			${discussion.userModel.uname} Has Started Discussion <span id="timestamp${loop.index}"></span><br>
+			<div id="disEditor${loop.index}"></div><br>
+			
+			<h2>COMMENTS</h2>
+			
+			<c:forEach var="classComment" items="${discussion.classCommentList}" begin="0" varStatus="innerloop">
+			<h3 style="display: inline;">${classComment.userModel.uname}</h3> commented on <span id="commenttimestamp${loop.index}${innerloop.index}"></span><br>
+			<textarea cols="100" readonly="readonly">${classComment.commentText}</textarea><br><br>
+
+			<script type="text/javascript">
+				var commenttimestamp=${classComment.timestamp};
+				document.getElementById('commenttimestamp${loop.index}${innerloop.index}').innerHTML=time_ago(new Date(commenttimestamp));
+			</script>
+			</c:forEach>
+			
+			<form:form action="postComment?disId=${discussion.id}" modelAttribute="ClassCommentModel" method="POST">
+				<form:textarea rows="5" cols="100" path="commentText" placeholder="Write Your Comment Here..."/>
+				<input type="submit" value="Comment"/>
+			</form:form>
+
+<script type="text/javascript">
+
+	var quillShow=new Quill('#disEditor${loop.index}',configForShow);
+	var quillContents=${discussion.content};
+	quillShow.setContents(quillContents);
+	quillShow.enable(false);
+	var timestamp=${discussion.timeStamp};
+	document.getElementById('timestamp${loop.index}').innerHTML=time_ago(new Date(timestamp));
+
 </script>
+
 <hr> 
-</c:forEach>
+		</c:forEach>
 
  <script>
             var toolbarOptions =[
