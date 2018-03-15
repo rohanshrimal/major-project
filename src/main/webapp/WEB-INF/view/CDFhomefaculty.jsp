@@ -8,10 +8,14 @@
 <title>Class Discussion forum</title>
 </head>
 <body>
+
+<h1>Welcome to Class ${classid}</h1>
       <c:choose>
        <c:when test="${type=='coordinator'}">
 	<a href="/korero-maven/major/admin/addCRForm">add class representative</a> <br>
 	<a href="/korero-maven/major/admin/showCR">show class representative</a> <br>
+	<a href="/korero-maven/major/admin/addformFaculty">Add Subject Faculty</a> <br>
+	<a href="/korero-maven/major/admin/showFaculty">Show Subject Faculty</a> <br>
 		</c:when>
 		
 		<c:when test="${type=='faculty'}">

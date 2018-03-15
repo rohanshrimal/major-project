@@ -1,6 +1,7 @@
 package dao.springdao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,6 +34,11 @@ public interface ClassDAO {
 	List<ClassDiscussion> showDiscussions(String classId);
 
 	void postComment(ClassDiscussionComment cdc);
+
+	
+	Set<String> getClassDetails(String fid);
+
+	List<Events> showEvents(String classid);
 
 	
 }

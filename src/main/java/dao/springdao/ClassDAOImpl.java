@@ -1,7 +1,9 @@
 package dao.springdao;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +18,7 @@ import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
 import model.springmodel.Coordinator;
+import model.springmodel.Events;
 import model.springmodel.PollQueDetails;
 
 @Repository
@@ -151,6 +154,36 @@ public class ClassDAOImpl implements ClassDAO {
 	{
 		Session currentSession=sessionFactory.getCurrentSession();
 		int commentId=(Integer)currentSession.save(cdc);
+	}
+
+
+
+	@Override
+	public Set<String> getClassDetails(String fid) {
+		
+		Session currentSession= sessionFactory.getCurrentSession();
+		Query<String> qr=currentSession.createQuery("select classid from Coordinator where id=:id");
+		qr.setParameter("id", fid);
+		
+		Set<String> set = new HashSet<String>(qr.getResultList());
+
+		//List<String> classid=qr.getResultList();
+		
+		Query<String> qr2=currentSession.createQuery("select classid from ClassSubjectFaculty where id=:id");
+		qr2.setParameter("id", fid);
+		Set<String> set2 = new HashSet<String>(qr2.getResultList());
+
+		set.addAll(set2);
+		return set;
+	}
+
+	@Override
+	public List<Events> showEvents(String classid) {
+		Session currentSession= sessionFactory.getCurrentSession();
+		Query<Events> qr= currentSession.createQuery("from Events where id in(select id from ClassPosts where classid=:classid and post_type='event')");
+		qr.setParameter("classid", classid);
+		
+		return qr.getResultList();
 	}
 	
 	

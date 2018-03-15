@@ -24,10 +24,10 @@ public class Events {
 	private String description;
 	
 	@Column(name="startdate")
-	private Date startdate;
+	private Long startdate;
 	
 	@Column(name="enddate")
-	private Date enddate;
+	private Long enddate;
 	
 	@Column(name="pending")
 	private Boolean pending;
@@ -69,19 +69,19 @@ public class Events {
 		this.description = description;
 	}
 
-	public Date getStartdate() {
+	public Long getStartdate() {
 		return startdate;
 	}
 
-	public void setStartdate(Date startdate) {
+	public void setStartdate(Long startdate) {
 		this.startdate = startdate;
 	}
 
-	public Date getEnddate() {
+	public Long getEnddate() {
 		return enddate;
 	}
 
-	public void setEnddate(Date enddate) {
+	public void setEnddate(Long enddate) {
 		this.enddate = enddate;
 	}
 	

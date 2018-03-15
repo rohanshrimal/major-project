@@ -1,6 +1,7 @@
 package service.springservice;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -78,13 +79,26 @@ public class ClassServiceImpl implements ClassService {
 		return classdao.showDiscussions(classId);
 	}
 
+	
+	@Override
+	@Transactional
+	public Set<String> getClassDetails(String fid) {
+		
+		return classdao.getClassDetails(fid);
+		 
+	}
+
+	@Override
+	@Transactional
+	public List<Events> showEvents(String classid) {
+		return classdao.showEvents(classid);
+  }
 	@Override
 	@Transactional
 	public void postComment(ClassDiscussionComment cdc) {
 		classdao.postComment(cdc);		
 	}
-	
-	
+
 	
 	}
 

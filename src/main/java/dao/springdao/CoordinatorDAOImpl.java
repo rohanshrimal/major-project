@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import model.springmodel.ClassRepresentative;
+import model.springmodel.ClassSubjectFaculty;
 import model.springmodel.Coordinator;
 
 @Repository
@@ -62,6 +63,22 @@ public class CoordinatorDAOImpl implements CoordinatorDAO {
 		return CR;
 		
 		
+	}
+
+	@Override
+	public void addFaculty(ClassSubjectFaculty theFaculty) {
+		Session currentSession=sessionFactory.getCurrentSession();
+		System.out.println(theFaculty.toString());
+		currentSession.save(theFaculty);
+	}
+
+	@Override
+	public List<ClassSubjectFaculty> showFaculty(String classid) {
+		Session currentSession= sessionFactory.getCurrentSession();
+		Query<ClassSubjectFaculty> qr= currentSession.createQuery("from ClassSubjectFaculty where classid=:classid",ClassSubjectFaculty.class);
+		qr.setParameter("classid", classid);
+		List<ClassSubjectFaculty> faculty= qr.getResultList();
+		return faculty;
 	}
 
 }

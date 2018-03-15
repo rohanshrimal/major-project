@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import model.springmodel.ClassRepresentative;
+import model.springmodel.ClassSubjectFaculty;
 import model.springmodel.Coordinator;
 
 public interface CoordinatorService {
@@ -16,5 +17,9 @@ public interface CoordinatorService {
 	void addCR(ClassRepresentative theCR);
 
 	List<ClassRepresentative> showCR();
+
+	void addFaculty(ClassSubjectFaculty theFaculty);
+
+	List<ClassSubjectFaculty> showFaculty(String classid);
 
 }
