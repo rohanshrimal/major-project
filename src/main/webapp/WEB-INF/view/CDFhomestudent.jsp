@@ -22,7 +22,7 @@
 	 	<option value="showPoll">Polls</option>
 	 	<option value="">Questions</option>
 	 	<option value="showDiscussions">Discussions</option>
-	 	<option value="">Events</option>
+	 	<option value="showEvents">Events</option>
 	</select>
 	<hr>
 	<h3>Class Members</h3>

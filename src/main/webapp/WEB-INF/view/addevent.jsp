@@ -12,7 +12,7 @@
 
 
 
-	<form:form action="addEvent" modelAttribute="Events" method="POST">
+	<form:form action="addEvent" modelAttribute="Events" method="POST" onsubmit=" return setlongdates()">
 			
 			<table>
 				<tr>
@@ -27,12 +27,14 @@
 				
 				<tr>
 					<td><label>Start Date</label></td>
-					 <td><form:input type="date" path="startdate"/></td>
+					 <td><input type="datetime-local"  id="start"/></td>
+					 <form:hidden id="startLong" path="startdate"/>
 				</tr>
 				
 				<tr>
 					<td><label>End Date</label></td>
-					 <td><form:input type="date"  path="enddate"/></td>
+					 <td><input type="datetime-local"  id="end"/></td>
+					 <form:hidden id="endLong" path="enddate"/>
 				</tr>
 				
 				
@@ -42,9 +44,22 @@
 					
 				</tr>
 			</table>
+			
+			<a href="#" onclick="show()">show</a>
 				
   
   	</form:form>
+  	
+  	<script type="text/javascript">
+  		function setlongdates()
+  		{
+  		
+  		
+  		
+  		document.getElementById("startLong").value=new Date(document.getElementById("start").value).getTime();
+  		document.getElementById("endLong").value=new Date(document.getElementById("end").value).getTime();
+  		};
+  	</script>
 
 </body>
 </html>

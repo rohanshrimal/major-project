@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.sound.midi.Soundbank;
 
 @Entity
 @Table(name="class_subject_faculty")
@@ -25,6 +26,10 @@ public class ClassSubjectFaculty {
 
 	@Transient
 	private int batch;
+
+	public void setClassid(String classid) {
+		this.classid = classid;
+	}
 
 	@Column(name="classid")
 	private String classid;
@@ -51,7 +56,17 @@ public class ClassSubjectFaculty {
 		classid=branch+"-"+sem+"-"+sec+"-"+batch;
 	}
 
-
+	public void setClassAttributes(String classid)
+	{
+		this.classid=classid;
+		String temp[]=classid.split("-");
+		System.out.println(temp[0]);
+		this.branch=temp[0];
+		this.sem=Integer.parseInt(temp[1]);
+		this.sec=temp[2].charAt(0);
+		this.batch=Integer.parseInt(temp[3]);
+		
+	}
 
 	public int getBatch() {
 		return batch;
