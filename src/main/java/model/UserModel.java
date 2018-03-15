@@ -77,6 +77,17 @@ public class UserModel {
     	return null;
     }
     
+    public String getSem(Object o)
+    {
+    	if(o instanceof StudentModel)
+    	{
+    		sm=(StudentModel)o;
+    		return sm.getSemester();
+    	}
+    	
+    	return null;
+    }
+    
     
     public StudentModel getSm() {
 		return sm;

@@ -66,6 +66,9 @@ public class ClassController
 			List<FacultyModel> theClassCoordinator= classservice.showClassCoordinator(sm);
 			theModel.addAttribute("classCoordinator", theClassCoordinator);	
 			
+			String currentsem =new UserModel().getSem(object);
+			theModel.addAttribute("currentsem",currentsem);
+			
 			return "CDFhomestudent";
 		}
 		return null;
@@ -260,6 +263,29 @@ public class ClassController
 		classservice.postComment(cdc);
 		
 		return "redirect:/major/class/CDFhomestudent";
+	}
+	
+	@GetMapping("/showSession")
+	public String showSession(HttpServletRequest request,Model theModel)
+	{	
+		
+		String selectedsem=request.getParameter("sem");
+		
+		HttpSession session=request.getSession();
+		Object object=session.getAttribute("userModel");
+		StudentModel sm=null;
+		
+		if(object instanceof StudentModel)
+		{
+			sm=(StudentModel)object;
+			String classid=sm.getBranch()+"-"+selectedsem+"-"+sm.getSection()+"-"+sm.getBatch();
+			session.setAttribute("classid",classid);
+		}
+		
+		String currentsem =new UserModel().getSem(object);
+		theModel.addAttribute("currentsem",currentsem);
+		theModel.addAttribute("selectedsem",selectedsem);
+		return "CDFhomestudent";
 	}
 }
 
