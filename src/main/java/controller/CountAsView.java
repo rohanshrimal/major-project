@@ -36,6 +36,7 @@ public class CountAsView extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+	
 		System.out.println("hello i am on servlet");
 		int index=Integer.parseInt(request.getParameter("index"));
 		HttpSession session=request.getSession();
@@ -44,6 +45,8 @@ public class CountAsView extends HttpServlet {
 		AllAnswerModel aam=(AllAnswerModel)session.getAttribute("allAns");
 		ArrayList <AnswerModel> alam=aam.getAllans();
 		AnswerModel am=alam.get(index);
+		
+		 boolean isViewed=(Boolean)session.getAttribute("viewing");
 		
 		 String utype=(String)session.getAttribute("utype");
          StudentModel sm;
@@ -64,19 +67,34 @@ public class CountAsView extends HttpServlet {
 		PrintWriter out=response.getWriter();
 		
 		AnswerDao ad=new AnswerDao();
-		if(ad.countAsView(am,context,id))
-			{
-			alam.remove(index);
-			am.setViews(am.getViews()+1);
-			am.setViewed(true);
-			alam.add(index,am);
-			aam.setAllans(alam);
-			session.setAttribute("allAns",aam);
-			out.println(am.getViews());
-			}
-		else
-			out.println(am.getViews());
 		
+		if(!isViewed)
+		{
+			request.getSession().setAttribute("viewing",true);
+			System.out.println(index +"viewed...");
+			if(ad.countAsView(am,context,id))
+				{
+				alam.remove(index);
+				am.setViews(am.getViews()+1);
+				am.setViewed(true);
+				alam.add(index,am);
+				aam.setAllans(alam);
+				session.setAttribute("allAns",aam);
+				out.println(am.getViews());
+				}
+			else
+				{
+				out.println(am.getViews());
+				}
+			
+			request.getSession().setAttribute("viewing",false);
+		}
+		else
+		{
+			System.out.println(index +"not viewed...");
+			System.out.println("Yes yes Yes you cannot view....");
+			out.println(am.getViews());
+		}
 	}
 
 	/**

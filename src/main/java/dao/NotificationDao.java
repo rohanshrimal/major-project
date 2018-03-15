@@ -44,7 +44,11 @@ public class NotificationDao {
 				 nm.setNid(rs.getInt(1));
 			 }
 			
-			 if(!qm.isFollowed())
+			 QuestionModel qm1=new QuestionModel();
+			 qm1.setQid(qm.getQid());
+			 new QuestionDao().isFollowed(qm1,qm.getUid(),context);
+			 
+			 if(!qm1.isFollowed())
 			{
 				ps=con.prepareStatement(qr1);
 				ps.setInt(1,nm.getNid());
@@ -313,6 +317,56 @@ public class NotificationDao {
 		}
 		 return null;
 		
+	}
+	
+	public ArrayList<NotificationModel> showAllNotifications(String uid,ServletContext context)
+	{
+		 con=(Connection)context.getAttribute("datacon");
+		 qr="select * from notifications where nid in (select nid from usernotifications where uid=? and isViewed= 'false')";
+		 ArrayList<NotificationModel> alnm=new ArrayList<>();
+		 NotificationModel nm=null;
+		 
+		 try{
+			 ps=con.prepareStatement(qr);
+			 ps.setString(1,uid);
+			 rs=ps.executeQuery();
+			 
+			 while(rs.next())
+			 {
+				 nm=new NotificationModel();
+				 nm.setNid(rs.getInt(1));
+				 nm.setMessage(rs.getString(2));
+				 nm.setTimestamp(rs.getLong(3));
+				 nm.setUid(uid);
+				 nm.setViewed(false);
+				 alnm.add(nm);
+			 }
+			 
+			 return alnm;
+		 }
+		 catch (SQLException e) 
+		 {
+			 e.printStackTrace();
+		 }
+		return null;
+	}
+
+	public boolean notificationViewed(String nid, String uid, ServletContext context) {
+		
+		con=(Connection)context.getAttribute("datacon");
+		String qr="update usernotifications set isViewed=? where nid=? and uid=?";
+		try{
+			ps=con.prepareStatement(qr);
+			ps.setBoolean(1,true);
+			ps.setString(2,nid);
+			ps.setString(3,uid);
+			return ps.executeUpdate()>0;
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 
