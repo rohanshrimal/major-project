@@ -1,5 +1,7 @@
 package model.springmodel;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,7 +11,8 @@ import javax.sound.midi.Soundbank;
 
 @Entity
 @Table(name="class_subject_faculty")
-public class ClassSubjectFaculty {
+public class ClassSubjectFaculty implements Serializable
+{
 	
 	@Id
 	@Column(name="uid")
@@ -27,13 +30,16 @@ public class ClassSubjectFaculty {
 	@Transient
 	private int batch;
 
-	public void setClassid(String classid) {
+	@Id
+	@Column(name="classid")
+	private String classid;
+
+  public void setClassid(String classid) {
 		this.classid = classid;
 	}
 
-	@Column(name="classid")
-	private String classid;
 	
+	@Id
 	@Column(name="subcode")
 	private String subcode;
 

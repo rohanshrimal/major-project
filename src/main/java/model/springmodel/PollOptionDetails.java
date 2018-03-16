@@ -13,24 +13,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-
 @Table(name="polloptiondetails")
-public class PollOptionDetails implements Serializable 
+public class PollOptionDetails 
 {
-	@EmbeddedId
+	@Id
+	@Column(name="opid")
+	private int opid;
+	
 	@ManyToOne 
 	@JoinColumn(name="queid")
 	private PollQueDetails pqd;
 
-	
-	/*@EmbeddedId
-	private PollOptionDetailsPK id;
-*/	
 	@Column(name="options")
 	private String options;
-
-	@Column(name="opid")
-	private int opid;
 
 	public String getOptions() {
 		return options;
@@ -48,16 +43,6 @@ public class PollOptionDetails implements Serializable
 		this.opid = opid;
 	}
 
-
-	
-	/*public PollOptionDetailsPK getId() {
-		return id;
-	}
-
-	public void setId(PollOptionDetailsPK id) {
-		this.id = id;
-	}*/
-
 	public PollQueDetails getPqd() {
 		return pqd;
 	}
@@ -71,38 +56,4 @@ public class PollOptionDetails implements Serializable
 		return "PollOptionDetails [ options=" + options + "]";
 	}
 	
-	
-	
-
 }
-
-/*@Embeddable
-class PollOptionDetailsPK implements Serializable
-	{
-	
-	
-	@ManyToOne 
-	@JoinColumn(name="queid")
-	private PollQueDetails pqd;
-
-	public PollOptionDetailsPK()
-	{
-		
-	}
-	
-	public PollOptionDetailsPK(PollQueDetails pqd)
-	{
-		this.pqd=pqd;
-	}
-	
-	public PollQueDetails getPqd() {
-		return pqd;
-	}
-
-	public void setPqd(PollQueDetails pqd) {
-		this.pqd = pqd;
-	}
-	}
-*/	
-	
-	

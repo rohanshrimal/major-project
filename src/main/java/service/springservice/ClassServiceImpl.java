@@ -14,6 +14,7 @@ import model.FacultyModel;
 import model.StudentModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
+import model.springmodel.PollQueDetails;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
@@ -47,7 +48,7 @@ public class ClassServiceImpl implements ClassService {
 
 	@Override
 	@Transactional
-	public List<CreateNewPollModel> showPoll(String classid) {
+	public List<PollQueDetails> showPoll(String classid) {
 		
 		return classdao.showPoll(classid);
 		

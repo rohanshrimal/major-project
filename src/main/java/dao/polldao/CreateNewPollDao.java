@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
@@ -74,23 +75,35 @@ public class CreateNewPollDao {
             System.out.println(session.getAttribute("pollquei"));
             PreparedStatement ps2;
             String qr2;
-            qr2="insert into polloptiondetails values(?,?,?)";
+            qr2="insert into polloptiondetails(queid,options) values(?,?)";
             String arr[]=c.getOption();
             int i=1;
+            boolean flagoption=false;
+            int opid = 0;
             for(String ab:arr)
             {
                 System.out.println("innnnndaooo options"+ab);
                 
                 if(ab.length()==0)
                 {}
-                else{
-                    System.out.println("success"+ab);
-                ps2=con.prepareStatement(qr2);
+                else
+                {
+                System.out.println("success"+ab);
+                ps2=con.prepareStatement(qr2,Statement.RETURN_GENERATED_KEYS);
                 ps2.setInt(1, pollqueid);
                 ps2.setString(2, ab);
-                ps2.setInt(3, i);
+                //ps2.setInt(3, i);
                 i++;
                 ps2.executeUpdate();
+                ResultSet rsr = ps2.getGeneratedKeys();
+                
+                
+                	if(rsr.next() && flagoption==false)
+                	{
+                		flagoption=true;
+                		opid=rsr.getInt(1);
+                	}
+    			
                 }
             }
             
@@ -108,7 +121,7 @@ public class CreateNewPollDao {
                
                 ps4=con.prepareStatement(qr4);
                 ps4.setInt(1, pollqueid);
-                ps4.setInt(2, j);
+                ps4.setInt(2, opid++);
                 ps4.setInt(3, count);
                 j++;
                 ps4.executeUpdate();

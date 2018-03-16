@@ -15,12 +15,12 @@ import javax.persistence.Table;
 @Table(name="pollquedetails")
 public class PollQueDetails {
 	
-	@Column(name="question")
-	private String question;
-	
 	@Id
 	@Column(name="queid")
 	private int queid;
+	
+	@Column(name="question")
+	private String question;
 	
 	@Column(name="creator_id")
 	private	String creatorid;
@@ -80,16 +80,12 @@ public class PollQueDetails {
 	
 public void add(PollOptionDetails option)	
 {
-	System.out.println("i am called");
-	System.out.println(option);
-	System.out.println("////////////////////");
 	if(options==null)
 	{
 		options= new ArrayList<>();
 	}
 	
 	options.add(option);
-/*	option.setId(new PollOptionDetailsPK(this));*/
 	option.setPqd(this);
 }
 

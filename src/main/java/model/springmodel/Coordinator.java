@@ -13,9 +13,23 @@ import javax.persistence.Transient;
 public class Coordinator {
 	
 	@Id
-	
+	@Column(name="classid")
+	private String classid;
+
 	@Column(name="uid")
 	private String id;
+	
+	@Transient
+	private String branch;
+	
+	@Transient
+	private int sem;
+	
+	@Transient
+	private char sec;
+	
+	@Transient
+	private int batch;
 	
 	public String getId() {
 		return id;
@@ -50,21 +64,7 @@ public class Coordinator {
 	}
 	
 	
-	@Transient
-	private String branch;
 	
-	@Transient
-	private int sem;
-	
-	@Transient
-	private char sec;
-	
-	@Transient
-	private int batch;
-
-	@Column(name="classid")
-	private String classid;
-
 	public String getClassid() {
 		return classid;
 	}

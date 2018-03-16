@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import model.FacultyModel;
 import model.StudentModel;
-import model.pollmodel.CreateNewPollModel;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
@@ -74,7 +73,7 @@ public class ClassDAOImpl implements ClassDAO {
 	}
 
 	@Override
-	public List<CreateNewPollModel> showPoll(String classid) {
+	public List<PollQueDetails> showPoll(String classid) {
 		
 		Session currentSession= sessionFactory.getCurrentSession();
 		
@@ -88,13 +87,8 @@ public class ClassDAOImpl implements ClassDAO {
 	    while(it.hasNext())
 	    {
 	    	int pollqueid=(int) it.next();
-	    	
 	    	PollQueDetails pqd= currentSession.get(PollQueDetails.class,pollqueid);
-	    	System.out.println("-----------------------------------");
-	    	System.out.println(pqd.toString());
-	    	System.out.println("====================================");
-	    	System.out.println(pqd.getOptions().toString());
-	    	System.out.println("-----------------------------------");
+	    	
 	    }
 
 		return null;
@@ -142,8 +136,11 @@ public class ClassDAOImpl implements ClassDAO {
 	public List<ClassDiscussion> showDiscussions(String classId) 
 	{
 		Session currentSession=sessionFactory.getCurrentSession();
-		Query<ClassDiscussion> qr=currentSession.createQuery("from ClassDiscussion cd where cd.id in (select id from ClassPosts where classid =:classid and post_type='discussion')");
+		
+		Query<ClassDiscussion> qr=currentSession.createQuery("from ClassDiscussion cd where cd.id in (select postid from ClassPosts where classid =:classid and post_type='discussion')");
+		
 		qr.setParameter("classid", classId);
+		
 		List<ClassDiscussion> discussionList=qr.getResultList();
 	
 		return discussionList;
@@ -180,7 +177,10 @@ public class ClassDAOImpl implements ClassDAO {
 	@Override
 	public List<Events> showEvents(String classid) {
 		Session currentSession= sessionFactory.getCurrentSession();
+
+		
 		Query<Events> qr= currentSession.createQuery("from Events where eid in(select postid from ClassPosts where classid=:classid and post_type='event')");
+		
 		qr.setParameter("classid", classid);
 		
 		return qr.getResultList();

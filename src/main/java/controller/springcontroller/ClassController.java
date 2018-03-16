@@ -7,15 +7,12 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.sound.midi.Soundbank;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,16 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import model.FacultyModel;
 import model.StudentModel;
 import model.UserModel;
-import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
+import model.springmodel.PollQueDetails;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
-import model.springmodel.ClassRepresentative;
 import model.springmodel.ClassSubjectFaculty;
-import model.springmodel.Coordinator;
 import service.springservice.ClassService;
-import service.springservice.CoordinatorService;
 import service.springservice.EventService;
 
 @Controller
@@ -65,6 +59,9 @@ public class ClassController
 			
 			List<FacultyModel> theClassCoordinator= classservice.showClassCoordinator(sm);
 			theModel.addAttribute("classCoordinator", theClassCoordinator);	
+			
+			String currentsem =new UserModel().getSem(object);
+			theModel.addAttribute("currentsem",currentsem);
 			
 			return "CDFhomestudent";
 		}
@@ -120,7 +117,7 @@ public class ClassController
 		HttpSession session=request.getSession();
 		
 		String classid= (String) session.getAttribute("classid");
-		List<CreateNewPollModel> theCreateNewPollModel =classservice.showPoll(classid);
+		List<PollQueDetails> theCreateNewPollModel =classservice.showPoll(classid);
 		
 		theModel.addAttribute("showpoll", theCreateNewPollModel);
 		return "showpoll";
@@ -260,6 +257,29 @@ public class ClassController
 		classservice.postComment(cdc);
 		
 		return "redirect:/major/class/CDFhomestudent";
+	}
+	
+	@GetMapping("/showSession")
+	public String showSession(HttpServletRequest request,Model theModel)
+	{	
+		
+		String selectedsem=request.getParameter("sem");
+		
+		HttpSession session=request.getSession();
+		Object object=session.getAttribute("userModel");
+		StudentModel sm=null;
+		
+		if(object instanceof StudentModel)
+		{
+			sm=(StudentModel)object;
+			String classid=sm.getBranch()+"-"+selectedsem+"-"+sm.getSection()+"-"+sm.getBatch();
+			session.setAttribute("classid",classid);
+		}
+		
+		String currentsem =new UserModel().getSem(object);
+		theModel.addAttribute("currentsem",currentsem);
+		theModel.addAttribute("selectedsem",selectedsem);
+		return "CDFhomestudent";
 	}
 }
 
