@@ -19,6 +19,9 @@ public class Coordinator {
 	@Column(name="uid")
 	private String id;
 	
+	@Column(name="IsCurrent")
+	boolean isCurrent;
+	
 	@Transient
 	private String branch;
 	
@@ -81,6 +84,19 @@ public class Coordinator {
 
 	public void setBatch(int batch) {
 		this.batch = batch;
+	}
+	
+
+	public boolean isCurrent() {
+		return isCurrent;
+	}
+
+	public void setCurrent(boolean isCurrent) {
+		this.isCurrent = isCurrent;
+	}
+
+	public void setClassid(String classid) {
+		this.classid = classid;
 	}
 
 	@Override

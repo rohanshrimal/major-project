@@ -12,12 +12,14 @@
 <h1>CLASS DISCUSSION FORUM</h1>
 <select name="Session" onchange="location = this.value;">
     	<option selected disabled>Semester</option>
-    	<c:forEach var="currentsem" begin="1" end="${currentsem}">
+    	<c:forEach varStatus="sem" begin="1" end="${currentsem}">
     	
-	 	<option value="showSession?sem=${currentsem}">${currentsem}</option> 
+	 	<option value="showSession?sem=${sem.index}">${sem.index}</option> 
 	  	
 	 	 </c:forEach>
 	</select>
+	
+<a href="../../MyFeed">MY FEED</a>
 <hr>
 <h3>CHOOSE YOUR POST TYPE...</h3>
 <a href="/korero-maven/poll/createpoll.jsp?var=classpoll"><button id="create_poll">Create Poll</button></a>
@@ -49,14 +51,13 @@
 		</c:forEach>
 	<hr>
     <script>
-    	if(${selectedsem}!=${currentsem})
-    		{
-    		document.getElementById("create	_que").disabled = true;
+    	if('${selectedsem}'!='${currentsem}')
+    	{
+    		document.getElementById("create_que").disabled = true;
     		document.getElementById("create_event").disabled = true;
     		document.getElementById("create_poll").disabled = true;
     		document.getElementById("create_disc").disabled = true;
-
-    		}
+    	}
     </script>
 
 </body>

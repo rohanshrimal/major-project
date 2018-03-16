@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.sound.midi.Soundbank;
@@ -34,25 +36,34 @@ public class ClassSubjectFaculty implements Serializable
 	@Column(name="classid")
 	private String classid;
 
-  public void setClassid(String classid) {
-		this.classid = classid;
-	}
-
-	
 	@Id
-	@Column(name="subcode")
-	private String subcode;
+	@OneToOne
+	@JoinColumn(name="subcode")
+	private SubjectModel subject;
+	
+	@Column(name="IsCurrent")
+	private boolean isCurrent;
 
-	
-	
-	public String getSubcode() {
-		return subcode;
+	public boolean isCurrent() {
+		return isCurrent;
 	}
 
-	public void setSubcode(String subcode) {
-		this.subcode = subcode;
+	public void setCurrent(boolean isCurrent) {
+		this.isCurrent = isCurrent;
 	}
 
+	public void setClassid(String classid) {
+		this.classid = classid;
+		setClassAttributes(this.classid);
+	}
+	
+	public SubjectModel getSubject() {
+		return subject;
+	}
+
+	public void setSubject(SubjectModel subject) {
+		this.subject = subject;
+	}
 
 	public String getClassid() {
 		return classid;
@@ -66,7 +77,6 @@ public class ClassSubjectFaculty implements Serializable
 	{
 		this.classid=classid;
 		String temp[]=classid.split("-");
-		System.out.println(temp[0]);
 		this.branch=temp[0];
 		this.sem=Integer.parseInt(temp[1]);
 		this.sec=temp[2].charAt(0);
@@ -117,7 +127,7 @@ public class ClassSubjectFaculty implements Serializable
 	@Override
 	public String toString() {
 		return "ClassSubjectFaculty [id=" + id + ", branch=" + branch + ", sem=" + sem + ", sec=" + sec + ", batch="
-				+ batch + ", classid=" + classid + ", subcode=" + subcode + "]";
+				+ batch + ", classid=" + classid + ", subcode=" + subject.getSubcode() + "]";
 	}
 
 }
