@@ -1,5 +1,7 @@
 package model.springmodel;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,11 +9,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="classposts")
-public class ClassPosts 
+public class ClassPosts implements Serializable
 {
-	@Column(name="classid")
-	private String classid;
-	
 	@Id
 	@Column(name="postid")
 	private int postid;
@@ -20,6 +19,9 @@ public class ClassPosts
 	@Column(name="post_type")
 	private String post_type;
 
+	@Column(name="classid")
+	private String classid;
+	
 	public String getClassid() {
 		return classid;
 	}

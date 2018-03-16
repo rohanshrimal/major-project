@@ -12,6 +12,10 @@ import javax.persistence.Transient;
 @Table(name="class_coordinators")
 public class Coordinator {
 	
+	@Id
+	@Column(name="classid")
+	private String classid;
+
 	@Column(name="uid")
 	private String id;
 	
@@ -26,11 +30,6 @@ public class Coordinator {
 	
 	@Transient
 	private int batch;
-
-	@Id
-	@Column(name="classid")
-	private String classid;
-
 	
 	public String getId() {
 		return id;
