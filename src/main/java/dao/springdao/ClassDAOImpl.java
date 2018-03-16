@@ -137,7 +137,7 @@ public class ClassDAOImpl implements ClassDAO {
 	public List<ClassDiscussion> showDiscussions(String classId) 
 	{
 		Session currentSession=sessionFactory.getCurrentSession();
-		Query<ClassDiscussion> qr=currentSession.createQuery("from ClassDiscussion cd where cd.id in (select id from ClassPosts where classid =:classid and post_type='discussion')");
+		Query<ClassDiscussion> qr=currentSession.createQuery("from ClassDiscussion cd where cd.id in (select postid from ClassPosts where classid =:classid and post_type='discussion')");
 		qr.setParameter("classid", classId);
 		List<ClassDiscussion> discussionList=qr.getResultList();
 	
@@ -175,7 +175,7 @@ public class ClassDAOImpl implements ClassDAO {
 	@Override
 	public List<Events> showEvents(String classid) {
 		Session currentSession= sessionFactory.getCurrentSession();
-		Query<Events> qr= currentSession.createQuery("from Events where id in(select id from ClassPosts where classid=:classid and post_type='event')");
+		Query<Events> qr= currentSession.createQuery("from Events where eid in(select postid from ClassPosts where classid=:classid and post_type='event')");
 		qr.setParameter("classid", classid);
 		
 		return qr.getResultList();

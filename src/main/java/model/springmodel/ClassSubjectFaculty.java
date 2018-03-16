@@ -1,5 +1,7 @@
 package model.springmodel;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,7 +11,8 @@ import javax.sound.midi.Soundbank;
 
 @Entity
 @Table(name="class_subject_faculty")
-public class ClassSubjectFaculty {
+public class ClassSubjectFaculty implements Serializable
+{
 	
 	@Id
 	@Column(name="uid")
