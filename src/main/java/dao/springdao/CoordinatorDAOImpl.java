@@ -20,44 +20,34 @@ public class CoordinatorDAOImpl implements CoordinatorDAO {
 	private SessionFactory sessionFactory ;
 	
 	@Override
-	public void addCoordinator(Coordinator theCoordinator) {
-		System.out.println("in coordinatordao impl");
-				//get hibernate session
-				Session currentSession=sessionFactory.getCurrentSession();
-				System.out.println(theCoordinator.toString());
-				//save the customer
-				currentSession.save(theCoordinator);
+	public void addCoordinator(Coordinator theCoordinator) 
+	{
+		Session currentSession=sessionFactory.getCurrentSession();
+		currentSession.save(theCoordinator);
 	}
 
 	@Override
-	public List<Coordinator> getCoordinators() {
-		
+	public List<Coordinator> getCoordinators()
+	{
 		Session currentSession= sessionFactory.getCurrentSession();
-		
 		Query<Coordinator> qr= currentSession.createQuery("from Coordinator ",Coordinator.class);
-		
 		List<Coordinator> coordinators  =qr.getResultList();
 		
-		return coordinators;
-		
-		
+		return coordinators;	
 	}
 
 	@Override
-	public void addCR(ClassRepresentative theCR) {
-		//get hibernate session
+	public void addCR(ClassRepresentative theCR) 
+	{	
 		Session currentSession=sessionFactory.getCurrentSession();
-		System.out.println(theCR.toString());
-		//save the customer
 		currentSession.save(theCR);
 	}
 
 	@Override
-	public List<ClassRepresentative> showCR() {
+	public List<ClassRepresentative> showCR() 
+	{
 		Session currentSession= sessionFactory.getCurrentSession();
-		
-		Query<ClassRepresentative> qr= currentSession.createQuery("from ClassRepresentative ",ClassRepresentative.class);
-		
+		Query<ClassRepresentative> qr= currentSession.createQuery("from ClassRepresentative ",ClassRepresentative.class);	
 		List<ClassRepresentative> CR  =qr.getResultList();
 		
 		return CR;
@@ -66,18 +56,20 @@ public class CoordinatorDAOImpl implements CoordinatorDAO {
 	}
 
 	@Override
-	public void addFaculty(ClassSubjectFaculty theFaculty) {
+	public void addFaculty(ClassSubjectFaculty theFaculty) 
+	{
 		Session currentSession=sessionFactory.getCurrentSession();
-		System.out.println(theFaculty.toString());
 		currentSession.save(theFaculty);
 	}
 
 	@Override
-	public List<ClassSubjectFaculty> showFaculty(String classid) {
+	public List<ClassSubjectFaculty> showFaculty(String classid) 
+	{
 		Session currentSession= sessionFactory.getCurrentSession();
 		Query<ClassSubjectFaculty> qr= currentSession.createQuery("from ClassSubjectFaculty where classid=:classid",ClassSubjectFaculty.class);
 		qr.setParameter("classid", classid);
 		List<ClassSubjectFaculty> faculty= qr.getResultList();
+		
 		return faculty;
 	}
 

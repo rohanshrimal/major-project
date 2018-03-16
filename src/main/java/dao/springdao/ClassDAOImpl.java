@@ -16,9 +16,11 @@ import model.StudentModel;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
+import model.springmodel.ClassSubjectFaculty;
 import model.springmodel.Coordinator;
 import model.springmodel.Events;
 import model.springmodel.PollQueDetails;
+import model.springmodel.SubjectModel;
 
 @Repository
 public class ClassDAOImpl implements ClassDAO {
@@ -31,11 +33,11 @@ public class ClassDAOImpl implements ClassDAO {
 	{
 		Session currentSession= sessionFactory.getCurrentSession();
 		
-		Query<StudentModel> qr= currentSession.createQuery("from StudentModel where branch =:branch AND  semester =:semester"
+		Query<StudentModel> qr= currentSession.createQuery("from StudentModel where branch =:branch AND batch =:batch"
 														 + " AND section =:section",StudentModel.class);
 		
 		qr.setParameter("branch", sm.getBranch());
-		qr.setParameter("semester", sm.getSemester());
+		qr.setParameter("batch", sm.getBatch());
 		qr.setParameter("section", sm.getSection());
 		
 		List<StudentModel> classmembers =qr.getResultList();
@@ -77,11 +79,10 @@ public class ClassDAOImpl implements ClassDAO {
 		
 		Session currentSession= sessionFactory.getCurrentSession();
 		
-		Query qr= currentSession.createQuery("select postid from ClassPosts where classid =:id AND post_type='poll'");
+		Query<Integer> qr= currentSession.createQuery("select postid from ClassPosts where classid =:id AND post_type='poll'");
 		qr.setParameter("id", classid);
 		
 		List<Integer> queid= qr.list();
-		
 	    Iterator it = queid.iterator();
 	    
 	    while(it.hasNext())
@@ -136,11 +137,8 @@ public class ClassDAOImpl implements ClassDAO {
 	public List<ClassDiscussion> showDiscussions(String classId) 
 	{
 		Session currentSession=sessionFactory.getCurrentSession();
-		
 		Query<ClassDiscussion> qr=currentSession.createQuery("from ClassDiscussion cd where cd.id in (select postid from ClassPosts where classid =:classid and post_type='discussion')");
-		
 		qr.setParameter("classid", classId);
-		
 		List<ClassDiscussion> discussionList=qr.getResultList();
 	
 		return discussionList;
@@ -153,25 +151,58 @@ public class ClassDAOImpl implements ClassDAO {
 		int commentId=(Integer)currentSession.save(cdc);
 	}
 
-
-
 	@Override
-	public Set<String> getClassDetails(String fid) {
+	public Set<String> getClassDetails(String fid,boolean isCurrent) {
 		
 		Session currentSession= sessionFactory.getCurrentSession();
-		Query<String> qr=currentSession.createQuery("select classid from Coordinator where id=:id");
+		Query<String> qr=currentSession.createQuery("select classid from Coordinator where id=:id and isCurrent=:isCurrent");
 		qr.setParameter("id", fid);
+		qr.setParameter("isCurrent",isCurrent);
 		
 		Set<String> set = new HashSet<String>(qr.getResultList());
 
-		//List<String> classid=qr.getResultList();
-		
-		Query<String> qr2=currentSession.createQuery("select classid from ClassSubjectFaculty where id=:id");
+		Query<String> qr2=currentSession.createQuery("select classid from ClassSubjectFaculty where id=:id and isCurrent=:isCurrent");
 		qr2.setParameter("id", fid);
+		qr2.setParameter("isCurrent",isCurrent);
 		Set<String> set2 = new HashSet<String>(qr2.getResultList());
 
 		set.addAll(set2);
 		return set;
+	}
+	
+	
+
+	@Override
+	public List<String> getCoordinatorDetails(String fid, boolean isCurrent) {
+		
+		Session currentSession= sessionFactory.getCurrentSession();
+		Query<String> qr=currentSession.createQuery("select classid from Coordinator where id=:id and isCurrent=:isCurrent");
+		qr.setParameter("id", fid);
+		qr.setParameter("isCurrent",isCurrent);
+		List<String> coordinatorDetails=qr.getResultList();
+		
+		return coordinatorDetails;
+
+	}
+	
+	
+
+	@Override
+	public List<ClassSubjectFaculty> getSubjectClassDetails(String fid, boolean isCurrent) {
+		
+		Session currentSession= sessionFactory.getCurrentSession();
+		Query<ClassSubjectFaculty> qr2=currentSession.createQuery("from ClassSubjectFaculty where uid=:fid and isCurrent=:isCurrent");
+		qr2.setParameter("fid", fid);
+		qr2.setParameter("isCurrent",isCurrent);
+		List<ClassSubjectFaculty> subjectClassDetails=(List<ClassSubjectFaculty>)qr2.getResultList();
+	
+		for(ClassSubjectFaculty csf:subjectClassDetails)
+		{
+			csf.setClassAttributes(csf.getClassid());
+			System.out.println(csf.toString());
+		}
+		return subjectClassDetails;
+
 	}
 
 	@Override

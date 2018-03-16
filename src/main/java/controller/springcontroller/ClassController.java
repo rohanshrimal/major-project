@@ -61,7 +61,9 @@ public class ClassController
 			theModel.addAttribute("classCoordinator", theClassCoordinator);	
 			
 			String currentsem =new UserModel().getSem(object);
+			String selectedsem=currentsem;
 			theModel.addAttribute("currentsem",currentsem);
+			theModel.addAttribute("selectedsem",selectedsem);
 			
 			return "CDFhomestudent";
 		}
@@ -81,21 +83,28 @@ public class ClassController
 			fm=(FacultyModel)object;
 			String fid=fm.getFid();
 					
-		Set<String> classdetails =classservice.getClassDetails(fid);
-		
-		ClassSubjectFaculty subjectFaculty=null;
-		List<ClassSubjectFaculty> classList=new ArrayList<>();
-		for(String classId:classdetails)
-		{
-			subjectFaculty=new ClassSubjectFaculty();
-			subjectFaculty.setClassAttributes(classId);
-			classList.add(subjectFaculty);
+			List<String> coordinatorDetails =classservice.getCoordiatorDetails(fid,true);
+			List<ClassSubjectFaculty> subjectClassList=classservice.getSubjectClassDetails(fid,true);
+			List<ClassSubjectFaculty> coordinatorClassList=new ArrayList<>();
+			
+			ClassSubjectFaculty subjectFaculty=null;
+			
+			if(coordinatorDetails!=null)
+			{
+				for(String classId:coordinatorDetails)
+				{
+					System.out.println("I am calledddddddddddddd");
+					subjectFaculty=new ClassSubjectFaculty();
+					subjectFaculty.setClassAttributes(classId);
+					coordinatorClassList.add(subjectFaculty);
+				}
+				
+			}
+			
+			theModel.addAttribute("subjectClassList", subjectClassList);
+			theModel.addAttribute("coordinatorClassList",coordinatorClassList);
+				
 		}
-			ClassSubjectFaculty theclasssubjectfaculty= new ClassSubjectFaculty();
-			theModel.addAttribute("classList", classList);
-			theModel.addAttribute("classsubjectfaculty",theclasssubjectfaculty);
-		}
-		
 		return "chooseclass";		
 	}
 	
@@ -268,17 +277,35 @@ public class ClassController
 		HttpSession session=request.getSession();
 		Object object=session.getAttribute("userModel");
 		StudentModel sm=null;
+		StudentModel tempStudent=null;
 		
 		if(object instanceof StudentModel)
 		{
 			sm=(StudentModel)object;
 			String classid=sm.getBranch()+"-"+selectedsem+"-"+sm.getSection()+"-"+sm.getBatch();
+			
+			tempStudent=new StudentModel();
+			tempStudent.setBranch(sm.getBranch());
+			tempStudent.setSemester(selectedsem);
+			tempStudent.setSection(sm.getSection());
+			tempStudent.setBatch(sm.getBatch());
+			
 			session.setAttribute("classid",classid);
 		}
+
+		List<StudentModel> theClassMembers= classservice.showClassMembers(tempStudent);
+		theModel.addAttribute("classmembers", theClassMembers);
+		
+		List<StudentModel> theCR= classservice.showClassCR(tempStudent);
+		theModel.addAttribute("CR", theCR);
+		
+		List<FacultyModel> theClassCoordinator= classservice.showClassCoordinator(tempStudent);
+		theModel.addAttribute("classCoordinator", theClassCoordinator);	
 		
 		String currentsem =new UserModel().getSem(object);
 		theModel.addAttribute("currentsem",currentsem);
 		theModel.addAttribute("selectedsem",selectedsem);
+		
 		return "CDFhomestudent";
 	}
 }
