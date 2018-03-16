@@ -93,7 +93,6 @@ public class ClassController
 			{
 				for(String classId:coordinatorDetails)
 				{
-					System.out.println("I am calledddddddddddddd");
 					subjectFaculty=new ClassSubjectFaculty();
 					subjectFaculty.setClassAttributes(classId);
 					coordinatorClassList.add(subjectFaculty);
