@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import dao.springdao.CoordinatorDAO;
 import model.springmodel.ClassRepresentative;
+import model.springmodel.ClassSubjectFaculty;
 import model.springmodel.Coordinator;
 
 @Service
@@ -43,6 +44,19 @@ public class CoordinatorServiceImpl implements CoordinatorService {
 	public List<ClassRepresentative> showCR() {
 
 		return coordinatorDAO.showCR();
+	}
+
+	@Override
+	@Transactional
+	public void addFaculty(ClassSubjectFaculty theFaculty) {
+		
+		coordinatorDAO.addFaculty(theFaculty);
+	}
+
+	@Override
+	@Transactional
+	public List<ClassSubjectFaculty> showFaculty(String classid) {
+		return coordinatorDAO.showFaculty(classid);
 	}
 
 }

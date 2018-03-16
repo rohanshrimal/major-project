@@ -16,12 +16,12 @@
 					<th> Class ID </th>				
 				</tr>
 				
-			<c:forEach var="tempCustomer" items="${coordinators}"> 
+			<c:forEach var="temp" items="${coordinators}"> 
 				
 				
 			<tr>
-				<td> ${tempCustomer.id} </td>
-				<td> ${tempCustomer.classid} </td>
+				<td> ${temp.id} </td>
+				<td> ${temp.classid} </td>
 			</tr>
 			
 			</c:forEach>	

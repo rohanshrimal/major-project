@@ -3,14 +3,20 @@ package controller.springcontroller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.sound.midi.Soundbank;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.HttpServerErrorException;
 
 import model.springmodel.ClassRepresentative;
 import model.springmodel.ClassSubjectFaculty;
@@ -76,7 +82,7 @@ public class AdminController {
 	{	
 		theCR.setClassid();
 		coordinatorService.addCR(theCR);
-		return "adminhome";
+		return "CDFhomefaculty";
 	}
 	
 	@GetMapping("/showCR")
@@ -90,11 +96,37 @@ public class AdminController {
 	}
 	
 	@GetMapping("/addformFaculty")
-	public String addformFaculty(Model theModel)
+	public String addformFaculty(Model theModel,HttpServletRequest request)
 	{	
+		HttpSession session=request.getSession();
+		List<String> fclassid=(List<String>) session.getAttribute("fclassid");
 		ClassSubjectFaculty thefaculty= new ClassSubjectFaculty();
+		String classid=fclassid.get(fclassid.size() - 1);
+		thefaculty.setClassAttributes(classid);
 		theModel.addAttribute("faculty",thefaculty);
 		return "addsubjectfaculty";
 	}
+	
+	@PostMapping("/addFaculty")
+	public String addCR(@ModelAttribute ("faculty") ClassSubjectFaculty theFaculty)
+	{	
+		theFaculty.setClassid();
+		coordinatorService.addFaculty(theFaculty);
+		return "addsubjectfaculty";	
+		
+	}
+	
+	@GetMapping("/showFaculty")
+	public String showFaculty(Model theModel,HttpServletRequest request)
+	{	HttpSession session= request.getSession();
+		List<String> fclassid=(List<String>) session.getAttribute("fclassid");
+		String classid=fclassid.get(fclassid.size() - 1);
+		List<ClassSubjectFaculty> theFaculty= coordinatorService.showFaculty(classid);
+		System.out.println(theFaculty);
+		theModel.addAttribute("Faculty",theFaculty);
+		
+		return "showfaculty";
+	}
+	
 	
 }

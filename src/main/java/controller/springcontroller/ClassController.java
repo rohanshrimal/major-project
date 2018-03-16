@@ -1,10 +1,13 @@
 package controller.springcontroller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.sound.midi.Soundbank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -27,6 +30,7 @@ import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
 import model.springmodel.ClassRepresentative;
+import model.springmodel.ClassSubjectFaculty;
 import model.springmodel.Coordinator;
 import service.springservice.ClassService;
 import service.springservice.CoordinatorService;
@@ -70,7 +74,7 @@ public class ClassController
 	}
 	
 	@GetMapping("/CDFhomefaculty")
-	public String showCDF(@ModelAttribute("type")String type,HttpServletRequest request,Model theModel)
+	public String showCDF(HttpServletRequest request,Model theModel)
 	{	
 		HttpSession session=request.getSession();
 		Object object=session.getAttribute("userModel");
@@ -80,21 +84,23 @@ public class ClassController
 		{
 			fm=(FacultyModel)object;
 			String fid=fm.getFid();
-			
-			Boolean coordinatorflag= classservice.checkCoordinator(fid);
-			
-			if(coordinatorflag)
-			{	String utype="coordinator";
-				theModel.addAttribute("type",utype);
-			}
-			else
-			{	String utype="faculty";
-				theModel.addAttribute("type",utype);	
-			}
-			
-			
-	}
-		return "CDFhomefaculty";		
+					
+		Set<String> classdetails =classservice.getClassDetails(fid);
+		
+		ClassSubjectFaculty subjectFaculty=null;
+		List<ClassSubjectFaculty> classList=new ArrayList<>();
+		for(String classId:classdetails)
+		{
+			subjectFaculty=new ClassSubjectFaculty();
+			subjectFaculty.setClassAttributes(classId);
+			classList.add(subjectFaculty);
+		}
+			ClassSubjectFaculty theclasssubjectfaculty= new ClassSubjectFaculty();
+			theModel.addAttribute("classList", classList);
+			theModel.addAttribute("classsubjectfaculty",theclasssubjectfaculty);
+		}
+		
+		return "chooseclass";		
 	}
 	
 	@GetMapping("/addPoll")
@@ -193,6 +199,50 @@ public class ClassController
 		return "classDiscussions";
 	}
 	
+
+	@PostMapping("/classdiscussionfaculty")
+	public String classdiscussionfaculty(@ModelAttribute ("classsubjectfaculty") ClassSubjectFaculty csf,HttpServletRequest request,Model theModel)
+	{
+		HttpSession session=request.getSession();
+		Object object=session.getAttribute("userModel");
+		
+		String classid=csf.getClassid();
+		System.out.println("---------==>"+classid);
+		session.setAttribute("classid", classid);
+		FacultyModel fm=null;
+		
+			fm=(FacultyModel)object;
+			String fid=fm.getFid();
+			
+			Boolean coordinatorflag= classservice.checkCoordinator(fid);
+			
+			if(coordinatorflag)
+			{	String utype="coordinator";
+				theModel.addAttribute("type",utype);
+			}
+			else
+			{	String utype="faculty";
+				theModel.addAttribute("type",utype);	
+			}
+		theModel.addAttribute("classid", classid);
+		return "CDFhomefaculty";
+		
+	}
+	
+	@GetMapping("/showEvents")
+	public String showEvents(HttpServletRequest request, Model theModel)
+	{
+		
+		HttpSession session= request.getSession();
+		String classid=(String)session.getAttribute("classid");
+		List<Events> eventlist=classservice.showEvents(classid);
+		theModel.addAttribute("eventlist", eventlist);
+		System.out.println(eventlist);
+		return "classevents";
+		
+	}
+	
+	
 	@PostMapping("/postComment")
 	public String postComment(@RequestParam("disId") int disId,@ModelAttribute("ClassCommentModel") ClassDiscussionComment cdc,HttpServletRequest request)
 	{
@@ -213,6 +263,8 @@ public class ClassController
 		return "redirect:/major/class/CDFhomestudent";
 	}
 }
+
+
 	
 	
 
