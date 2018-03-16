@@ -10,12 +10,20 @@
 </head>
 <body>
 <h1>CLASS DISCUSSION FORUM</h1>
+<select name="Session" onchange="location = this.value;">
+    	<option selected disabled>Semester</option>
+    	<c:forEach var="currentsem" begin="1" end="${currentsem}">
+    	
+	 	<option value="showSession?sem=${currentsem}">${currentsem}</option> 
+	  	
+	 	 </c:forEach>
+	</select>
 <hr>
 <h3>CHOOSE YOUR POST TYPE...</h3>
-<a href="/korero-maven/poll/createpoll.jsp?var=classpoll"><button>Create Poll</button></a>
-<button>Ask question</button>
-<a href="addEventForm"><button>Create Event</button></a>
-<a href="showDiscussions"><button>Start Discussion</button></a>
+<a href="/korero-maven/poll/createpoll.jsp?var=classpoll"><button id="create_poll">Create Poll</button></a>
+<button id="create_que">Ask question</button>
+<a href="addEventForm"><button id="create_event">Create Event</button></a>
+<a href="showDiscussions"><button id="create_disc">Start Discussion</button></a>
 
 	<select name="SHOW" onchange="location = this.value;">
     	<option selected disabled>Show</option>
@@ -40,7 +48,16 @@
 			${temp3.name} &nbsp;		
 		</c:forEach>
 	<hr>
-    
+    <script>
+    	if(${selectedsem}!=${currentsem})
+    		{
+    		document.getElementById("create	_que").disabled = true;
+    		document.getElementById("create_event").disabled = true;
+    		document.getElementById("create_poll").disabled = true;
+    		document.getElementById("create_disc").disabled = true;
+
+    		}
+    </script>
 
 </body>
 </html>
