@@ -180,7 +180,7 @@ public class ClassDAOImpl implements ClassDAO {
 	@Override
 	public List<Events> showEvents(String classid) {
 		Session currentSession= sessionFactory.getCurrentSession();
-		Query<Events> qr= currentSession.createQuery("from Events where id in(select id from ClassPosts where classid=:classid and post_type='event')");
+		Query<Events> qr= currentSession.createQuery("from Events where eid in(select postid from ClassPosts where classid=:classid and post_type='event')");
 		qr.setParameter("classid", classid);
 		
 		return qr.getResultList();
