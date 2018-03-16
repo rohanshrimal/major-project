@@ -71,7 +71,7 @@ public class ClassDAOImpl implements ClassDAO {
 	}
 
 	@Override
-	public List<CreateNewPollModel> showPoll(String classid) {
+	public List<PollQueDetails> showPoll(String classid) {
 		
 		Session currentSession= sessionFactory.getCurrentSession();
 		
@@ -85,13 +85,8 @@ public class ClassDAOImpl implements ClassDAO {
 	    while(it.hasNext())
 	    {
 	    	int pollqueid=(int) it.next();
-	    	
 	    	PollQueDetails pqd= currentSession.get(PollQueDetails.class,pollqueid);
-	    	System.out.println("-----------------------------------");
-	    	System.out.println(pqd.toString());
-	    	System.out.println("====================================");
-	    	System.out.println(pqd.getOptions().toString());
-	    	System.out.println("-----------------------------------");
+	    	
 	    }
 
 		return null;

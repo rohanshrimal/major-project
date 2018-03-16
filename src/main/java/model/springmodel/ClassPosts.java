@@ -16,6 +16,7 @@ public class ClassPosts
 	@Column(name="postid")
 	private int postid;
 	
+	@Id
 	@Column(name="post_type")
 	private String post_type;
 

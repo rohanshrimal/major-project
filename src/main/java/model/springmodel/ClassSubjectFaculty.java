@@ -26,9 +26,11 @@ public class ClassSubjectFaculty {
 	@Transient
 	private int batch;
 
+	@Id
 	@Column(name="classid")
 	private String classid;
 	
+	@Id
 	@Column(name="subcode")
 	private String subcode;
 

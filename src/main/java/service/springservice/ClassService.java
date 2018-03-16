@@ -10,6 +10,7 @@ import model.FacultyModel;
 import model.StudentModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
+import model.springmodel.PollQueDetails;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
@@ -23,7 +24,7 @@ public interface ClassService {
 
 	List<FacultyModel> showClassCoordinator(StudentModel sm);
 
-	List<CreateNewPollModel> showPoll(String classid);
+	List<PollQueDetails> showPoll(String classid);
 
 	Boolean checkCoordinator(String fid);
 

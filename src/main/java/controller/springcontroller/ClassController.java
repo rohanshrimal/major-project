@@ -22,6 +22,7 @@ import model.StudentModel;
 import model.UserModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
+import model.springmodel.PollQueDetails;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
@@ -114,7 +115,7 @@ public class ClassController
 		HttpSession session=request.getSession();
 		
 		String classid= (String) session.getAttribute("classid");
-		List<CreateNewPollModel> theCreateNewPollModel =classservice.showPoll(classid);
+		List<PollQueDetails> theCreateNewPollModel =classservice.showPoll(classid);
 		
 		theModel.addAttribute("showpoll", theCreateNewPollModel);
 		return "showpoll";

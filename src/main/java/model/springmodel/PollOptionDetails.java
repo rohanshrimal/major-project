@@ -13,11 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-
 @Table(name="polloptiondetails")
-public class PollOptionDetails implements Serializable 
+public class PollOptionDetails 
 {
-	@EmbeddedId
+	
 	@ManyToOne 
 	@JoinColumn(name="queid")
 	private PollQueDetails pqd;
@@ -29,6 +28,7 @@ public class PollOptionDetails implements Serializable
 	@Column(name="options")
 	private String options;
 
+	@Id
 	@Column(name="opid")
 	private int opid;
 

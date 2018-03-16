@@ -87,7 +87,7 @@ public class PostQuestion extends HttpServlet {
            {
         	   System.out.println("--"+um.getUname()+"--");
            }
-           response.sendRedirect("MyFeed");
+           response.sendRedirect("Ask2Answer.jsp");
            
         }
 
