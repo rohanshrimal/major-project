@@ -11,9 +11,6 @@ import javax.persistence.Table;
 @Table(name="classposts")
 public class ClassPosts implements Serializable
 {
-	@Column(name="classid")
-	private String classid;
-	
 	@Id
 	@Column(name="postid")
 	private int postid;
@@ -22,6 +19,9 @@ public class ClassPosts implements Serializable
 	@Column(name="post_type")
 	private String post_type;
 
+	@Column(name="classid")
+	private String classid;
+	
 	public String getClassid() {
 		return classid;
 	}
