@@ -15,6 +15,7 @@ import model.springmodel.PollQueDetails;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
+import model.springmodel.ClassSubjectFaculty;
 
 public interface ClassDAO {
 
@@ -37,9 +38,13 @@ public interface ClassDAO {
 	void postComment(ClassDiscussionComment cdc);
 
 	
-	Set<String> getClassDetails(String fid);
+	Set<String> getClassDetails(String fid,boolean isCurrent);
 
 	List<Events> showEvents(String classid);
+
+	List<String> getCoordinatorDetails(String fid, boolean isCurrent);
+
+	List<ClassSubjectFaculty> getSubjectClassDetails(String fid, boolean isCurrent);
 
 	
 }

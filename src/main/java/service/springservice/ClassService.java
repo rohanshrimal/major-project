@@ -16,6 +16,7 @@ import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
 import model.springmodel.ClassRepresentative;
+import model.springmodel.ClassSubjectFaculty;
 
 public interface ClassService {
 
@@ -38,9 +39,13 @@ public interface ClassService {
 	void postComment(ClassDiscussionComment cdc);
 
 	
-	Set<String> getClassDetails(String fid);
+	Set<String> getClassDetails(String fid,boolean isCurrent);
 
 	List<Events> showEvents(String classid);
+
+	List<String> getCoordiatorDetails(String fid, boolean b);
+
+	List<ClassSubjectFaculty> getSubjectClassDetails(String fid, boolean b);
 
 
 	

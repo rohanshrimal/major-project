@@ -18,6 +18,7 @@ import model.springmodel.PollQueDetails;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
+import model.springmodel.ClassSubjectFaculty;
 
 @Service
 public class ClassServiceImpl implements ClassService {
@@ -44,7 +45,6 @@ public class ClassServiceImpl implements ClassService {
 		
 		return classdao.showClassCoordinator(sm);
 	}
-
 
 	@Override
 	@Transactional
@@ -83,10 +83,23 @@ public class ClassServiceImpl implements ClassService {
 	
 	@Override
 	@Transactional
-	public Set<String> getClassDetails(String fid) {
+	public Set<String> getClassDetails(String fid,boolean isCurrent) {
 		
-		return classdao.getClassDetails(fid);
+		return classdao.getClassDetails(fid,isCurrent);
 		 
+	}
+	
+	@Override
+	@Transactional
+	public List<ClassSubjectFaculty> getSubjectClassDetails(String fid, boolean isCurrent) {
+		return classdao.getSubjectClassDetails(fid,isCurrent);
+	}
+
+
+	@Override
+	@Transactional
+	public List<String> getCoordiatorDetails(String fid, boolean isCurrent) {
+		return classdao.getCoordinatorDetails(fid,isCurrent);
 	}
 
 	@Override
