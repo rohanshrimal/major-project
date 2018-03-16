@@ -27,13 +27,16 @@ public class ClassSubjectFaculty {
 	@Transient
 	private int batch;
 
-	public void setClassid(String classid) {
+	@Id
+	@Column(name="classid")
+	private String classid;
+
+  public void setClassid(String classid) {
 		this.classid = classid;
 	}
 
-	@Column(name="classid")
-	private String classid;
 	
+	@Id
 	@Column(name="subcode")
 	private String subcode;
 

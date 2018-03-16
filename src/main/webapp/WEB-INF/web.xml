@@ -541,10 +541,32 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ViewNotification</display-name>
+		<servlet-name>ViewNotification</servlet-name>
+		<servlet-class>controller.ViewNotification</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>PostUserSuggestions</display-name>
+		<servlet-name>PostUserSuggestions</servlet-name>
+		<servlet-class>controller.PostUserSuggestions</servlet-class>
+	</servlet>
   
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
     <url-pattern>/major/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ViewNotification</servlet-name>
+  	<url-pattern>/ViewNotification</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>PostUserSuggestions</servlet-name>
+  	<url-pattern>/PostUserSuggestions</url-pattern>
   </servlet-mapping>
   
 	
