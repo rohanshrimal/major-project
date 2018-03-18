@@ -805,24 +805,27 @@ public class QuestionDao {
 				
 			}
 			
-			String qr1=" select count(qid),answer.uid,uname,sum(views),sum(upvotes) from answer natural join allusers where qid in (select qid from question where did in (select did from question where qid=?))and uid not in (select uid from answer where qid in (select qid from questionkeyword where kid in (select kid from questionkeyword where qid=?))group by uid order by sum(views)+sum(upvotes)-sum(downvotes) desc) group by uid order by sum(views)+sum(upvotes)-sum(downvotes) desc";
-				
-			ps=con.prepareStatement(qr1);
-			ps.setInt(1,qm.getQid());
-			ps.setInt(2,qm.getQid());
-			rs=ps.executeQuery();
-				
-			while(rs.next())
+			
+			if(alum.size()==0)
 			{
-				um=new UserModel();
-				um.setTotalAnswers(rs.getInt(1));
-				um.setUid(rs.getString(2));
-				um.setUname(rs.getString(3));
-				um.setSumOfViews(rs.getInt(4));
-				um.setSumOfUpvotes(rs.getInt(5));
+				String qr1=" select count(qid),answer.uid,uname,sum(views),sum(upvotes) from answer natural join allusers where qid in (select qid from question where did in (select did from question where qid=?))and uid not in (select uid from answer where qid in (select qid from questionkeyword where kid in (select kid from questionkeyword where qid=?))group by uid order by sum(views)+sum(upvotes)-sum(downvotes) desc) group by uid order by sum(views)+sum(upvotes)-sum(downvotes) desc";
+				ps=con.prepareStatement(qr1);
+				ps.setInt(1,qm.getQid());
+				ps.setInt(2,qm.getQid());
+				rs=ps.executeQuery();
 					
-				alum.add(um);
-					
+				while(rs.next())
+				{
+					um=new UserModel();
+					um.setTotalAnswers(rs.getInt(1));
+					um.setUid(rs.getString(2));
+					um.setUname(rs.getString(3));
+					um.setSumOfViews(rs.getInt(4));
+					um.setSumOfUpvotes(rs.getInt(5));
+						
+					alum.add(um);
+						
+				}
 			}
 			
 			return alum;

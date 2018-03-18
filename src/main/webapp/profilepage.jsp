@@ -82,8 +82,8 @@
 }
 
 img.resize {
-  max-width:25%;
-  max-height:25%;
+  max-width:15%;
+  max-height:15%;
   float: right;
 }
 

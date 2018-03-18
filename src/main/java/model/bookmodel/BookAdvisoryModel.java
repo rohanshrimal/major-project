@@ -15,7 +15,8 @@ public class BookAdvisoryModel {
     
     String branch,subject,bookname,bookauthor,bookcover,bookdesc;
     int sem,bookid,subcode,bookprice;
-float bookrating;
+    float bookrating;
+    
     public float getBookrating() {
         return bookrating;
     }
