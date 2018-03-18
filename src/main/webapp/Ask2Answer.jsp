@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<%@page import="model.UserModel"%>
+<%@page import="java.util.ArrayList"%>
+<%
+ArrayList<UserModel> alum=(ArrayList<UserModel>)session.getAttribute("A2A");
+%>
 <html lang="en">
 
 <head>
@@ -15,7 +20,21 @@
     <!-- Material Design Bootstrap -->
     <link href="MDB Free/css/mdb.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="MDB Free/css/chip.css">
-    
+    <style>
+    .A2A
+    {
+     background-color:#33b5e5;
+     color:white;
+     padding:5px;
+    }
+    .A2A:hover
+    {
+    color:white;
+    }
+    .A2A:VISITED {
+	color: white;
+}
+    </style>
      
   </head>
 
@@ -23,14 +42,14 @@
       <button type="button" class="btn btn-primary" id="om" data-toggle="modal" data-target="#centralModalInfo" style="visibility:hidden" data-backdrop="static" data-keyboard="false">Small </button> <br>
 
 <!-- Central Modal Medium Info -->
-<form method="post" id="queform" onsubmit="return check();">
+
 <div class="modal fade" id="centralModalInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
     <div class="modal-dialog modal-notify modal-info modal-lg" role="document">
         <!--Content-->
         <div class="modal-content" style="border: none;">
             <!--Header-->
             <div class="modal-header" style="background-color: #33b5e5;box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);color: #ffffff;border-bottom: none;">
-                <div class="heading lead">ASK TO ANSWER TO OUR TOP CONTRIBUTORS</div>
+                <div class="heading">ASK TO ANSWER</div>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="goToFeed()">
                     <span aria-hidden="true" class="white-text">&times;</span>
@@ -41,25 +60,30 @@
             
             
             <div class="modal-body">
-                <div class="text-center">
-                    <i class="fa fa-comments-o fa-4x mb-1 animated rotateIn mr-2"></i>
-                    <i class="fa fa-commenting-o fa-4x mb-1 animated rotateIn mr-2"></i>
-                    <i class="fa fa-quora fa-4x mb-1 animated rotateIn mr-2"></i>
-                    <i class="fa fa-commenting fa-4x mb-1 animated rotateIn mr-2"></i>
-                    <i class="fa fa-comments fa-4x mb-1 animated rotateIn"></i>
-
-                </div>
-                <hr class="my-2">
-                <div class="row container-fluid mt-1 ml-1">
-                    <div class="col-md-6" style="border-right: groove;">
-                        <h4 class="mb-2">Search Users</h4>
+                <div>
+                   <h4 class="mb-2 text-center">Search Users</h4>
                         <div class="md-form mt-1">
                             <i class="fa fa-search prefix"></i>
                             <input type="text" id="form2" class="form-control" onKeyPress="textDispatcher()" onKeyUp="textDispatcher()" name="askedquestion">
-                            <label for="form2" id='quetext'>Typing User Name Here..</label>
+                            <label for="form2" id='quetext'>Search By User Name Here..</label>
                         </div>
+                </div>
+                <hr class="my-2">
+                <div class="row container-fluid mt-1 ml-1">
+                    <div class="col-md-6" style="border-right: groove;" id="userdata">
+                         <h4>Are you searching for?</h4>
                   	 </div>
-                    <div class="col-md-6" id="data"><h4>Are you searching for?</h4></div>
+                    <div class="col-md-6" id="data">
+                    <%if(alum!=null){ %>
+                    <h4>Our Top Contributors</h4>
+               		<%for(UserModel um:alum){%>
+               		<a href='#'><%=um.getUname()%></a><br>
+               		<%=um.getSumOfViews()+" "%>VIEWS<%=" | "+um.getSumOfUpvotes()+" "%>UPVOTES<%=" | "+um.getTotalAnswers()+" "%>ANSWERS
+               		<br><br>
+               		<a href='#' onclick="RequestAnswer('<%=um.getUid()%>');" class='A2A'>Ask2Answer</a>
+               		<hr>
+               		<%}} %>
+                    </div>
                     
                     
                 </div>
@@ -69,7 +93,7 @@
             <!--Footer-->
             
             <div class="modal-footer flex-center">
-                <button type="submit" class="btn btn-primary btn-lg" ><i class="fa fa-cloud-upload"></i>  Post </button>   
+                <button type="submit" onclick="goToFeed()" class="btn btn-primary btn-lg" ><i class="fa fa-cloud-upload"></i>  GO TO FEED</button>   
             </div>
             
         </div>
@@ -77,7 +101,6 @@
         
     </div>
 </div>
-    </form>
      <script src="js/jquery-1.10.2.js"></script>
      <script src="js/jquery-ui.js"></script>
      <link rel="stylesheet" href="js/jquery-ui.css">
@@ -186,7 +209,8 @@ var domain,domaincount=false;
         }
     </script>
 
-    
+    <script src="js/Notifications.js"></script> 
+	
     <script>
 function getXmlHttpRequestObject()
 {
@@ -211,14 +235,34 @@ function textDispatcher()
     request.onreadystatechange=showResponse;
     request.open("post","PostUserSuggestions",true);
     request.setRequestHeader ("Content-Type", "application/x-www-form-urlencoded");
-    console.log("-----------"+uname+"-------------");
     var data="uname="+uname;
     request.send(data);
 }
+
 function showResponse()
 {
     if(request.readyState===4 && request.status===200){
-        document.getElementById("data").innerHTML=request.responseText;
+        document.getElementById("userdata").innerHTML=request.responseText;
+    }
+}
+
+function RequestAnswer(uid)
+{
+	request=getXmlHttpRequestObject();
+    request.onreadystatechange=getA2AResponse;
+    request.open("post","RequestAnswer",true);
+    request.setRequestHeader ("Content-Type", "application/x-www-form-urlencoded");
+    var data="uid="+uid;
+    request.send(data);
+}
+
+function getA2AResponse()
+{
+	if(request.readyState===4 && request.status===200)
+	{
+     console.log(request.responseText);
+     websocket.send(request.responseText);
+     alert("Requested Successfully...!!!");
     }
 }
 function goToFeed()
