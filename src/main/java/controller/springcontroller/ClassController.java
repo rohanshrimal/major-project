@@ -126,7 +126,7 @@ public class ClassController
 		
 		String classid= (String) session.getAttribute("classid");
 		List<PollQueDetails> theCreateNewPollModel =classservice.showPoll(classid);
-		
+		System.out.println(theCreateNewPollModel);
 		theModel.addAttribute("showpoll", theCreateNewPollModel);
 		return "showpoll";
 	}

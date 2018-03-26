@@ -1,5 +1,6 @@
 package dao.springdao;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -78,21 +79,23 @@ public class ClassDAOImpl implements ClassDAO {
 	public List<PollQueDetails> showPoll(String classid) {
 		
 		Session currentSession= sessionFactory.getCurrentSession();
-		
+		List <PollQueDetails> polldata= new ArrayList();
 		Query<Integer> qr= currentSession.createQuery("select postid from ClassPosts where classid =:id AND post_type='poll'");
 		qr.setParameter("id", classid);
 		
 		List<Integer> queid= qr.list();
 	    Iterator it = queid.iterator();
 	    
+	    
 	    while(it.hasNext())
 	    {
 	    	int pollqueid=(int) it.next();
 	    	PollQueDetails pqd= currentSession.get(PollQueDetails.class,pollqueid);
+	    	polldata.add(pqd);
 	    	
 	    }
 
-		return null;
+		return polldata;
 		
 		
 				
