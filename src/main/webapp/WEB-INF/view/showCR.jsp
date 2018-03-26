@@ -5,28 +5,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Class Discussion Forum </title>
 </head>
 <body>
 	<table>
-				<tr>
-					<th> ID </th>
-					<th> Class ID </th>				
-				</tr>
-				
-			<c:forEach var="temp" items="${CR}"> 
-				
-				
-			<tr>
-				<td> ${temp.id} </td>
-				<td> ${temp.classid} </td> 	
+		<tr>
+			<th>ID</th>
+			<th>NAME</th>
+			<th> Class ID </th>				
+		</tr>			
+		
+		<c:forEach var="temp" items="${CR}"> 
+		<tr>
+			<td> ${temp.userModel.uid} </td>
+			<td>${temp.userModel.uname}</td>
+			<td> ${temp.classid} </td> 	
 			</tr>
-			
-			</c:forEach>	
-			
-				
-			</table>
-			
-			<a href="home">Admin home</a>
+		</c:forEach>		
+	</table>	
 </body>
 </html>

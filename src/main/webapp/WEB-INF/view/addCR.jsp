@@ -16,7 +16,7 @@
 				<table>
 				<tr>
 					<td><label>ID</label></td>
-					 <td><form:input path="id"/></td>
+					 <td><form:input path="userModel.uid"/></td>
 				</tr>
 				
 				<tr>

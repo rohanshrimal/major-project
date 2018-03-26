@@ -88,6 +88,13 @@ public class PostQuestion extends HttpServlet {
            {
         	   System.out.println("--"+um.getUname()+"--");
            }
+           
+           String classQue=request.getParameter("classQue");
+           
+           if(classQue.equals("true"))
+           {
+        	   response.sendRedirect("/major/class/addClassQue?qid="+qm.getQid());
+           }
            response.sendRedirect("Ask2Answer.jsp?qid="+qm.getQid());
            
         }

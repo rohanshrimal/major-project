@@ -18,6 +18,7 @@ import model.springmodel.PollQueDetails;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
+import model.springmodel.ClassRepresentative;
 import model.springmodel.ClassSubjectFaculty;
 
 @Service
@@ -35,7 +36,7 @@ public class ClassServiceImpl implements ClassService {
 
 	@Override
 	@Transactional
-	public List<StudentModel> showClassCR(StudentModel sm) {
+	public List<ClassRepresentative> showClassCR(StudentModel sm) {
 		return classdao.showClassCR(sm);
 	}
 
@@ -56,8 +57,8 @@ public class ClassServiceImpl implements ClassService {
 
 	@Override
 	@Transactional
-	public Boolean checkCoordinator(String fid) {
-		return classdao.checkCoordinator(fid);
+	public Boolean checkCoordinator(String fid,String classId) {
+		return classdao.checkCoordinator(fid,classId);
 	}
 
 	@Override
@@ -91,22 +92,23 @@ public class ClassServiceImpl implements ClassService {
 	
 	@Override
 	@Transactional
-	public List<ClassSubjectFaculty> getSubjectClassDetails(String fid, boolean isCurrent) {
-		return classdao.getSubjectClassDetails(fid,isCurrent);
+	public List<ClassSubjectFaculty> getSubjectClassDetails(String fid, int year) {
+		return classdao.getSubjectClassDetails(fid,year);
 	}
 
 
 	@Override
 	@Transactional
-	public List<String> getCoordiatorDetails(String fid, boolean isCurrent) {
-		return classdao.getCoordinatorDetails(fid,isCurrent);
+	public List<String> getCoordiatorDetails(String fid,int year) {
+		return classdao.getCoordinatorDetails(fid,year);
 	}
 
 	@Override
 	@Transactional
 	public List<Events> showEvents(String classid) {
 		return classdao.showEvents(classid);
-  }
+    }
+	
 	@Override
 	@Transactional
 	public void postComment(ClassDiscussionComment cdc) {

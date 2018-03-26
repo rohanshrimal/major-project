@@ -16,7 +16,7 @@ public interface CoordinatorService {
 
 	void addCR(ClassRepresentative theCR);
 
-	List<ClassRepresentative> showCR();
+	List<ClassRepresentative> showCR(String classId);
 
 	void addFaculty(ClassSubjectFaculty theFaculty);
 

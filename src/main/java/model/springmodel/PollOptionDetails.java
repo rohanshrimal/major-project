@@ -10,15 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="polloptiondetails")
-public class PollOptionDetails 
+public class PollOptionDetails implements Serializable 
 {
 	@Id
-	@Column(name="opid")
-	private int opid;
+	@OneToOne
+	@JoinColumn(name="opid")
+	private PollResult pollResult;
 	
 	@ManyToOne 
 	@JoinColumn(name="queid")
@@ -34,13 +36,13 @@ public class PollOptionDetails
 	public void setOptions(String options) {
 		this.options = options;
 	}
-	
-	public int getOpid() {
-		return opid;
+
+	public PollResult getPollResult() {
+		return pollResult;
 	}
 
-	public void setOpid(int opid) {
-		this.opid = opid;
+	public void setPollResult(PollResult pollResult) {
+		this.pollResult = pollResult;
 	}
 
 	public PollQueDetails getPqd() {
@@ -53,7 +55,7 @@ public class PollOptionDetails
 
 	@Override
 	public String toString() {
-		return "PollOptionDetails [ options=" + options + "]";
+		return "PollOptionDetails [ options=" + options +", result="+pollResult+ "]";
 	}
 	
 }

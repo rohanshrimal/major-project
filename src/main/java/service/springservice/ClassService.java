@@ -22,13 +22,13 @@ public interface ClassService {
 
 	List<StudentModel> showClassMembers(StudentModel sm);
 
-	List<StudentModel> showClassCR(StudentModel sm);
+	List<ClassRepresentative> showClassCR(StudentModel sm);
 
 	List<FacultyModel> showClassCoordinator(StudentModel sm);
 
 	List<PollQueDetails> showPoll(String classid);
 
-	Boolean checkCoordinator(String fid);
+	Boolean checkCoordinator(String fid,String classId);
 
 	int addDiscussion(ClassDiscussion cd);
 
@@ -38,14 +38,13 @@ public interface ClassService {
 
 	void postComment(ClassDiscussionComment cdc);
 
-	
 	Set<String> getClassDetails(String fid,boolean isCurrent);
 
 	List<Events> showEvents(String classid);
 
-	List<String> getCoordiatorDetails(String fid, boolean b);
+	List<String> getCoordiatorDetails(String fid,int year);
 
-	List<ClassSubjectFaculty> getSubjectClassDetails(String fid, boolean b);
+	List<ClassSubjectFaculty> getSubjectClassDetails(String fid,int year);
 
 
 	

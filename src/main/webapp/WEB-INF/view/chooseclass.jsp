@@ -19,6 +19,7 @@
 			<td>--${coordinator.sem}--</td>
 			<td>--${coordinator.sec}--</td>
 			<td>--${coordinator.batch}--</td>
+			<td><a href="classdiscussionfaculty?classId=${coordinator.classid}&year=${currentYear}">Go To Class</a></td>
 		</tr>
 	</c:forEach>
 	</table>
@@ -32,6 +33,7 @@
 			<th>SEMESTER</th>
 			<th>SECTION</th>
 			<th>BATCH</th>
+			<th></th>
 		</tr>
 	<c:forEach var="subjectClass" items="${subjectClassList}">
 		<tr>
@@ -41,9 +43,13 @@
 			<td>--${subjectClass.sem}--</td>
 			<td>--${subjectClass.sec}--</td>
 			<td>--${subjectClass.batch}--</td>
+			<td><a href="classdiscussionfaculty?classId=${subjectClass.classid}&year=${currentYear}">Go To Class</a></td>
 		</tr>
 	</c:forEach>
 	</table>
+	<hr>
+	<a href="CDFhomefaculty?year=${currentYear-1}">Previous Year</a> <<<<<<<< ${currentYear} >>>>>>> <a href="CDFhomefaculty?year=${currentYear+1}">Next Year</a>
+	<hr>
 	</center>
 </body>
 </html>

@@ -15,19 +15,20 @@ import model.springmodel.PollQueDetails;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
+import model.springmodel.ClassRepresentative;
 import model.springmodel.ClassSubjectFaculty;
 
 public interface ClassDAO {
 
 	List<StudentModel> showClassMembers(StudentModel sm);
 
-	List<StudentModel> showClassCR(StudentModel sm);
+	List<ClassRepresentative> showClassCR(StudentModel sm);
 
 	List<FacultyModel> showClassCoordinator(StudentModel sm);
 
 	List<PollQueDetails> showPoll(String classid);
 
-	Boolean checkCoordinator(String fid);
+	Boolean checkCoordinator(String fid,String classId);
 
 	int addDiscussion(ClassDiscussion cd);
 
@@ -42,9 +43,9 @@ public interface ClassDAO {
 
 	List<Events> showEvents(String classid);
 
-	List<String> getCoordinatorDetails(String fid, boolean isCurrent);
+	List<String> getCoordinatorDetails(String fid,int year);
 
-	List<ClassSubjectFaculty> getSubjectClassDetails(String fid, boolean isCurrent);
+	List<ClassSubjectFaculty> getSubjectClassDetails(String fid,int year);
 
 	
 }
