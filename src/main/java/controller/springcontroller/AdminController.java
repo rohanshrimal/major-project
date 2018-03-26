@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpServerErrorException;
 
 import model.springmodel.ClassRepresentative;
@@ -27,17 +28,15 @@ import service.springservice.CoordinatorService;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	
+		
+	@Autowired
+	private CoordinatorService coordinatorService;
 	
 	@GetMapping("/home")
 	public String adminHome(Model theModel)
 	{	
-		
 		return "adminhome";
 	}
-	
-	@Autowired
-	private CoordinatorService coordinatorService;
 	
 	@GetMapping("/addformCoordinators")
 	public String addformCoordinators(Model theModel)
@@ -56,39 +55,47 @@ public class AdminController {
 		return "adminhome";
 	}
 	
-	
-	
 	@GetMapping("/showCoordinators")
 	public String showCoordinators(Model theModel)
 	{	
 		List<Coordinator> theCoordinators= coordinatorService.getCoordinators();
-		
 		theModel.addAttribute("coordinators",theCoordinators);
-		
+
 		return "showcoordinators";
 	}
 	
 	@GetMapping("/addCRForm")
-	public String addCRForm(Model theModel )
+	public String addCRForm(Model theModel,HttpServletRequest request)
 	{	
+		HttpSession session=request.getSession();
+		String classId=(String)session.getAttribute("classid");
+		
 		ClassRepresentative theCR = new ClassRepresentative();
+		theCR.setClassAttributes(classId);
 		
 		theModel.addAttribute("CR",theCR);
 		return "addCR";
 	}
 	
 	@PostMapping("/addCR")
-	public String addCR(@ModelAttribute ("CR") ClassRepresentative theCR)
+	public String addCR(@ModelAttribute ("CR") ClassRepresentative theCR,HttpServletRequest request)
 	{	
+		HttpSession session=request.getSession();
+		String classId=(String)session.getAttribute("classid");
+		Integer year=(Integer)session.getAttribute("year");
+		
 		theCR.setClassid();
 		coordinatorService.addCR(theCR);
-		return "CDFhomefaculty";
+		
+		return "redirect:/major/class/classdiscussionfaculty?classId="+classId+"&year="+year;
 	}
 	
 	@GetMapping("/showCR")
-	public String showCR(Model theModel)
+	public String showCR(Model theModel,HttpServletRequest request)
 	{	
-		List<ClassRepresentative> theCR= coordinatorService.showCR();
+		HttpSession session=request.getSession();
+		String classId=(String)session.getAttribute("classid");
+		List<ClassRepresentative> theCR= coordinatorService.showCR(classId);
 		
 		theModel.addAttribute("CR",theCR);
 		
@@ -99,10 +106,11 @@ public class AdminController {
 	public String addformFaculty(Model theModel,HttpServletRequest request)
 	{	
 		HttpSession session=request.getSession();
-		List<String> fclassid=(List<String>) session.getAttribute("fclassid");
+		String classId=(String)session.getAttribute("classid");
+		
 		ClassSubjectFaculty thefaculty= new ClassSubjectFaculty();
-		String classid=fclassid.get(fclassid.size() - 1);
-		thefaculty.setClassAttributes(classid);
+		thefaculty.setClassAttributes(classId);
+		
 		theModel.addAttribute("faculty",thefaculty);
 		return "addsubjectfaculty";
 	}
@@ -118,11 +126,10 @@ public class AdminController {
 	
 	@GetMapping("/showFaculty")
 	public String showFaculty(Model theModel,HttpServletRequest request)
-	{	HttpSession session= request.getSession();
-		List<String> fclassid=(List<String>) session.getAttribute("fclassid");
-		String classid=fclassid.get(fclassid.size() - 1);
+	{	
+		HttpSession session= request.getSession();
+		String classid=(String)session.getAttribute("classid");
 		List<ClassSubjectFaculty> theFaculty= coordinatorService.showFaculty(classid);
-		System.out.println(theFaculty);
 		theModel.addAttribute("Faculty",theFaculty);
 		
 		return "showfaculty";

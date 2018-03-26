@@ -22,8 +22,8 @@
 <a href="../../MyFeed">MY FEED</a>
 <hr>
 <h3>CHOOSE YOUR POST TYPE...</h3>
-<a href="/korero-maven/poll/createpoll.jsp?var=classpoll"><button id="create_poll">Create Poll</button></a>
-<button id="create_que">Ask question</button>
+<a href="../../poll/createpoll.jsp?var=classpoll"><button id="create_poll">Create Poll</button></a>
+<a href="../../Post_Question.jsp?classQue=true"><button id="create_que">Ask question</button></a>
 <a href="addEventForm"><button id="create_event">Create Event</button></a>
 <a href="showDiscussions"><button id="create_disc">Start Discussion</button></a>
 
@@ -42,7 +42,7 @@
 	<hr>
 	<h3>Class Representative</h3>
 		<c:forEach var="temp2" items="${CR}"> 
-			 ${temp2.name} &nbsp;
+			 ${temp2.userModel.uname} &nbsp;
 		</c:forEach>
 	<hr>
 	<h3>Class Coordinator</h3>
