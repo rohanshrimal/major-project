@@ -83,6 +83,7 @@ public class PostQuestion extends HttpServlet {
            qd.insertQuestion(qm, context, session);
            ArrayList<UserModel> alum=qd.askToAnswer(qm,context);
            session.setAttribute("A2A", alum);
+           session.setAttribute("currQues",qm);
            for(UserModel um: alum)
            {
         	   System.out.println("--"+um.getUname()+"--");
@@ -94,7 +95,7 @@ public class PostQuestion extends HttpServlet {
            {
         	   response.sendRedirect("/major/class/addClassQue?qid="+qm.getQid());
            }
-           response.sendRedirect("Ask2Answer.jsp");
+           response.sendRedirect("Ask2Answer.jsp?qid="+qm.getQid());
            
         }
 
