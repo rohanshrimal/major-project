@@ -1,6 +1,7 @@
 package controller.springcontroller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,7 @@ import model.springmodel.PollQueDetails;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
+import model.springmodel.ClassRepresentative;
 import model.springmodel.ClassSubjectFaculty;
 import service.springservice.ClassService;
 import service.springservice.EventService;
@@ -54,7 +56,7 @@ public class ClassController
 			List<StudentModel> theClassMembers= classservice.showClassMembers(sm);
 			theModel.addAttribute("classmembers", theClassMembers);
 			
-			List<StudentModel> theCR= classservice.showClassCR(sm);
+			List<ClassRepresentative> theCR= classservice.showClassCR(sm);
 			theModel.addAttribute("CR", theCR);
 			
 			List<FacultyModel> theClassCoordinator= classservice.showClassCoordinator(sm);
@@ -72,19 +74,22 @@ public class ClassController
 	}
 	
 	@GetMapping("/CDFhomefaculty")
-	public String showCDF(HttpServletRequest request,Model theModel)
+	public String showCDF(HttpServletRequest request,Model theModel,@RequestParam(value = "year",required = false) Integer year)
 	{	
 		HttpSession session=request.getSession();
 		Object object=session.getAttribute("userModel");
 		FacultyModel fm=null;
+		
+		if(year==null)
+		year=Calendar.getInstance().get(Calendar.YEAR);
 		
 		if(object instanceof FacultyModel)
 		{
 			fm=(FacultyModel)object;
 			String fid=fm.getFid();
 					
-			List<String> coordinatorDetails =classservice.getCoordiatorDetails(fid,true);
-			List<ClassSubjectFaculty> subjectClassList=classservice.getSubjectClassDetails(fid,true);
+			List<String> coordinatorDetails =classservice.getCoordiatorDetails(fid,year);
+			List<ClassSubjectFaculty> subjectClassList=classservice.getSubjectClassDetails(fid,year);
 			List<ClassSubjectFaculty> coordinatorClassList=new ArrayList<>();
 			
 			ClassSubjectFaculty subjectFaculty=null;
@@ -102,6 +107,7 @@ public class ClassController
 			
 			theModel.addAttribute("subjectClassList", subjectClassList);
 			theModel.addAttribute("coordinatorClassList",coordinatorClassList);
+			theModel.addAttribute("currentYear",year);
 				
 		}
 		return "chooseclass";		
@@ -204,31 +210,37 @@ public class ClassController
 	}
 	
 
-	@PostMapping("/classdiscussionfaculty")
-	public String classdiscussionfaculty(@ModelAttribute ("classsubjectfaculty") ClassSubjectFaculty csf,HttpServletRequest request,Model theModel)
+	@GetMapping("/classdiscussionfaculty")
+	public String classdiscussionfaculty(HttpServletRequest request,Model theModel,@RequestParam("classId") String classId,@RequestParam("year")int year)
 	{
 		HttpSession session=request.getSession();
+		session.setAttribute("classid",classId);
+		session.setAttribute("year",year);
 		Object object=session.getAttribute("userModel");
-		
-		String classid=csf.getClassid();
-		System.out.println("---------==>"+classid);
-		session.setAttribute("classid", classid);
 		FacultyModel fm=null;
 		
-			fm=(FacultyModel)object;
-			String fid=fm.getFid();
+		fm=(FacultyModel)object;
+		String fid=fm.getFid();
 			
-			Boolean coordinatorflag= classservice.checkCoordinator(fid);
-			
-			if(coordinatorflag)
-			{	String utype="coordinator";
-				theModel.addAttribute("type",utype);
-			}
-			else
-			{	String utype="faculty";
-				theModel.addAttribute("type",utype);	
-			}
-		theModel.addAttribute("classid", classid);
+		Boolean coordinatorflag=classservice.checkCoordinator(fid,classId);
+		Boolean isCurrentYear=false;
+		
+		if(year==Calendar.getInstance().get(Calendar.YEAR))
+		{
+			isCurrentYear=true;
+		}
+		
+		if(coordinatorflag)
+		{	String utype="coordinator";
+			theModel.addAttribute("type",utype);
+		}
+		else
+		{	String utype="faculty";
+			theModel.addAttribute("type",utype);	
+		}
+		
+		theModel.addAttribute("isCurrentYear",isCurrentYear);
+		theModel.addAttribute("classid", classId);
 		return "CDFhomefaculty";
 		
 	}
@@ -295,7 +307,7 @@ public class ClassController
 		List<StudentModel> theClassMembers= classservice.showClassMembers(tempStudent);
 		theModel.addAttribute("classmembers", theClassMembers);
 		
-		List<StudentModel> theCR= classservice.showClassCR(tempStudent);
+		List<ClassRepresentative> theCR= classservice.showClassCR(tempStudent);
 		theModel.addAttribute("CR", theCR);
 		
 		List<FacultyModel> theClassCoordinator= classservice.showClassCoordinator(tempStudent);

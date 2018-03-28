@@ -41,9 +41,9 @@ public class CoordinatorServiceImpl implements CoordinatorService {
 
 	@Override
 	@Transactional
-	public List<ClassRepresentative> showCR() {
+	public List<ClassRepresentative> showCR(String classId) {
 
-		return coordinatorDAO.showCR();
+		return coordinatorDAO.showCR(classId);
 	}
 
 	@Override

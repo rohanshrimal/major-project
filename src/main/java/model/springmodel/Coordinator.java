@@ -19,8 +19,8 @@ public class Coordinator {
 	@Column(name="uid")
 	private String id;
 	
-	@Column(name="IsCurrent")
-	boolean isCurrent;
+	@Column(name="year_of_teaching")
+	private int yearOfTeaching;
 	
 	@Transient
 	private String branch;
@@ -34,6 +34,14 @@ public class Coordinator {
 	@Transient
 	private int batch;
 	
+	public int getYearOfTeaching() {
+		return yearOfTeaching;
+	}
+
+	public void setYearOfTeaching(int yearOfTeaching) {
+		this.yearOfTeaching = yearOfTeaching;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -66,8 +74,6 @@ public class Coordinator {
 		this.sec = sec;
 	}
 	
-	
-	
 	public String getClassid() {
 		return classid;
 	}
@@ -75,8 +81,6 @@ public class Coordinator {
 	public void setClassid() {
 		classid=branch+"-"+sem+"-"+sec+"-"+batch;
 	}
-
-
 
 	public int getBatch() {
 		return batch;
@@ -86,15 +90,6 @@ public class Coordinator {
 		this.batch = batch;
 	}
 	
-
-	public boolean isCurrent() {
-		return isCurrent;
-	}
-
-	public void setCurrent(boolean isCurrent) {
-		this.isCurrent = isCurrent;
-	}
-
 	public void setClassid(String classid) {
 		this.classid = classid;
 	}

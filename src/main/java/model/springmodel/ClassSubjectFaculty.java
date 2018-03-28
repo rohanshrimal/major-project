@@ -41,15 +41,15 @@ public class ClassSubjectFaculty implements Serializable
 	@JoinColumn(name="subcode")
 	private SubjectModel subject;
 	
-	@Column(name="IsCurrent")
-	private boolean isCurrent;
+	@Column(name="year_of_teaching")
+	private int yearOfTeaching;
 
-	public boolean isCurrent() {
-		return isCurrent;
+	public int getYearOfTeaching() {
+		return yearOfTeaching;
 	}
 
-	public void setCurrent(boolean isCurrent) {
-		this.isCurrent = isCurrent;
+	public void setYearOfTeaching(int yearOfTeaching) {
+		this.yearOfTeaching = yearOfTeaching;
 	}
 
 	public void setClassid(String classid) {

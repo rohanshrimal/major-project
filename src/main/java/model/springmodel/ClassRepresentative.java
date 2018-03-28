@@ -1,18 +1,28 @@
 package model.springmodel;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import model.UserModel;
+
 @Entity
 @Table(name="class_representatives")
-public class ClassRepresentative {
+public class ClassRepresentative implements Serializable 
+{
+
+private static final long serialVersionUID = 1L;
 
 @Id
-@Column(name="uid")
-private String id;
+@OneToOne
+@JoinColumn(name="uid")
+private UserModel userModel;
 
 @Transient
 private String branch;
@@ -26,6 +36,7 @@ private char sec;
 @Transient
 private int batch;
 
+@Id
 @Column(name="classid")
 private String classid;
 
@@ -37,7 +48,11 @@ public void setClassid() {
 	classid=branch+"-"+sem+"-"+sec+"-"+batch;
 }
 
-
+public void setClassid(String classid)
+{
+	this.classid=classid;
+	setClassAttributes(this.classid);
+}
 
 public int getBatch() {
 	return batch;
@@ -47,12 +62,17 @@ public void setBatch(int batch) {
 	this.batch = batch;
 }
 
-public String getId() {
-	return id;
+
+public UserModel getUserModel() {
+	return userModel;
 }
 
-public void setId(String id) {
-	this.id = id;
+public void setUserModel(UserModel userModel) {
+	this.userModel = userModel;
+}
+
+public static long getSerialversionuid() {
+	return serialVersionUID;
 }
 
 public String getBranch() {
@@ -81,9 +101,18 @@ public void setSec(char sec) {
 
 @Override
 public String toString() {
-	return "ClassRepresentative [id=" + id + ", branch=" + branch + ", sem=" + sem + ", sec=" + sec + "]";
+	return "ClassRepresentative [id=" + userModel.getUid()+", name="+userModel.getUname() + ", branch=" + branch + ", sem=" + sem + ", sec=" + sec + "]";
 }
 
-
+public void setClassAttributes(String classid)
+{
+	this.classid=classid;
+	String temp[]=classid.split("-");
+	this.branch=temp[0];
+	this.sem=Integer.parseInt(temp[1]);
+	this.sec=temp[2].charAt(0);
+	this.batch=Integer.parseInt(temp[3]);
+	
+}
 
 }

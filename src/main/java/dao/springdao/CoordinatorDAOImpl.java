@@ -44,11 +44,12 @@ public class CoordinatorDAOImpl implements CoordinatorDAO {
 	}
 
 	@Override
-	public List<ClassRepresentative> showCR() 
+	public List<ClassRepresentative> showCR(String classId) 
 	{
 		Session currentSession= sessionFactory.getCurrentSession();
-		Query<ClassRepresentative> qr= currentSession.createQuery("from ClassRepresentative ",ClassRepresentative.class);	
-		List<ClassRepresentative> CR  =qr.getResultList();
+		Query<ClassRepresentative> qr= currentSession.createQuery("from ClassRepresentative where classid=:classId",ClassRepresentative.class);	
+		qr.setParameter("classId",classId);
+		List<ClassRepresentative> CR=qr.getResultList();
 		
 		return CR;
 		

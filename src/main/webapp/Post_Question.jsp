@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<%
+String classQue=request.getParameter("classQue");
+if(classQue==null)
+{
+	classQue="false";
+}
+%>
 <html lang="en">
 
 <head>
@@ -233,7 +240,7 @@ var domain,domaincount=false;
             
             console.log(txt);
             console.log(domain);
-            document.getElementById("queform").setAttribute("action","PostQuestion?tags="+txt+"&domain="+domain);
+            document.getElementById("queform").setAttribute("action","PostQuestion?tags="+txt+"&domain="+domain+"classQue="+<%=classQue%>);
         }
     </script>
 
