@@ -1,3 +1,4 @@
+
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -9,6 +10,7 @@
 <title>Choose Class</title>
 </head>
 <body>
+
 	<center>
 	<h1>CLASS COORDINATOR</h1>
 	<table>

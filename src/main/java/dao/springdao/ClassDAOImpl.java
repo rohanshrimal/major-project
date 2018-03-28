@@ -1,5 +1,6 @@
 package dao.springdao;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -76,23 +77,21 @@ public class ClassDAOImpl implements ClassDAO {
 	public List<PollQueDetails> showPoll(String classid) {
 		
 		Session currentSession= sessionFactory.getCurrentSession();
-		
+		List <PollQueDetails> polldata= new ArrayList();	
 		Query<Integer> qr= currentSession.createQuery("select postid from ClassPosts where classid =:id AND post_type='poll'",Integer.class);
 		qr.setParameter("id", classid);
-		
+	
 		List<Integer> queid= qr.list();
-	    Iterator<Integer> it = queid.iterator();
+	  Iterator<Integer> it = queid.iterator();
 	    
-	    while(it.hasNext())
-	    {
-	    	int pollqueid=(int) it.next();
-	    	PollQueDetails pqd= currentSession.get(PollQueDetails.class,pollqueid);
-	    }
+	  while(it.hasNext())
+	  {
+	    int pollqueid=(int) it.next();
+	    PollQueDetails pqd= currentSession.get(PollQueDetails.class,pollqueid);
+	    polldata.add(pqd);
+	  }
 
-		return null;
-		
-		
-				
+		return polldata;			
 	}
 
 	@Override
@@ -205,7 +204,7 @@ public class ClassDAOImpl implements ClassDAO {
 	@Override
 	public List<Events> showEvents(String classid) {
 		
-		Session currentSession= sessionFactory.getCurrentSession();
+    Session currentSession= sessionFactory.getCurrentSession();
 		Query<Events> qr= currentSession.createQuery("from Events where eid in(select postid from ClassPosts where classid=:classid and post_type='event')",Events.class);
 		qr.setParameter("classid", classid);
 		

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -28,7 +29,7 @@ public class PollQueDetails {
 	@Column(name="pollviewstatus")
 	private int pollviewstatus;
 	
-	@OneToMany (mappedBy="pqd",cascade=CascadeType.ALL)
+	@OneToMany (fetch = FetchType.EAGER,mappedBy="pqd",cascade=CascadeType.ALL)
 	private List<PollOptionDetails> options;
 
 	public String getQuestion() {
@@ -71,13 +72,14 @@ public class PollQueDetails {
 		this.options = options;
 	}
 
-	@Override
+	
+	
+@Override
 	public String toString() {
-		return "PollQueDetails [question=" + question + ", queid=" + queid + ", creatorid=" + creatorid
-				+ ", pollviewstatus=" + pollviewstatus + "]";
+		return "PollQueDetails [queid=" + queid + ", question=" + question + ", creatorid=" + creatorid
+				+ ", pollviewstatus=" + pollviewstatus + ", options=" + options + "]";
 	}
-	
-	
+
 public void add(PollOptionDetails option)	
 {
 	if(options==null)
