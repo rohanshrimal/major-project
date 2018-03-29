@@ -197,9 +197,6 @@ public class ClassController
 	@GetMapping("/showDiscussions")
 	public String showDiscussions(HttpServletRequest request,Model model)
 	{
-		ClassDiscussion cd=new ClassDiscussion();
-		model.addAttribute("ClassDiscussionModel",cd);
-		
 		ClassDiscussionComment cdc=new ClassDiscussionComment();
 		model.addAttribute("ClassCommentModel",cdc);
 		
@@ -215,6 +212,15 @@ public class ClassController
 		return "classDiscussions";
 	}
 	
+	@GetMapping("/startClassDiscussion")
+	public String startClassDiscussion(Model model)
+	{
+		ClassDiscussion cd=new ClassDiscussion();
+		model.addAttribute("ClassDiscussionModel",cd);
+		
+		return "startClassDiscussion";
+		
+	}
 
 	@GetMapping("/classdiscussionfaculty")
 	public String classdiscussionfaculty(HttpServletRequest request,Model theModel,@RequestParam("classId") String classId,@RequestParam("year")int year)

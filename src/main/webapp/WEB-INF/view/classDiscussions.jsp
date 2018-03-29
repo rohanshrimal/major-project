@@ -77,24 +77,6 @@
 <h1>Class Discussions</h1>
 
 <hr>
-
-<h2>Start New Discussion here...</h2>
-		<form:form action="saveDiscussion" modelAttribute="ClassDiscussionModel" method="POST" onsubmit="collectdata()">
-
-			<label>Title</label><br>
-			<form:input path="title"/><br><br>
-	
-			<label>Content</label>
-			<form:hidden path="content" id="contentid"/><br><br>
-	
-			<div id="toolbar"></div>
-			<div id="editor"></div><br>
-			
-			<input type="submit" value="POST"/>
-		</form:form>
-
-<hr>
-
 		<c:forEach var="discussion" items="${discussionsList}" begin="0" varStatus="loop">
 
 			<h2 style="display: inline;">${discussion.title}</h2><br><br>
@@ -146,38 +128,5 @@
 
 <hr> 
 		</c:forEach>
-
- <script>
-            var toolbarOptions =[
-                ['bold','italic','underline','strike'], 
-                ['blockquote','code-block'],
-                [{'header' : [1,2,3,4,5,6,false] }],
-                [{'list': 'ordered'},{'list': 'bullet'}],
-                [{'script': 'sub'},{'script': 'super'}],
-                [{'indent': '-1'},{'indent': '+1'}],
-                [{'direction': 'rtl'}],
-                [{'size': ['small',false,'large','huge']}],
-                ['link','image','video','formula'],
-                [{'align': []}]
-            ];
-            
-            var config = {
-                "theme": "snow",
-                "modules": {
-                "toolbar": toolbarOptions
-  				},
-                "placeholder": 'Write your post here...'
-			};
-           
-           	var quill=new Quill('#editor',config);
-           	
-           	function collectdata()
-           	{
-           		document.getElementById("contentid").value=JSON.stringify(quill.getContents());
-           	}
-           	
-          
-             
-</script>
 </body>
 </html>
