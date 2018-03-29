@@ -7,18 +7,56 @@ package model;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 /**
  *
  * @author rohan
  */
+
+@Entity
+@Table(name="domain")
 public class DomainContentModel {
-    private int did,followersCount,tagCount,questionsCount,blogsCount,answersCount;
-    private ArrayList<String> topUsers;
-    private ArrayList<String> trendingTags;
-    private boolean isFollowed;
-    private String dname,imagePath;
+	
+	@Id
+	@Column(name="Did")
+	private int did;
+	
+	@Transient
+    private int followersCount,tagCount,questionsCount,blogsCount,answersCount;
+    
+	@Transient
+	private ArrayList<String> topUsers;
+    
+	@Transient
+	private ArrayList<String> trendingTags;
+    
+	@Transient
+	private boolean isFollowed;
+    
+	@Column(name="Dname")
+	private String dname;
+	
+	@Column(name="imgpath")
+	private String imagePath;
+	
+	@Transient
     private ArrayList<QuestionModel> alqm;
-    private ArrayList<BlogModel> albm;
+    
+	@Transient
+	private ArrayList<BlogModel> albm;
+	
+	public boolean isFollowed() {
+		return isFollowed;
+	}
+
+	public void setFollowed(boolean isFollowed) {
+		this.isFollowed = isFollowed;
+	}
     
     public int getAnswersCount() {
         return answersCount;
@@ -28,7 +66,6 @@ public class DomainContentModel {
         this.answersCount = answersCount;
     }
     
-
     public boolean isIsFollowed() {
         return isFollowed;
     }
@@ -36,7 +73,6 @@ public class DomainContentModel {
     public void setIsFollowed(boolean isFollowed) {
         this.isFollowed = isFollowed;
     }
-    
 
     public int getQuestionsCount() {
         return questionsCount;
@@ -125,6 +161,11 @@ public class DomainContentModel {
     public void setTrendingTags(ArrayList<String> trendingTags) {
         this.trendingTags = trendingTags;
     }
+
+	@Override
+	public String toString() {
+		return "DomainContentModel [did=" + did + ", dname=" + dname + ", imagePath=" + imagePath + "]";
+	}
     
     
 }

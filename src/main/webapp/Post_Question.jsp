@@ -240,7 +240,7 @@ var domain,domaincount=false;
             
             console.log(txt);
             console.log(domain);
-            document.getElementById("queform").setAttribute("action","PostQuestion?tags="+txt+"&domain="+domain+"classQue="+<%=classQue%>);
+            document.getElementById("queform").setAttribute("action","PostQuestion?tags="+txt+"&domain="+domain+"&classQue="+<%=classQue%>);
         }
     </script>
 

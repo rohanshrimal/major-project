@@ -53,17 +53,14 @@ public class ClassDiscussion {
 	
 	@OneToMany(fetch = FetchType.EAGER,mappedBy="classDiscussion",cascade=CascadeType.ALL)
 	private List<ClassDiscussionComment> classCommentList;
-	
-	
-	
+
 	@Override
 	public String toString() {
 		return "ClassDiscussion [id=" + id + ", isReviewed=" + isReviewed + ", title=" + title + ", timeStamp="
 				+ timeStamp + ", isPinned=" + isPinned + ", flagCount=" + flagCount + ", isClosed=" + isClosed
 				+ ", content=" + "i am content"+ ", userModel=" + userModel + ", classCommentList=" + classCommentList + "]";
 	}
-
-
+	
 	public UserModel getUserModel() {
 		return userModel;
 	}

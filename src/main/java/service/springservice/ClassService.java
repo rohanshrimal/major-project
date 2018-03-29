@@ -8,10 +8,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
 import model.FacultyModel;
+import model.QuestionModel;
 import model.StudentModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
 import model.springmodel.PollQueDetails;
+import model.springmodel.Question;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
@@ -45,6 +47,8 @@ public interface ClassService {
 	List<String> getCoordiatorDetails(String fid,int year);
 
 	List<ClassSubjectFaculty> getSubjectClassDetails(String fid,int year);
+
+	List<Question> showClassQuestions(String classId);
 
 
 	

@@ -93,9 +93,12 @@ public class PostQuestion extends HttpServlet {
            
            if(classQue.equals("true"))
            {
-        	   response.sendRedirect("/major/class/addClassQue?qid="+qm.getQid());
+        	   response.sendRedirect("/korero-maven/major/class/addClassQue?qid="+qm.getQid());
            }
-           response.sendRedirect("Ask2Answer.jsp?qid="+qm.getQid());
+           else	   
+           {
+        	   response.sendRedirect("Ask2Answer.jsp?qid="+qm.getQid());
+           }
            
         }
 
