@@ -16,6 +16,7 @@ import model.springmodel.PollQueDetails;
 import model.springmodel.Question;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
+import model.springmodel.ClassDiscussionReply;
 import model.springmodel.ClassPosts;
 import model.springmodel.ClassRepresentative;
 import model.springmodel.ClassSubjectFaculty;
@@ -40,7 +41,6 @@ public interface ClassDAO {
 
 	void postComment(ClassDiscussionComment cdc);
 
-	
 	Set<String> getClassDetails(String fid,boolean isCurrent);
 
 	List<Events> showEvents(String classid);
@@ -50,6 +50,8 @@ public interface ClassDAO {
 	List<ClassSubjectFaculty> getSubjectClassDetails(String fid,int year);
 
 	List<Question> fetchClassQuestions(String classId);
+
+	void postCommentReply(ClassDiscussionReply reply);
 
 	
 }

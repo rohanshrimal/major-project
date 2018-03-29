@@ -19,6 +19,7 @@ import model.springmodel.PollQueDetails;
 import model.springmodel.Question;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
+import model.springmodel.ClassDiscussionReply;
 import model.springmodel.ClassPosts;
 import model.springmodel.ClassRepresentative;
 import model.springmodel.ClassSubjectFaculty;
@@ -121,6 +122,12 @@ public class ClassServiceImpl implements ClassService {
 	@Transactional
 	public List<Question> showClassQuestions(String classId) {
 		return classdao.fetchClassQuestions(classId);
+	}
+
+	@Override
+	@Transactional
+	public void postCommentReply(ClassDiscussionReply reply) {
+		classdao.postCommentReply(reply);
 	}
 	
 	

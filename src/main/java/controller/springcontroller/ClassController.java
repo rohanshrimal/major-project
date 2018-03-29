@@ -27,6 +27,7 @@ import model.springmodel.PollQueDetails;
 import model.springmodel.Question;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
+import model.springmodel.ClassDiscussionReply;
 import model.springmodel.ClassPosts;
 import model.springmodel.ClassRepresentative;
 import model.springmodel.ClassSubjectFaculty;
@@ -202,6 +203,9 @@ public class ClassController
 		ClassDiscussionComment cdc=new ClassDiscussionComment();
 		model.addAttribute("ClassCommentModel",cdc);
 		
+		ClassDiscussionReply cdr=new ClassDiscussionReply();
+		model.addAttribute("ClassReplyModel",cdr);
+		
 		HttpSession session=request.getSession();
 		String classId=(String)session.getAttribute("classid");
 		
@@ -263,21 +267,41 @@ public class ClassController
 	
 	
 	@PostMapping("/postComment")
-	public String postComment(@RequestParam("disId") int disId,@ModelAttribute("ClassCommentModel") ClassDiscussionComment cdc,HttpServletRequest request)
+	public String postComment(@RequestParam("disId") int disId,@ModelAttribute("ClassCommentModel") ClassDiscussionComment comment,HttpServletRequest request)
 	{
 		HttpSession session=request.getSession();
 		
 		UserModel um=new UserModel();
 		um.setUid(um.getUserId(session.getAttribute("userModel")));
 		
-		ClassDiscussion cd=new ClassDiscussion();
-		cd.setId(disId);
+		ClassDiscussion discussion=new ClassDiscussion();
+		discussion.setId(disId);
 		
-		cdc.setClassDiscussion(cd);
-		cdc.setUserModel(um);
-		cdc.setTimestamp(new Date().getTime());
+		comment.setClassDiscussion(discussion);
+		comment.setUserModel(um);
+		comment.setTimestamp(new Date().getTime());
 		
-		classservice.postComment(cdc);
+		classservice.postComment(comment);
+		
+		return "redirect:/major/class/CDFhomestudent";
+	}
+	
+	@PostMapping("/postCommentReply")
+	public String postCommentReply(@RequestParam("commentId") int commentId, @ModelAttribute("ClassReplyModel") ClassDiscussionReply reply,HttpServletRequest request)
+	{
+		HttpSession session=request.getSession();
+		
+		UserModel um=new UserModel();
+		um.setUid(um.getUserId(session.getAttribute("userModel")));
+		
+		ClassDiscussionComment comment=new ClassDiscussionComment();
+		comment.setCommentId(commentId);
+		
+		reply.setComment(comment);
+		reply.setUserModel(um);
+		reply.setTimestamp(new Date().getTime());
+		
+		classservice.postCommentReply(reply);
 		
 		return "redirect:/major/class/CDFhomestudent";
 	}

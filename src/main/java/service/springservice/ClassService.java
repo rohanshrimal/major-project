@@ -16,6 +16,7 @@ import model.springmodel.PollQueDetails;
 import model.springmodel.Question;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
+import model.springmodel.ClassDiscussionReply;
 import model.springmodel.ClassPosts;
 import model.springmodel.ClassRepresentative;
 import model.springmodel.ClassSubjectFaculty;
@@ -49,6 +50,8 @@ public interface ClassService {
 	List<ClassSubjectFaculty> getSubjectClassDetails(String fid,int year);
 
 	List<Question> showClassQuestions(String classId);
+
+	void postCommentReply(ClassDiscussionReply reply);
 
 
 	

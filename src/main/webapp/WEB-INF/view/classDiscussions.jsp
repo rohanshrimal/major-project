@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Class Discussion Forum</title>
 		
 		<script src="https://cdn.quilljs.com/1.2.3/quill.js"></script>
         <script src="https://cdn.quilljs.com/1.2.3/quill.min.js"></script>
@@ -104,13 +104,28 @@
 			<h2>COMMENTS</h2>
 			
 			<c:forEach var="classComment" items="${discussion.classCommentList}" begin="0" varStatus="innerloop">
-			<h3 style="display: inline;">${classComment.userModel.uname}</h3> commented on <span id="commenttimestamp${loop.index}${innerloop.index}"></span><br>
-			<textarea cols="100" readonly="readonly">${classComment.commentText}</textarea><br><br>
-
-			<script type="text/javascript">
-				var commenttimestamp=${classComment.timestamp};
-				document.getElementById('commenttimestamp${loop.index}${innerloop.index}').innerHTML=time_ago(new Date(commenttimestamp));
-			</script>
+				<h3 style="display: inline;">${classComment.userModel.uname}</h3> commented on <span id="commenttimestamp${loop.index}${innerloop.index}"></span><br>
+				<textarea cols="100" readonly="readonly">${classComment.commentText}</textarea><br><br>
+			
+				<c:forEach var="commentReply" items="${classComment.commentReplyList}" begin="0" varStatus="replyLoop">
+					<h3 style="display: inline;">${commentReply.userModel.uname}</h3> replied on <span id="replytimestamp${loop.index}${innerloop.index}${replyLoop.index}"></span><br>
+					<textarea cols="100" readonly="readonly">${commentReply.replyText}</textarea><br><br>
+					
+					<script type="text/javascript">
+						var replytimestamp=${commentReply.timestamp};
+						document.getElementById('replytimestamp${loop.index}${innerloop.index}${replyLoop.index}').innerHTML=time_ago(new Date(replytimestamp));
+					</script>
+				</c:forEach>
+				
+				<form:form action="postCommentReply?commentId=${classComment.commentId}" modelAttribute="ClassReplyModel" method="POST">
+					<form:textarea rows="5" cols="100" path="replyText" placeholder="Reply..."/>
+					<input type="submit" value="Reply"/>
+				</form:form>
+			
+				<script type="text/javascript">
+					var commenttimestamp=${classComment.timestamp};
+					document.getElementById('commenttimestamp${loop.index}${innerloop.index}').innerHTML=time_ago(new Date(commenttimestamp));
+				</script>
 			</c:forEach>
 			
 			<form:form action="postComment?disId=${discussion.id}" modelAttribute="ClassCommentModel" method="POST">
