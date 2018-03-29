@@ -17,6 +17,7 @@ import model.StudentModel;
 import model.springmodel.Answer;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
+import model.springmodel.ClassDiscussionReply;
 import model.springmodel.ClassPosts;
 import model.springmodel.ClassRepresentative;
 import model.springmodel.ClassSubjectFaculty;
@@ -90,6 +91,7 @@ public class ClassDAOImpl implements ClassDAO {
 	  {
 	    int pollqueid=(int) it.next();
 	    PollQueDetails pqd= currentSession.get(PollQueDetails.class,pollqueid);
+	    System.out.println(pqd);
 	    polldata.add(pqd);
 	  }
 
@@ -228,9 +230,16 @@ public class ClassDAOImpl implements ClassDAO {
 		
 		return queList;
 	}
+
+	@Override
+	public void postCommentReply(ClassDiscussionReply reply) {
+		
+		Session currentSession=sessionFactory.getCurrentSession();
+		int replyId=(Integer)currentSession.save(reply);
+	}
 	
 	
 				 
-	}
+}
 
 

@@ -57,10 +57,10 @@ String notificationsJson=(String)session.getAttribute("usernotifications");
     <link href="css/demo.css" rel="stylesheet" />
     
     <script src="https://cdn.quilljs.com/1.2.3/quill.js"></script>
-     <script src="https://cdn.quilljs.com/1.2.3/quill.min.js"></script>
-     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
-     <link href="https://cdn.quilljs.com/1.1.3/quill.snow.css" rel="stylesheet">
-     <link href="https://cdn.quilljs.com/1.1.3/quill.bubble.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.2.3/quill.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
+    <link href="https://cdn.quilljs.com/1.1.3/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.1.3/quill.bubble.css" rel="stylesheet">
 	
 
     <!--     Fonts and icons     -->
