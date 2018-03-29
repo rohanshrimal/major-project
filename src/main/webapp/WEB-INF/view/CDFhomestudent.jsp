@@ -30,7 +30,7 @@
 	<select name="SHOW" onchange="location = this.value;">
     	<option selected disabled>Show</option>
 	 	<option value="showPoll">Polls</option>
-	 	<option value="">Questions</option>
+	 	<option value="showClassQuestions">Questions</option>
 	 	<option value="showDiscussions">Discussions</option>
 	 	<option value="showEvents">Events</option>
 	</select>

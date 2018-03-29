@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 
 import dao.springdao.ClassDAO;
 import model.FacultyModel;
+import model.QuestionModel;
 import model.StudentModel;
 import model.pollmodel.CreateNewPollModel;
 import model.springmodel.Events;
 import model.springmodel.PollQueDetails;
+import model.springmodel.Question;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
@@ -114,6 +116,14 @@ public class ClassServiceImpl implements ClassService {
 	public void postComment(ClassDiscussionComment cdc) {
 		classdao.postComment(cdc);		
 	}
+
+	@Override
+	@Transactional
+	public List<Question> showClassQuestions(String classId) {
+		return classdao.fetchClassQuestions(classId);
+	}
+	
+	
 
 	
 	}

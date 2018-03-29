@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import model.FacultyModel;
+import model.QuestionModel;
 import model.StudentModel;
 import model.UserModel;
 import model.springmodel.Events;
 import model.springmodel.PollQueDetails;
+import model.springmodel.Question;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
@@ -117,7 +119,7 @@ public class ClassController
 	public String addPoll(@RequestParam("pollid") int pollid, HttpSession session)
 	{	
 		ClassPosts theclassposts=new ClassPosts();
-		theclassposts.setClassid(""+session.getAttribute("classid"));
+		theclassposts.setClassid((String)session.getAttribute("classid"));
 		theclassposts.setPost_type("poll");
 		theclassposts.setPostid(pollid);
 		
@@ -251,9 +253,10 @@ public class ClassController
 		
 		HttpSession session= request.getSession();
 		String classid=(String)session.getAttribute("classid");
+		
 		List<Events> eventlist=classservice.showEvents(classid);
 		theModel.addAttribute("eventlist", eventlist);
-		System.out.println(eventlist);
+		
 		return "classevents";
 		
 	}
@@ -318,6 +321,32 @@ public class ClassController
 		theModel.addAttribute("selectedsem",selectedsem);
 		
 		return "CDFhomestudent";
+	}
+	
+	@GetMapping("/addClassQue")
+	public String addClassQue(@RequestParam("qid")Integer qid,HttpServletRequest request)
+	{
+		HttpSession session=request.getSession();
+		
+		ClassPosts theclassposts=new ClassPosts();
+		theclassposts.setClassid((String)session.getAttribute("classid"));
+		theclassposts.setPost_type("question");
+		theclassposts.setPostid(qid);
+		
+		classservice.addClassPost(theclassposts);
+		return "redirect:/major/class/CDFhomestudent";
+	}
+	
+	@GetMapping("/showClassQuestions")
+	public String showClassQuestions(HttpServletRequest request,Model theModel)
+	{
+		HttpSession session=request.getSession();
+		String classId=(String)session.getAttribute("classid");
+		
+		List<Question> classQuestions=classservice.showClassQuestions(classId);
+		theModel.addAttribute("questionList",classQuestions);
+		
+		return "showClassQuestions";
 	}
 }
 

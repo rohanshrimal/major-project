@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import model.FacultyModel;
 import model.StudentModel;
+import model.springmodel.Answer;
 import model.springmodel.ClassDiscussion;
 import model.springmodel.ClassDiscussionComment;
 import model.springmodel.ClassPosts;
@@ -21,6 +22,7 @@ import model.springmodel.ClassSubjectFaculty;
 import model.springmodel.Coordinator;
 import model.springmodel.Events;
 import model.springmodel.PollQueDetails;
+import model.springmodel.Question;
 
 @Repository
 public class ClassDAOImpl implements ClassDAO {
@@ -210,6 +212,22 @@ public class ClassDAOImpl implements ClassDAO {
 		qr.setParameter("classid", classid);
 		
 		return qr.getResultList();
+	}
+
+	@Override
+	public List<Question> fetchClassQuestions(String classId) {
+		
+		Session currentSession= sessionFactory.getCurrentSession();
+		Query<Question> qr=currentSession.createQuery("from Question where qid in (select postid from ClassPosts where classid=:classid and post_type='question')",Question.class);
+		qr.setParameter("classid",classId);
+		List<Question> queList=(List<Question>)qr.getResultList();
+		
+		for(Question que: queList)
+		{
+			System.out.println(que.getMostUpvotedAnswer());
+		}
+		
+		return queList;
 	}
 	
 	
